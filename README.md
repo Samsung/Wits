@@ -6,7 +6,7 @@ It will saved your development times and bring pleasure of developing out.
 
 **Using Wits, You can instantly RELOAD your app's JavaScript/CSS code instead of reinstalling your app every time you make a change.**
 
-<img src="https://github.sec.samsung.net/storage/user/18891/files/5d02160a-fd52-11e8-806b-f5dc30b8f373" width="100%" title="Wits">
+<img src="https://user-images.githubusercontent.com/11974693/50271217-70b46280-0477-11e9-897b-7060f3a25fa2.jpg" width="100%" title="Wits">
 
 To do so, run "npm start" from Wits.
 
