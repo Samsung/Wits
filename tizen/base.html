@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width={{HOST_WIDTH}}">
+
+	<title>Wits</title>
+	
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap.css"/>
+	<link rel="stylesheet" type="text/css" href="css/{{HOST_WIDTH}}/style.css"/>
+	<script src="lib/socket.io-1.2.0.js"></script>
+	<script src="js/main.js"></script>
+</head>
+
+<body>
+	<div class="connectInfo-container">
+		<div id="connectIcon" class="connected"></div>
+		<div id="connectMessage">Connected</div>
+	</div>
+	<div class="wit-icon-container">
+		<img src="icon.png" class="wit-icon"/>
+		<div class="pie-wrap-left pie-wrap-right">
+			<div id="pieSliceLeft" class="slice-left slice-wrap"></div>
+			<div id="pieSliceRight" class="slice-right slice-wrap"></div>
+		</div>
+	</div>
+	<div class="progress loading-progress">
+		<div class="progress-bar progress-bar-success progress-bar-striped active progress-bar-item" id="loading">
+		</div>
+	</div>
+	<iframe id="contentHTML" frameBorder="0" scrolling="no"></iframe>
+</body>
+</html>
