@@ -1,6 +1,6 @@
 # Wits
 
-Wits for Your Tizen web application development.
+Wits for Your Samsung SMART TV web application development.
 
 It will saved your development times and bring pleasure of developing out.
 
