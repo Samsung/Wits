@@ -54,7 +54,7 @@ First, Wits needs the followings. Please install these.
 * `git clone` the Wits repository.
 
 	```sh
-	$ git clone https://github.sec.samsung.net/VD-Evangelist/Wits.git
+	$ git clone https://github.com/Samsung/Wits.git
 	```
 * Install dependencies modules in Wits.
 
