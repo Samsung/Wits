@@ -110,41 +110,41 @@ async function makeWitsConfigFile(configFilepath) {
 }
 
 function setWitsConfigData(configData) {
-    const WITS_CONFIG_ACCESS = 'access';
-    const WITS_CONFIG_CONTENT = 'content';
-    const WITS_CONFIG_ICON = 'icon';
-    const WITS_CONFIG_PRIVILEGE = 'tizen:privilege';
+    const WITS_CONFIG_ACCESS_TAG = 'access';
+    const WITS_CONFIG_CONTENT_TAG = 'content';
+    const WITS_CONFIG_ICON_TAG = 'icon';
+    const WITS_CONFIG_PRIVILEGE_TAG = 'tizen:privilege';
     const FILESYSTEM_PRIVILEGE = 'http://tizen.org/privilege/filesystem.read';
 
 
-    configData[WITS_CONFIG_ACCESS] = [{
+    configData[WITS_CONFIG_ACCESS_TAG] = [{
         attributes : {
             origin: '*', 
             subdomains: 'true'
         }
     }]
 
-    configData[WITS_CONFIG_CONTENT] = [{
+    configData[WITS_CONFIG_CONTENT_TAG] = [{
         attributes : {
             src: 'index.html'
         }
     }]
 
-    configData[WITS_CONFIG_ICON] = [{
+    configData[WITS_CONFIG_ICON_TAG] = [{
         attributes : {
             src: 'icon.png'
         }
     }]
 
-    if(configData.hasOwnProperty(WITS_CONFIG_PRIVILEGE)) {
-        configData[WITS_CONFIG_PRIVILEGE].push({ 
+    if(configData.hasOwnProperty(WITS_CONFIG_PRIVILEGE_TAG)) {
+        configData[WITS_CONFIG_PRIVILEGE_TAG].push({ 
             attributes: {
                 name: FILESYSTEM_PRIVILEGE
             }
         })
     }
     else {
-        configData[WITS_CONFIG_PRIVILEGE] = [{
+        configData[WITS_CONFIG_PRIVILEGE_TAG] = [{
             attributes: {
                 name: FILESYSTEM_PRIVILEGE
             }
