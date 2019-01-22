@@ -353,7 +353,7 @@ function pushFile(filesInfo) {
     else {
         let file = filesInfo.files[filesInfo.curIdx];
         let filePath = path.isAbsolute(file) ? file.replace(REG_BACKSLASH, '/') : getAbsolutePath(file);
-        const CONTENT_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push ' + filePath + ' ' + witsAppPath + filePath.replace(baseAppPath,'');
+        const CONTENT_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push ' + '"' + filePath + '"' + ' ' + '"' + witsAppPath + filePath.replace(baseAppPath,'') + '"';
         let pushResult = shelljs.exec(CONTENT_FILE_PUSH_COMMAND, {async: true});
         pushResult.stderr.on('data', (data) => {
             mediator.emit('push_failed');
@@ -543,7 +543,7 @@ function isIgnore(path) {
 
 function pushUpdated(path) {
     console.log(path);
-    const UPDATE_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push '+ baseAppPath+path + ' ' + witsAppPath+path;
+    const UPDATE_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push '+ '"' + baseAppPath+path + '"' + ' ' + '"' + witsAppPath+path + '"';
 
     shelljs.exec(UPDATE_FILE_PUSH_COMMAND, (code, stdout, stderr) => {
         console.log('Program output : ' + stdout);
