@@ -7,6 +7,9 @@ let mkdirp = require('mkdirp');
 let ip = require('ip');
 let recursiveReadDir = require('recursive-readdir');
 let chromeLauncher = require('chrome-launcher');
+let xml2js = require('xml2js');
+let inspect = require('util').inspect;
+
 
 let express = require('express');
 let app = express();
@@ -19,6 +22,9 @@ let hostWidth = '';
 
 let baseAppPath = '';
 let witsAppPath = '';
+
+let userAppId = '';
+let userAppName = '';
 
 let profileInfo = getProfileInfo();
 let socketPort = '8498';
@@ -51,12 +57,14 @@ const REG_PUSHED_FILE_MESSAGE = new RegExp(/(pushed)*.*(100%)/);
 const TV_CONNECT_PORT = '26101';
 const EMULATOR_IP = '0.0.0.0';
 const PACKAGE_BASE_PATH = 'tizen/build/';
-const WITS_ID = getWitsId();
-const WITS_NAME = WITS_ID.split('.')[1];
+const WITS = 'Wits';
+// const WITS_ID = getWitsId();
+// const WITS_NAME = WITS_ID.split('.')[1];
 const PROFILE_NAME = profileInfo.name;
 const PROFILE_PATH = profileInfo.path;
 const WATCHER_EVENT_UPDATE = 'update';
 const WATCHER_EVENT_REMOVE = 'remove';
+const CONFIG_FILE = 'config.xml';
 
 process.on('SIGINT', () => {
     console.log('Exit Wits............');
@@ -65,6 +73,86 @@ process.on('SIGINT', () => {
     http.close();
     process.exit(0);
 });
+
+async function makeWitsConfigFile(configFilepath) {
+    let userConfigData = '';
+    try {
+        userConfigData = fs.readFileSync(configFilepath + '/' + CONFIG_FILE, 'utf8');
+    }
+    catch(e) {
+        console.log('Failed to read user config.xml.',e);
+        process.exit(0);
+    }
+
+    let xmlParser = new xml2js.Parser({attrkey : 'attributes'});
+
+    let parsedXmlData = await new Promise ((resolve,reject) => xmlParser.parseString(userConfigData, function(err, result){
+        resolve(result);
+    }));
+
+    if(parsedXmlData && parsedXmlData.widget) {
+        setWitsConfigData(parsedXmlData.widget);
+    }
+    else {
+        console.log('User config.xml is not supported format.')
+        process.exit(0);
+    }
+
+    let xmlBuilder = new xml2js.Builder({attrkey : 'attributes', xmldec: {'version': '1.0', 'encoding': 'UTF-8'}});
+
+    let witsConfigData = xmlBuilder.buildObject(parsedXmlData);
+
+    try {
+        fs.writeFileSync(path.join('tizen',CONFIG_FILE), witsConfigData, 'utf8');
+    }
+    catch (e) {
+        console.log('Failed to write Wits config.xml.',e);
+        process.exit(0);
+    }
+}
+
+function setWitsConfigData(configData) {
+    const WITS_CONFIG_ACCESS = 'access';
+    const WITS_CONFIG_CONTENT = 'content';
+    const WITS_CONFIG_ICON = 'icon';
+    const WITS_CONFIG_PRIVILEGE = 'tizen:privilege';
+    const FILESYSTEM_PRIVILEGE = 'http://tizen.org/privilege/filesystem.read';
+
+
+    configData[WITS_CONFIG_ACCESS] = [{
+        attributes : {
+            origin: '*', 
+            subdomains: 'true'
+        }
+    }]
+
+    configData[WITS_CONFIG_CONTENT] = [{
+        attributes : {
+            src: 'index.html'
+        }
+    }]
+
+    configData[WITS_CONFIG_ICON] = [{
+        attributes : {
+            src: 'icon.png'
+        }
+    }]
+
+    if(configData.hasOwnProperty(WITS_CONFIG_PRIVILEGE)) {
+        configData[WITS_CONFIG_PRIVILEGE].push({ 
+            attributes: {
+                name: FILESYSTEM_PRIVILEGE
+            }
+        })
+    }
+    else {
+        configData[WITS_CONFIG_PRIVILEGE] = [{
+            attributes: {
+                name: FILESYSTEM_PRIVILEGE
+            }
+        }]
+    }
+}
 
 (function startWits() {
     console.log('Start Wits............');
@@ -75,15 +163,16 @@ process.on('SIGINT', () => {
         if(isIpAddress(deviceIpAddress) && deviceIpAddress !== EMULATOR_IP) {
             connectTV(deviceIpAddress);
         }
-
+        makeWitsConfigFile(baseAppPath);
         connectedDevices = getConnectedDeviceList();
 
         selectDevice(connectedDevices).then(() => {
             appInstallPath = getAppInstallPath();
-            witsAppPath = appInstallPath + WITS_NAME;
-
+            witsAppPath = appInstallPath + WITS;
             setHostInfo();
             buildPackage();
+            userAppId = getUserAppId();
+            userAppName = userAppId.split('.')[1];
             unInstallPackage();
             installPackage(appInstallPath);
             openSocketServer();
@@ -353,7 +442,7 @@ function pushFile(filesInfo) {
     else {
         let file = filesInfo.files[filesInfo.curIdx];
         let filePath = path.isAbsolute(file) ? file.replace(REG_BACKSLASH, '/') : getAbsolutePath(file);
-        const CONTENT_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push ' + filePath + ' ' + witsAppPath + filePath.replace(baseAppPath,'');
+        const CONTENT_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push ' + '"' + filePath + '"'+ ' ' + '"' + witsAppPath + filePath.replace(baseAppPath,'')+ '"';
         let pushResult = shelljs.exec(CONTENT_FILE_PUSH_COMMAND, {async: true});
         pushResult.stderr.on('data', (data) => {
             mediator.emit('push_failed');
@@ -430,7 +519,9 @@ function buildPackage() {
             let packagePath = result.stdout.match(/Package File Location\:\s*(.*)/);
             if(packagePath && packagePath[1]) {
                 mkdirp.sync(dest);
-                shelljs.mv('-f', packagePath[1], path.resolve(dest));
+                console.log('packagePath[1]',packagePath[1]);
+                console.log('dest',dest);
+                shelljs.mv('-f', packagePath[1], path.resolve(dest+ '/' + WITS+'.wgt'));
                 shelljs.rm('-rf', path.resolve(path.join(www, TEMPORARY_BUILD_DIR)));
                 console.log('Package created at ' + path.join(dest, path.basename(packagePath[1])));
             }
@@ -447,8 +538,8 @@ function buildPackage() {
 }
 
 function installPackage(appInstallPath) {
-    const WGT_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push ' + PACKAGE_BASE_PATH + WITS_NAME + '.wgt' + ' ' + appInstallPath;
-    const APP_INSTALL_COMMAND = 'sdb -s ' + deviceName + ' shell 0 vd_appinstall ' + WITS_NAME + ' ' + appInstallPath + WITS_NAME + '.wgt';
+    const WGT_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push ' + PACKAGE_BASE_PATH + WITS + '.wgt' + ' ' + appInstallPath;
+    const APP_INSTALL_COMMAND = 'sdb -s ' + deviceName + ' shell 0 vd_appinstall ' + userAppName + ' ' + appInstallPath + WITS + '.wgt';
 
     shelljs.exec(WGT_FILE_PUSH_COMMAND);
     var result = shelljs.exec(APP_INSTALL_COMMAND).stdout;
@@ -460,7 +551,7 @@ function installPackage(appInstallPath) {
 }
 
 function unInstallPackage() {
-    const APP_UNINSTALL_COMMAND = 'sdb -s ' + deviceName + ' shell 0 vd_appuninstall ' + WITS_NAME;
+    const APP_UNINSTALL_COMMAND = 'sdb -s ' + deviceName + ' shell 0 vd_appuninstall ' + userAppName;
     var result = shelljs.exec(APP_UNINSTALL_COMMAND).stdout;
 
     if(result.includes('failed[')) {
@@ -470,7 +561,7 @@ function unInstallPackage() {
 }
 
 function launchApp() {
-    const APP_LAUNCH_COMMAND = 'sdb -s ' + deviceName + ' shell 0 was_execute '+WITS_ID;
+    const APP_LAUNCH_COMMAND = 'sdb -s ' + deviceName + ' shell 0 was_execute '+userAppId;
 
     let result = shelljs.exec(APP_LAUNCH_COMMAND).stdout;
     if(result.includes('failed[')) {
@@ -480,7 +571,7 @@ function launchApp() {
 }
 
 function launchAppDebugMode() {
-    const APP_LAUNCH_DEBUG_MODE_COMMAND = 'sdb -s ' + deviceName + ' shell 0 debug '+WITS_ID;
+    const APP_LAUNCH_DEBUG_MODE_COMMAND = 'sdb -s ' + deviceName + ' shell 0 debug '+userAppId;
 
     let result = shelljs.exec(APP_LAUNCH_DEBUG_MODE_COMMAND).stdout;
     if(result.includes('failed')) {
@@ -543,7 +634,7 @@ function isIgnore(path) {
 
 function pushUpdated(path) {
     console.log(path);
-    const UPDATE_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push '+ baseAppPath+path + ' ' + witsAppPath+path;
+    const UPDATE_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push '+ '"' + baseAppPath+path + '"' + ' ' + '"' + witsAppPath+path + '"';
 
     shelljs.exec(UPDATE_FILE_PUSH_COMMAND, (code, stdout, stderr) => {
         console.log('Program output : ' + stdout);
@@ -561,7 +652,7 @@ function emitRemoved(path) {
 function setHostInfo() {
     setBaseJSData();
     setBaseHtmlData();
-    setPrivilege();
+    // setPrivilege();
 }
 
 function setBaseJSData() {
@@ -655,9 +746,9 @@ function setPrivilege() {
     }
 }
 
-function getWitsId() {
+function getUserAppId() {
     try {
-        let file = path.resolve(path.join('tizen','base.xml'));
+        let file = path.resolve(path.join('tizen','config.xml'));
         let data = fs.readFileSync(file,'utf8');
         data = clearComment(data);
         let id = data.match(REG_APPICATION_ID)[0].replace(REG_APPICATION_ID_ATTRIBUTE,'');
