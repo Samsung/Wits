@@ -21,6 +21,7 @@
     "shelljs": "^0.8.2",
     "socket.io": "^1.7.3",
     "xml2js": "^0.4.19"
+    
   },
   "license": "ISC"
 }

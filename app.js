@@ -10,7 +10,6 @@ let chromeLauncher = require('chrome-launcher');
 let xml2js = require('xml2js');
 let inspect = require('util').inspect;
 
-
 let express = require('express');
 let app = express();
 let http = require('http').createServer(app);
