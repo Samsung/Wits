@@ -26,12 +26,13 @@
     var socket = null;
     var iconDimTimer = null;
     var isLoadingContents = false;
-    var CONTENT_PATH = '{{HOST_CONTENT_PATH}}';
-    var CONTENT_SRC = '{{HOST_CONTENT_SRC}}';
+    var CONTENT_PATH = '{{CONTENT_PATH}}';
+    var CONTENT_SRC = '{{CONTENT_SRC}}';
     var IP = '{{HOST_IP}}';
     var PORT = '{{HOST_PORT}}';
     var CONNECTED = 'Connected';
     var DISCONNECTED = 'Disconnected';
+    var HOST_BASE_CONTENT_PATH = '{{HOST_BASE_CONTENT_PATH}}' 
 
     window.onload = function () {
         console.log('onload!!!');
@@ -171,6 +172,10 @@
                 if(isLaunchFromCommand()) {
                     socket.emit('push_request');
                 }
+                socket.emit('watch_request',{
+                    destPath : CONTENT_PATH,
+                    basePath : HOST_BASE_CONTENT_PATH
+                });
             }
         });
 

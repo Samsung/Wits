@@ -10,6 +10,7 @@ let chromeLauncher = require('chrome-launcher');
 let xml2js = require('xml2js');
 let inspect = require('util').inspect;
 
+
 let express = require('express');
 let app = express();
 let http = require('http').createServer(app);
@@ -35,7 +36,7 @@ let witsIgnores = [];
 
 const REG_REMOTE_URI = new RegExp(/(http|ftp|https):\/\/([\w+?\.\w+])+([a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;\,]*)?/);
 const REG_COMMENT = new RegExp(/<!--\s*.*?\s*-->/g);
-const REG_HOST_DATA = new RegExp(/({{HOST_CONTENT_PATH}})|({{HOST_IP}})|({{HOST_PORT}})|({{HOST_CONTENT_SRC}})/g);
+const REG_HOST_DATA = new RegExp(/({{CONTENT_PATH}})|({{HOST_IP}})|({{HOST_PORT}})|({{CONTENT_SRC}})|({{HOST_BASE_CONTENT_PATH}})/g);
 const REG_HOST_WIDTH = new RegExp(/({{HOST_WIDTH}})/g);
 const REG_CONTENT_SRC = new RegExp(/(content*.*src=("|')*.*("|'))/gi);
 const REG_CONTENT_SRC_ATTRIBUTE = new RegExp(/((content*.*src=)|"|')/gi);
@@ -56,9 +57,7 @@ const REG_PUSHED_FILE_MESSAGE = new RegExp(/(pushed)*.*(100%)/);
 const TV_CONNECT_PORT = '26101';
 const EMULATOR_IP = '0.0.0.0';
 const PACKAGE_BASE_PATH = 'tizen/build/';
-const WITS = 'Wits';
-// const WITS_ID = getWitsId();
-// const WITS_NAME = WITS_ID.split('.')[1];
+const WITS_PACKAGE = 'Wits.wgt';
 const PROFILE_NAME = profileInfo.name;
 const PROFILE_PATH = profileInfo.path;
 const WATCHER_EVENT_UPDATE = 'update';
@@ -167,16 +166,18 @@ function setWitsConfigData(configData) {
 
         selectDevice(connectedDevices).then(() => {
             appInstallPath = getAppInstallPath();
-            witsAppPath = appInstallPath + WITS;
-            setHostInfo();
-            buildPackage();
+
             userAppId = getUserAppId();
             userAppName = userAppId.split('.')[1];
+            witsAppPath = appInstallPath + userAppName;
+
+            setHostInfo();
+            buildPackage();
             unInstallPackage();
             installPackage(appInstallPath);
             openSocketServer();
             isDebugMode ? launchAppDebugMode() : launchApp();
-            watchAppCode();
+            // watchAppCode();
         });
     });
 })();
@@ -313,9 +314,7 @@ function openSocketServer() {
     mediator = io.on('connection', (socket) => {
         console.log('a user connected');
         console.log('new client contected, id =  ',socket.id);
-        if(watcher.isClosed()) {
-            watchAppCode();
-        }
+
         socket.emit('response', {
             rsp: {
                 status: 'connected'
@@ -335,6 +334,11 @@ function openSocketServer() {
         socket.on('push_request', () => {
             console.log('socket on::::push_request');
             startPushFiles();
+        });
+
+        socket.on('watch_request', (path) => {
+            console.log('socket on::::watch_request',path);
+            watchAppCode(path.basePath, path.destPath);
         });
     });
 }
@@ -520,7 +524,7 @@ function buildPackage() {
                 mkdirp.sync(dest);
                 console.log('packagePath[1]',packagePath[1]);
                 console.log('dest',dest);
-                shelljs.mv('-f', packagePath[1], path.resolve(dest+ '/' + WITS+'.wgt'));
+                shelljs.mv('-f', packagePath[1], path.resolve(dest+ '/' + WITS_PACKAGE));
                 shelljs.rm('-rf', path.resolve(path.join(www, TEMPORARY_BUILD_DIR)));
                 console.log('Package created at ' + path.join(dest, path.basename(packagePath[1])));
             }
@@ -537,8 +541,8 @@ function buildPackage() {
 }
 
 function installPackage(appInstallPath) {
-    const WGT_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push ' + PACKAGE_BASE_PATH + WITS + '.wgt' + ' ' + appInstallPath;
-    const APP_INSTALL_COMMAND = 'sdb -s ' + deviceName + ' shell 0 vd_appinstall ' + userAppName + ' ' + appInstallPath + WITS + '.wgt';
+    const WGT_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push ' + PACKAGE_BASE_PATH + WITS_PACKAGE + ' ' + appInstallPath;
+    const APP_INSTALL_COMMAND = 'sdb -s ' + deviceName + ' shell 0 vd_appinstall ' + userAppName + ' ' + appInstallPath + WITS_PACKAGE;
 
     shelljs.exec(WGT_FILE_PUSH_COMMAND);
     var result = shelljs.exec(APP_INSTALL_COMMAND).stdout;
@@ -603,17 +607,17 @@ function launchChrome(url) {
     });
 }
 
-function watchAppCode() {
-    watcher = watch(baseAppPath, {recursive: true}, (evt, name) => {
+function watchAppCode(basePath,destPath) {
+    watcher = watch(basePath, {recursive: true}, (evt, name) => {
         console.log('%s %s.', name,evt);
-        let filePath = name.replace(REG_BACKSLASH, '/').replace(baseAppPath,'');
+        let filePath = name.replace(REG_BACKSLASH, '/').replace(basePath,'');
         console.log('watch file : ',filePath);
         if(!isIgnore(filePath)) {
             if(evt === WATCHER_EVENT_UPDATE) {
-                pushUpdated(filePath);
+                pushUpdated(basePath, destPath, filePath);
             }
             else if(evt === WATCHER_EVENT_REMOVE) {
-                emitRemoved(filePath);
+                emitRemoved(basePath, destPath, filePath);
             }
         }
     });
@@ -631,9 +635,9 @@ function isIgnore(path) {
     return isIgnore;
 }
 
-function pushUpdated(path) {
-    console.log(path);
-    const UPDATE_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push '+ '"' + baseAppPath+path + '"' + ' ' + '"' + witsAppPath+path + '"';
+function pushUpdated(basePath, destPath, filePath) {
+    console.log(filePath);
+    const UPDATE_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push '+ '"' + basePath+filePath + '"' + ' ' + '"' + destPath+filePath + '"';
 
     shelljs.exec(UPDATE_FILE_PUSH_COMMAND, (code, stdout, stderr) => {
         console.log('Program output : ' + stdout);
@@ -643,15 +647,14 @@ function pushUpdated(path) {
     });
 }
 
-function emitRemoved(path) {
-    console.log(path);
-    mediator.emit(WATCHER_EVENT_REMOVE, witsAppPath + path);
+function emitRemoved(basePath, destPath, filePath) {
+    console.log(filePath);
+    mediator.emit(WATCHER_EVENT_REMOVE, destPath + filePath);
 }
 
 function setHostInfo() {
     setBaseJSData();
     setBaseHtmlData();
-    // setPrivilege();
 }
 
 function setBaseJSData() {
@@ -661,10 +664,11 @@ function setBaseJSData() {
         let contentSrc = getContentSrc();
         let contentFullSrc = isRemoteUrl(contentSrc)? contentSrc : (witsAppPath + '/' + contentSrc.replace(REG_FISRT_BACKSLASH,''));
         let convertData = {
-            '{{HOST_CONTENT_PATH}}': witsAppPath,
+            '{{CONTENT_PATH}}': witsAppPath,
+            '{{CONTENT_SRC}}': contentFullSrc,
             '{{HOST_IP}}': 'http://'+ip.address(),
             '{{HOST_PORT}}': socketPort,
-            '{{HOST_CONTENT_SRC}}': contentFullSrc
+            '{{HOST_BASE_CONTENT_PATH}}': baseAppPath
         };
 
         let str = data.replace(REG_HOST_DATA, (key) => {
@@ -710,39 +714,6 @@ function getContentSrc() {
     console.log('content src is : ' + contentSrc);
 
     return contentSrc;
-}
-
-function readPrivilege() {
-    try {
-        let file = path.resolve(path.join(baseAppPath,'config.xml'));
-        let data = fs.readFileSync(file,'utf8');
-        let privilege ='';
-        data = clearComment(data).split('\n');
-        data.forEach((value) => {
-            if(value.match(REG_PRIVILEGE)) {
-                privilege += (value+'\n');
-            }
-        });
-        return privilege;
-    }
-    catch(e) {
-        console.log('Failed to read your Application config.xml.');
-        process.exit(0);
-    }
-}
-
-function setPrivilege() {
-    let privilege = readPrivilege();
-    try {
-        let file = path.resolve(path.join('tizen','base.xml'));
-        let data = fs.readFileSync(file,'utf8');
-        data = data.replace('<PRIVILEGE_DATA>',privilege? privilege : '');
-        fs.writeFileSync(path.join('tizen','config.xml'), data, 'utf8');
-    }
-    catch(e) {
-        console.log('Failed to read Wits config.xml.');
-        process.exit(0);
-    }
 }
 
 function getUserAppId() {
