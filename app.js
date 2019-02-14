@@ -72,85 +72,7 @@ process.on('SIGINT', () => {
     process.exit(0);
 });
 
-async function makeWitsConfigFile(configFilepath) {
-    let userConfigData = '';
-    try {
-        userConfigData = fs.readFileSync(configFilepath + '/' + CONFIG_FILE, 'utf8');
-    }
-    catch(e) {
-        console.log('Failed to read user config.xml.',e);
-        process.exit(0);
-    }
 
-    let xmlParser = new xml2js.Parser({attrkey : 'attributes'});
-
-    let parsedXmlData = await new Promise ((resolve,reject) => xmlParser.parseString(userConfigData, function(err, result){
-        resolve(result);
-    }));
-
-    if(parsedXmlData && parsedXmlData.widget) {
-        setWitsConfigData(parsedXmlData.widget);
-    }
-    else {
-        console.log('User config.xml is not supported format.')
-        process.exit(0);
-    }
-
-    let xmlBuilder = new xml2js.Builder({attrkey : 'attributes', xmldec: {'version': '1.0', 'encoding': 'UTF-8'}});
-
-    let witsConfigData = xmlBuilder.buildObject(parsedXmlData);
-
-    try {
-        fs.writeFileSync(path.join('tizen',CONFIG_FILE), witsConfigData, 'utf8');
-    }
-    catch (e) {
-        console.log('Failed to write Wits config.xml.',e);
-        process.exit(0);
-    }
-}
-
-function setWitsConfigData(configData) {
-    const WITS_CONFIG_ACCESS_TAG = 'access';
-    const WITS_CONFIG_CONTENT_TAG = 'content';
-    const WITS_CONFIG_ICON_TAG = 'icon';
-    const WITS_CONFIG_PRIVILEGE_TAG = 'tizen:privilege';
-    const FILESYSTEM_PRIVILEGE = 'http://tizen.org/privilege/filesystem.read';
-
-
-    configData[WITS_CONFIG_ACCESS_TAG] = [{
-        attributes : {
-            origin: '*', 
-            subdomains: 'true'
-        }
-    }]
-
-    configData[WITS_CONFIG_CONTENT_TAG] = [{
-        attributes : {
-            src: 'index.html'
-        }
-    }]
-
-    configData[WITS_CONFIG_ICON_TAG] = [{
-        attributes : {
-            src: 'icon.png'
-        }
-    }]
-
-    if(configData.hasOwnProperty(WITS_CONFIG_PRIVILEGE_TAG)) {
-        configData[WITS_CONFIG_PRIVILEGE_TAG].push({ 
-            attributes: {
-                name: FILESYSTEM_PRIVILEGE
-            }
-        })
-    }
-    else {
-        configData[WITS_CONFIG_PRIVILEGE_TAG] = [{
-            attributes: {
-                name: FILESYSTEM_PRIVILEGE
-            }
-        }]
-    }
-}
 
 (function startWits() {
     console.log('Start Wits............');
@@ -260,6 +182,86 @@ async function getUserAnswer(ask) {
     isDebugMode = answer.isDebugMode;
 
     return answer;
+}
+
+async function makeWitsConfigFile(configFilepath) {
+    let userConfigData = '';
+    try {
+        userConfigData = fs.readFileSync(configFilepath + '/' + CONFIG_FILE, 'utf8');
+    }
+    catch(e) {
+        console.log('Failed to read user config.xml.',e);
+        process.exit(0);
+    }
+
+    let xmlParser = new xml2js.Parser({attrkey : 'attributes'});
+
+    let parsedXmlData = await new Promise ((resolve,reject) => xmlParser.parseString(userConfigData, function(err, result){
+        resolve(result);
+    }));
+
+    if(parsedXmlData && parsedXmlData.widget) {
+        setWitsConfigData(parsedXmlData.widget);
+    }
+    else {
+        console.log('User config.xml is not supported format.')
+        process.exit(0);
+    }
+
+    let xmlBuilder = new xml2js.Builder({attrkey : 'attributes', xmldec: {'version': '1.0', 'encoding': 'UTF-8'}});
+
+    let witsConfigData = xmlBuilder.buildObject(parsedXmlData);
+
+    try {
+        fs.writeFileSync(path.join('tizen',CONFIG_FILE), witsConfigData, 'utf8');
+    }
+    catch (e) {
+        console.log('Failed to write Wits config.xml.',e);
+        process.exit(0);
+    }
+}
+
+function setWitsConfigData(configData) {
+    const WITS_CONFIG_ACCESS_TAG = 'access';
+    const WITS_CONFIG_CONTENT_TAG = 'content';
+    const WITS_CONFIG_ICON_TAG = 'icon';
+    const WITS_CONFIG_PRIVILEGE_TAG = 'tizen:privilege';
+    const FILESYSTEM_PRIVILEGE = 'http://tizen.org/privilege/filesystem.read';
+
+
+    configData[WITS_CONFIG_ACCESS_TAG] = [{
+        attributes : {
+            origin: '*', 
+            subdomains: 'true'
+        }
+    }]
+
+    configData[WITS_CONFIG_CONTENT_TAG] = [{
+        attributes : {
+            src: 'index.html'
+        }
+    }]
+
+    configData[WITS_CONFIG_ICON_TAG] = [{
+        attributes : {
+            src: 'icon.png'
+        }
+    }]
+
+    if(configData.hasOwnProperty(WITS_CONFIG_PRIVILEGE_TAG)) {
+        configData[WITS_CONFIG_PRIVILEGE_TAG].push({ 
+            attributes: {
+                name: FILESYSTEM_PRIVILEGE
+            }
+        })
+    }
+    else {
+        configData[WITS_CONFIG_PRIVILEGE_TAG] = [{
+            attributes: {
+                name: FILESYSTEM_PRIVILEGE
+            }
+        }]
+    }
 }
 
 function getRecentlyConnectionInfo() {
