@@ -273,13 +273,13 @@ function getConnectedDeviceList() {
     let devices = shelljs.exec('sdb devices').stdout;
     let devicesInfo = [];
     let deviceNameList = [];
-    if(devices.includes(deviceIpAddress) && !devices.includes('offline')) {
+    if(devices) {
         devicesInfo = devices.trim().split('\n');
         devicesInfo.shift();
         deviceNameList = pasingDeviceName(devicesInfo);
     }
     else {
-        console.log('Failed to connect ' + deviceIpAddress);
+        console.log('Failed to get connected device list ' + deviceIpAddress);
         process.exit(0);
     }
     return deviceNameList;
@@ -703,7 +703,9 @@ function getProfileInfo() {
 function pasingDeviceName(devices) {
     let deviceNameList = [];
     devices.forEach((device) => {
-        deviceNameList.push(device.split('\t')[0].trim());
+        if(!devices.includes('offline')) {
+            deviceNameList.push(device.split('\t')[0].trim());
+        }
     });
 
     return deviceNameList;
