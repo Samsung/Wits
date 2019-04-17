@@ -23,6 +23,8 @@ let witsAppPath = '';
 let profileInfo = getProfileInfo();
 let socketPort = '8498';
 
+let hostInfo = getHostInfo();
+
 let isDebugMode = false;
 let deviceName = '';
 let deviceIpAddress = '';
@@ -728,4 +730,17 @@ function isRemoteUrl(url) {
 
 function isIpAddress(ip) {
     return REG_IP_ADDRESS.test(ip);
+}
+
+function getHostInfo() {
+    try {
+        let info = JSON.parse(fs.readFileSync('hostInfo.json','utf8'));
+        return {
+            hostIp: info.hostIp
+        };
+    }
+    catch(e) {
+        console.log('Failed to getHostInfo');
+        process.exit(0);
+    }
 }
