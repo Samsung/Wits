@@ -57,6 +57,7 @@ const WITS_ID = getWitsId();
 const WITS_NAME = WITS_ID.split('.')[1];
 const PROFILE_NAME = profileInfo.name;
 const PROFILE_PATH = profileInfo.path;
+const HOST_IP = hostInfo.hostIp;
 const WATCHER_EVENT_UPDATE = 'update';
 const WATCHER_EVENT_REMOVE = 'remove';
 
@@ -580,9 +581,10 @@ function setBaseJSData() {
         let data = fs.readFileSync(file,'utf8');
         let contentSrc = getContentSrc();
         let contentFullSrc = isRemoteUrl(contentSrc)? contentSrc : (witsAppPath + '/' + contentSrc.replace(REG_FISRT_BACKSLASH,''));
+        let hostIp = HOST_IP || ip.address();
         let convertData = {
             '{{HOST_CONTENT_PATH}}': witsAppPath,
-            '{{HOST_IP}}': 'http://'+ip.address(),
+            '{{HOST_IP}}': 'http://' + hostIp,
             '{{HOST_PORT}}': socketPort,
             '{{HOST_CONTENT_SRC}}': contentFullSrc
         };
