@@ -489,6 +489,7 @@ function launchApp() {
 
 function launchAppDebugMode() {
     const APP_LAUNCH_DEBUG_MODE_COMMAND = 'sdb -s ' + deviceName + ' shell 0 debug '+WITS_ID;
+    const APP_LAUNCH_DEBUG_MODE_COMMAND_TIMEOUTED = `${APP_LAUNCH_DEBUG_MODE_COMMAND} 300`;
 
     let result = shelljs.exec(APP_LAUNCH_DEBUG_MODE_COMMAND).stdout;
     if(result.includes('failed')) {
