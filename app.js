@@ -160,7 +160,6 @@ function getBaseAppPathQuestion(connectionInfo) {
 
 async function getUserAnswer(ask) {
     let answer = await inquirer.prompt(ask);
-    console.log(answer);
 
     setRecentlyConnectionInfo(answer);
 
@@ -270,7 +269,7 @@ function connectTV() {
 }
 
 function getConnectedDeviceList() {
-    let devices = shelljs.exec('sdb devices').stdout;
+    let devices = shelljs.exec('sdb devices',{silent:true}).stdout;
     let devicesInfo = [];
     let deviceNameList = [];
     if(devices) {
@@ -321,10 +320,18 @@ function updatePushProgress(currentNumber,totalNumber) {
         currentNumber = totalNumber;
     }
 
+    var rate = Math.floor((currentNumber / totalNumber) * 100);
+
+    console.log('Push progress rate : ' + rate + '%');
+
+    if(rate >= 100) {
+        console.log('Push complete!!');
+    }
+
     mediator.emit('push_progress',{
         total: totalNumber,
         load: currentNumber,
-        progressRate: Math.floor((currentNumber / totalNumber) * 100) + '%'
+        progressRate: rate + '%'
     });
 }
 
@@ -354,7 +361,7 @@ function pushFile(filesInfo) {
         let file = filesInfo.files[filesInfo.curIdx];
         let filePath = path.isAbsolute(file) ? file.replace(REG_BACKSLASH, '/') : getAbsolutePath(file);
         const CONTENT_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push ' + '"' + filePath + '"' + ' ' + '"' + witsAppPath + filePath.replace(baseAppPath,'') + '"';
-        let pushResult = shelljs.exec(CONTENT_FILE_PUSH_COMMAND, {async: true});
+        let pushResult = shelljs.exec(CONTENT_FILE_PUSH_COMMAND, {async: true, silent:true});
         pushResult.stderr.on('data', (data) => {
             mediator.emit('push_failed');
         });
@@ -450,8 +457,9 @@ function installPackage(appInstallPath) {
     const WGT_FILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push ' + PACKAGE_BASE_PATH + WITS_NAME + '.wgt' + ' ' + appInstallPath;
     const APP_INSTALL_COMMAND = 'sdb -s ' + deviceName + ' shell 0 vd_appinstall ' + WITS_NAME + ' ' + appInstallPath + WITS_NAME + '.wgt';
 
-    shelljs.exec(WGT_FILE_PUSH_COMMAND);
-    var result = shelljs.exec(APP_INSTALL_COMMAND).stdout;
+    shelljs.exec(WGT_FILE_PUSH_COMMAND,{silent:true});
+    console.log('Start install package...');
+    var result = shelljs.exec(APP_INSTALL_COMMAND,{silent:true}).stdout;
 
     if(result.includes('failed[')) {
         console.log('\nFailed to install Wits');
@@ -461,10 +469,10 @@ function installPackage(appInstallPath) {
 
 function unInstallPackage() {
     const APP_UNINSTALL_COMMAND = 'sdb -s ' + deviceName + ' shell 0 vd_appuninstall ' + WITS_NAME;
-    var result = shelljs.exec(APP_UNINSTALL_COMMAND).stdout;
+    var result = shelljs.exec(APP_UNINSTALL_COMMAND,{silent:true}).stdout;
 
     if(result.includes('failed[')) {
-        console.log('\n[warning] Failed to uninstall Wits');
+        console.log('\n[Warning] Failed to uninstall Wits');
     }
 
 }
@@ -676,13 +684,16 @@ function clearComment(data) {
 function getAppInstallPath() {
     let appInstallPath = '';
 
-    let capability = shelljs.exec('sdb -s ' + deviceName + ' capability').split('\n');
+    let capability = shelljs.exec('sdb -s ' + deviceName + ' capability',{silent:true}).split('\n');
     capability.forEach((value) => {
         if(value.indexOf('sdk_toolpath') !== -1) {
             appInstallPath = value.replace(REG_FIND_CR,'').split(':')[1] + '/';
         }
+        else if(value.indexOf('platform_version') !== -1) {
+            console.log('platform_version : ', value.replace(REG_FIND_CR,'').split(':')[1])
+        }
     });
-    console.log('appInstallPath',appInstallPath);
+
     return appInstallPath;
 }
 
