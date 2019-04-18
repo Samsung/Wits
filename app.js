@@ -489,8 +489,9 @@ function launchApp() {
 
 function launchAppDebugMode() {
     const APP_LAUNCH_DEBUG_MODE_COMMAND = 'sdb -s ' + deviceName + ' shell 0 debug '+WITS_ID;
+    const APP_LAUNCH_DEBUG_MODE_COMMAND_TIMEOUTED = `${APP_LAUNCH_DEBUG_MODE_COMMAND} 300`;
 
-    let result = shelljs.exec(APP_LAUNCH_DEBUG_MODE_COMMAND).stdout;
+    let result = shelljs.exec(APP_LAUNCH_DEBUG_MODE_COMMAND).stdout || shelljs.exec(APP_LAUNCH_DEBUG_MODE_COMMAND_TIMEOUTED).stdout;
     if(result.includes('failed')) {
         console.log('\nFailed to launch Wits');
         process.exit(0);
