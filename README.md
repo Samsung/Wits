@@ -22,7 +22,10 @@ For using Wits, Please refer to the followings.
      |-package.json .......... npm package configuration
      '-README.md ............. Introduce Wits file.
 ```
-
+# Supported Platforms
+*  2017 Samsung Smart TV (Tizen 3.0)
+*  2018 Samsung Smart TV (Tizen 4.0)
+*  2019 Samsung Smart TV (Tizen 5.0)
 # How to Build
 
 ## Precondition
