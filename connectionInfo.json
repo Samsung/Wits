@@ -1,11 +1,11 @@
 {
-  "recentlyBaseAppPath": "D:/PIE/PIE",
+  "recentlyBaseAppPath": "www",
   "baseAppPaths": [
     "www",
     "D:/PIE/PIE"
   ],
   "width": "1920",
-  "ip": "10.88.103.212",
+  "ip": "192.168.250.250",
   "port": "8498",
   "isDebugMode": false
 }
