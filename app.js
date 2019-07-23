@@ -10,6 +10,7 @@ let chromeLauncher = require('chrome-launcher');
 let xml2js = require('xml2js');
 let inspect = require('util').inspect;
 
+
 let express = require('express');
 let app = express();
 let http = require('http').createServer(app);
@@ -70,6 +71,8 @@ process.on('SIGINT', () => {
     http.close();
     process.exit(0);
 });
+
+
 
 (function startWits() {
     console.log('Start Wits............');
@@ -168,6 +171,7 @@ function getBaseAppPathQuestion(connectionInfo) {
 
 async function getUserAnswer(ask) {
     let answer = await inquirer.prompt(ask);
+    console.log(answer);
 
     setRecentlyConnectionInfo(answer);
 
@@ -363,13 +367,13 @@ function getConnectedDeviceList() {
     let devices = shelljs.exec('sdb devices',{silent: true}).stdout;
     let devicesInfo = [];
     let deviceNameList = [];
-    if(devices) {
+    if(devices.includes(deviceIpAddress) && !devices.includes('offline')) {
         devicesInfo = devices.trim().split('\n');
         devicesInfo.shift();
         deviceNameList = pasingDeviceName(devicesInfo);
     }
     else {
-        console.log('Failed to get connected device list ' + deviceIpAddress);
+        console.log('Failed to connect ' + deviceIpAddress);
         process.exit(0);
     }
     return deviceNameList;
@@ -411,18 +415,10 @@ function updatePushProgress(currentNumber,totalNumber) {
         currentNumber = totalNumber;
     }
 
-    var rate = Math.floor((currentNumber / totalNumber) * 100);
-
-    console.log('Push progress rate : ' + rate + '%');
-
-    if(rate >= 100) {
-        console.log('Push complete!!');
-    }
-
     mediator.emit('push_progress',{
         total: totalNumber,
         load: currentNumber,
-        progressRate: rate + '%'
+        progressRate: Math.floor((currentNumber / totalNumber) * 100) + '%'
     });
 }
 
@@ -564,7 +560,7 @@ function unInstallPackage() {
     var result = shelljs.exec(APP_UNINSTALL_COMMAND,{silent: true}).stdout;
 
     if(result.includes('failed[')) {
-        console.log('\n[Warning] Failed to uninstall Wits');
+        console.log('\n[warning] Failed to uninstall Wits');
     }
 
 }
@@ -582,7 +578,7 @@ function launchApp() {
 function launchAppDebugMode() {
     const APP_LAUNCH_DEBUG_MODE_COMMAND = 'sdb -s ' + deviceName + ' shell 0 debug '+userAppId;
 
-    let result = shelljs.exec(APP_LAUNCH_DEBUG_MODE_COMMAND).stdout || shelljs.exec(APP_LAUNCH_DEBUG_MODE_COMMAND_TIMEOUTED).stdout;
+    let result = shelljs.exec(APP_LAUNCH_DEBUG_MODE_COMMAND).stdout;
     if(result.includes('failed')) {
         console.log('\nFailed to launch Wits');
         process.exit(0);
@@ -748,11 +744,8 @@ function getAppInstallPath() {
         if(value.indexOf('sdk_toolpath') !== -1) {
             appInstallPath = value.replace(REG_FIND_CR,'').split(':')[1] + '/';
         }
-        else if(value.indexOf('platform_version') !== -1) {
-            console.log('platform_version : ', value.replace(REG_FIND_CR,'').split(':')[1])
-        }
     });
-
+    console.log('appInstallPath',appInstallPath);
     return appInstallPath;
 }
 
@@ -773,9 +766,7 @@ function getProfileInfo() {
 function pasingDeviceName(devices) {
     let deviceNameList = [];
     devices.forEach((device) => {
-        if(!devices.includes('offline')) {
-            deviceNameList.push(device.split('\t')[0].trim());
-        }
+        deviceNameList.push(device.split('\t')[0].trim());
     });
 
     return deviceNameList;
