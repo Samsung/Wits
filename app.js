@@ -226,7 +226,8 @@ function setWitsConfigData(configData) {
     const WITS_CONFIG_CONTENT_TAG = 'content';
     const WITS_CONFIG_ICON_TAG = 'icon';
     const WITS_CONFIG_PRIVILEGE_TAG = 'tizen:privilege';
-    const FILESYSTEM_PRIVILEGE = 'http://tizen.org/privilege/filesystem.read';
+    const FILESYSTEM_READ_PRIVILEGE = 'http://tizen.org/privilege/filesystem.read';
+    const FILESYSTEM_WRITE_PRIVILEGE = 'http://tizen.org/privilege/filesystem.write';
 
 
     configData[WITS_CONFIG_ACCESS_TAG] = [{
@@ -251,14 +252,22 @@ function setWitsConfigData(configData) {
     if(configData.hasOwnProperty(WITS_CONFIG_PRIVILEGE_TAG)) {
         configData[WITS_CONFIG_PRIVILEGE_TAG].push({ 
             attributes: {
-                name: FILESYSTEM_PRIVILEGE
+                name: FILESYSTEM_READ_PRIVILEGE
+            }
+        },{
+            attributes: {
+                name: FILESYSTEM_WRITE_PRIVILEGE
             }
         })
     }
     else {
         configData[WITS_CONFIG_PRIVILEGE_TAG] = [{
             attributes: {
-                name: FILESYSTEM_PRIVILEGE
+                name: FILESYSTEM_READ_PRIVILEGE
+            }
+        },{
+            attributes: {
+                name: FILESYSTEM_WRITE_PRIVILEGE
             }
         }]
     }
