@@ -79,6 +79,15 @@ process.on('SIGINT', () => {
         connectedDevices = getConnectedDeviceList();
 
         selectDevice(connectedDevices).then(() => {
+            const SUPPORTED_MINIMUM_VERSION = '3.0';
+            let platformVersion = getPlatformVersion();
+            console.log('Platform version : ', platformVersion);
+            if(platformVersion < SUPPORTED_MINIMUM_VERSION) {
+                console.log('WITS is supported more Tizen platform 3.0 version.');
+                console.log('This device does not supported.');
+                process.exit(0);
+            }
+            
             appInstallPath = getAppInstallPath();
             witsAppPath = appInstallPath + WITS_NAME;
 
@@ -684,14 +693,12 @@ function clearComment(data) {
 
 function getAppInstallPath() {
     let appInstallPath = '';
-
     let capability = shelljs.exec('sdb -s ' + deviceName + ' capability',{silent:true}).split('\n');
+
     capability.forEach((value) => {
         if(value.indexOf('sdk_toolpath') !== -1) {
             appInstallPath = value.replace(REG_FIND_CR,'').split(':')[1] + '/';
-        }
-        else if(value.indexOf('platform_version') !== -1) {
-            console.log('platform_version : ', value.replace(REG_FIND_CR,'').split(':')[1])
+            return;
         }
     });
 
@@ -729,4 +736,17 @@ function isRemoteUrl(url) {
 
 function isIpAddress(ip) {
     return REG_IP_ADDRESS.test(ip);
+}
+
+function getPlatformVersion() {
+    let capability = shelljs.exec('sdb -s ' + deviceName + ' capability',{silent:true}).split('\n');
+    let platformVersion = '';
+    capability.forEach((value) => {
+        if(value.indexOf('platform_version') !== -1) {
+            platformVersion = value.replace(REG_FIND_CR,'').split(':')[1];
+            return;
+        }
+    });
+
+    return platformVersion;
 }
