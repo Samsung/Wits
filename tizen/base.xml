@@ -7,6 +7,7 @@
     <icon src="icon.png"/>
     <name>Wits</name>
     <tizen:privilege name="http://tizen.org/privilege/filesystem.read"/>
+    <tizen:privilege name="http://tizen.org/privilege/filesystem.write"/>
 <PRIVILEGE_DATA>
     <tizen:profile name="tv-samsung"/>
 </widget>
