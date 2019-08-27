@@ -284,7 +284,7 @@ function getConnectedDeviceList() {
     if(devices) {
         devicesInfo = devices.trim().split('\n');
         devicesInfo.shift();
-        deviceNameList = pasingDeviceName(devicesInfo);
+        deviceNameList = parsingDeviceName(devicesInfo);
     }
     else {
         console.log('Failed to get connected device list ' + deviceIpAddress);
@@ -507,19 +507,20 @@ function launchAppDebugMode() {
     }
 
     let debugPort = result.match(REG_DEBUG_PORT)[0].match(REG_NUMBER_WORD)[0];
-    if(debugPort) {
+    let debugIP = '';
+    if(deviceIpAddress == EMULATOR_IP) {
+        const LOCAL_HOST = '127.0.0.1';
         setPortForward(debugPort);
+        debugIP = LOCAL_HOST;
+    } else {
+        debugIP = deviceIpAddress;
     }
-    else {
-        console.log('[warning] Failed to get debug port.');
-    }
+    launchChrome(debugIP + ':' + debugPort);
 }
 
 function setPortForward(port) {
-    const LOCAL_HOST = '127.0.0.1';
     shelljs.exec('sdb -s ' + deviceName + ' forward --remove tcp:'+port);
     shelljs.exec('sdb -s ' + deviceName + ' forward tcp:'+port+ ' tcp:'+port);
-    launchChrome(LOCAL_HOST + ':' + port);
 }
 
 function launchChrome(url) {
@@ -719,7 +720,7 @@ function getProfileInfo() {
     }
 }
 
-function pasingDeviceName(devices) {
+function parsingDeviceName(devices) {
     let deviceNameList = [];
     devices.forEach((device) => {
         if(!devices.includes('offline')) {
