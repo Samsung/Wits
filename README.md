@@ -126,8 +126,20 @@ If you create a file in your Tizen web application `.witsignore`, Wits uses it t
 
 ## Run Wits
 
-* Run Wits on Samsung Tizen TV.
+Run Wits on Samsung Tizen TV.
 
 	```sh
 	$ npm start
 	```
+
+## Debug your Tizen Web Application
+Select the yes in the `Do you want to launch with chrome DevTools?` question.
+- [Setup debug mode in your TV.](https://developer.samsung.com/tv/develop/legacy-platform-library/d44/index#Inspect-Your-Web-Application-in-Smart-TV)
+- Focus the new chrome tab.
+- Click the wits on page.
+- In console tab, change the value of Execution Context Selector `top` to `ContentHTML`.
+
+![change-to-iframe](https://user-images.githubusercontent.com/24784445/63758009-14eb8480-c8f6-11e9-9f8a-cff2b282e5cc.gif)
+
+
+
