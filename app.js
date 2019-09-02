@@ -86,9 +86,13 @@ process.on('SIGINT', () => {
         makeWitsConfigFile(baseAppPath);
         connectedDevices = getConnectedDeviceList();
 
-        selectDevice(connectedDevices).then(() => {
+        selectDevice(connectedDevices).then(async () => {
             appInstallPath = getAppInstallPath();
-
+            let deviceProfile = await getDeviceProfile(profileInfo.path);
+            if(deviceProfile) {
+                let DEVICE_PROFILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push ' + '"' + deviceProfile + '"'+ ' ' + '"' + appInstallPath + '"';
+                shelljs.exec(DEVICE_PROFILE_PUSH_COMMAND,{silent:true});
+            }
             userAppId = getUserAppId();
             userAppName = userAppId.split('.')[1];
             witsAppPath = appInstallPath + userAppName;
@@ -348,7 +352,7 @@ function openSocketServer() {
         });
 
         socket.on('watch_request', (path) => {
-            console.log('socket on::::watch_request',path);
+            console.log('socket on::::watch_request');
             watchAppCode(path.basePath, path.destPath);
         });
     });
@@ -379,7 +383,7 @@ function getConnectedDeviceList() {
     if(devices.includes(deviceIpAddress) && !devices.includes('offline')) {
         devicesInfo = devices.trim().split('\n');
         devicesInfo.shift();
-        deviceNameList = pasingDeviceName(devicesInfo);
+        deviceNameList = parsingDeviceName(devicesInfo);
     }
     else {
         console.log('Failed to connect ' + deviceIpAddress);
@@ -754,7 +758,6 @@ function getAppInstallPath() {
             appInstallPath = value.replace(REG_FIND_CR,'').split(':')[1] + '/';
         }
     });
-    console.log('appInstallPath',appInstallPath);
     return appInstallPath;
 }
 
@@ -772,7 +775,64 @@ function getProfileInfo() {
     }
 }
 
-function pasingDeviceName(devices) {
+async function getDeviceProfile(path) {
+        let profileData = '';
+        const DEVICE_PROFILE_FILE_NAME = 'device-profile.xml';
+        try {
+            profileData = fs.readFileSync(path, 'utf8');
+        }
+        catch(e) {
+            console.log('Failed to read user profile.xml.',e);
+            process.exit(0);
+        }
+
+        let xmlParser = new xml2js.Parser({attrkey : 'attr'});
+
+        let deviceProfilePath = await new Promise ((resolve,reject) => xmlParser.parseString(profileData, function(err, result) {
+            let activeProfileName = result.profiles.attr.active;
+            let activeProfileDistributorPath = '';
+            result.profiles.profile.forEach((profile) => {
+                if(profile.attr.name == activeProfileName) {
+                    profile.profileitem.forEach((profileitem) => {
+                        if(profileitem.attr.distributor == '1') {
+                            activeProfileDistributorPath = profileitem.attr.key.replace('distributor.p12','');
+                        }
+                    })
+                }
+            })
+            resolve(activeProfileDistributorPath);
+        }));
+        let deviceProfileFile = deviceProfilePath + DEVICE_PROFILE_FILE_NAME;
+        if(fs.existsSync(deviceProfileFile) && await checkDeviceProfileValidation(deviceProfileFile)) {
+            return deviceProfileFile
+        }
+        else {
+            console.log('[warning] device-profile.xml is invalid or not exist');
+            return null;
+        }
+}
+
+async function checkDeviceProfileValidation(deviceProfile) {
+    let deviceProfileData = '';
+    try {
+        deviceProfileData = fs.readFileSync(deviceProfile, 'utf8');
+    }
+    catch(e) {
+        console.log('Failed to read user device-profile.xml.',e);
+        process.exit(0);
+    }
+
+    let xmlParser = new xml2js.Parser({attrkey : 'attr'});
+
+    let isValid = await new Promise ((resolve,reject) => xmlParser.parseString(deviceProfileData, function(err, result) {
+        const GET_DEVICE_INFO_COMMAND = 'sdb -s ' + deviceName + ' shell 0 getduid';
+        let testDevice = shelljs.exec(GET_DEVICE_INFO_COMMAND,{silent: true});
+        resolve(testDevice === result.Profile.TestDeviceInfo[0].TestDevice[0]);
+    }));
+    return isValid;
+}
+
+function parsingDeviceName(devices) {
     let deviceNameList = [];
     devices.forEach((device) => {
         deviceNameList.push(device.split('\t')[0].trim());
