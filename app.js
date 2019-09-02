@@ -93,6 +93,7 @@ process.on('SIGINT', () => {
                 let DEVICE_PROFILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push ' + '"' + deviceProfile + '"'+ ' ' + '"' + appInstallPath + '"';
                 shelljs.exec(DEVICE_PROFILE_PUSH_COMMAND,{silent:true});
             }
+            
             userAppId = getUserAppId();
             userAppName = userAppId.split('.')[1];
             witsAppPath = appInstallPath + userAppName;
