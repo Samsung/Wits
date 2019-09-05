@@ -76,10 +76,16 @@
     };
 
     function loadContent(contentSrc) {
+        var CONTENT_LOAD_WAIT_TIME = 1000;
         try {
-            iframeElem.src = contentSrc;
-            iframeElem.style.display = 'block';
-            iframeElem.focus();
+            setTimeout(function() {
+                iframeElem.src = contentSrc;
+                iframeElem.onload = function() {
+                    iframeElem.style.display = 'block';
+                    iframeElem.focus();
+                    hideWitsContainer();
+                }
+            },CONTENT_LOAD_WAIT_TIME);
         }
         catch(e) {
             console.log('Failed to load content',e);
@@ -131,6 +137,10 @@
             clearInterval(iconDimTimer);
             iconDimTimer = null;
         }
+    }
+    function hideWitsContainer() {
+        var witsContainerElem = document.getElementById('witsContainer');
+        witsContainerElem.style.display = 'none';
     }
 
     function isLaunchFromCommand() {

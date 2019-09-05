@@ -13,20 +13,22 @@
 </head>
 
 <body>
+	<div id="witsContainer" class="wits-container">
+		<div class="wit-icon-container">
+			<img src="icon.png" class="wit-icon"/>
+			<div class="pie-wrap-left pie-wrap-right">
+				<div id="pieSliceLeft" class="slice-left slice-wrap"></div>
+				<div id="pieSliceRight" class="slice-right slice-wrap"></div>
+			</div>
+		</div>
+		<div class="progress loading-progress">
+			<div class="progress-bar progress-bar-success progress-bar-striped active progress-bar-item" id="loading">
+			</div>
+		</div>
+	</div>
 	<div class="connectInfo-container">
 		<div id="connectIcon" class="connected"></div>
 		<div id="connectMessage">Connected</div>
-	</div>
-	<div class="wit-icon-container">
-		<img src="icon.png" class="wit-icon"/>
-		<div class="pie-wrap-left pie-wrap-right">
-			<div id="pieSliceLeft" class="slice-left slice-wrap"></div>
-			<div id="pieSliceRight" class="slice-right slice-wrap"></div>
-		</div>
-	</div>
-	<div class="progress loading-progress">
-		<div class="progress-bar progress-bar-success progress-bar-striped active progress-bar-item" id="loading">
-		</div>
 	</div>
 	<iframe id="contentHTML" frameBorder="0" scrolling="no"></iframe>
 </body>
