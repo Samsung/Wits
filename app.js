@@ -45,6 +45,7 @@ const REG_NUMBER_WORD = new RegExp(/\d+/);
 const REG_FISRT_BACKSLASH = new RegExp(/^(\/)/);
 const REG_FIND_CR = new RegExp(/\r/);
 const REG_FIND_ALL_CR = new RegExp(/\r/g);
+const REG_FIND_LAST_SLASH = new RegExp(/\/$/);
 
 const REG_PUSHED_FILE_MESSAGE = new RegExp(/(pushed)*.*(100%)/);
 
@@ -173,6 +174,7 @@ async function getUserAnswer(ask) {
     setRecentlyConnectionInfo(answer);
 
     baseAppPath = path.isAbsolute(answer.baseAppPath) ? answer.baseAppPath.replace(REG_BACKSLASH, '/') : getAbsolutePath(answer.baseAppPath);
+    baseAppPath = baseAppPath.replace(REG_FIND_LAST_SLASH,'');
     hostWidth = answer.width;
     deviceIpAddress = answer.ip;
     socketPort = answer.port;
