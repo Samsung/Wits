@@ -80,8 +80,9 @@ Wits needs the following prerequisites on your local development machine.
     - **Tizen TV SDK 2.4 (legacy)** `/<yourWorkspace>/.metadata/.plugins/org.tizen.common.sign/profiles.xml`
 
 ## Running Your App
-Default user app path is `www`. If you want use default path, place your html, js and css files for your project within the `~/path-to/Wits/www` directory. Otherwise, write your app directory path in the `connectionInfo.json` file. The contents of this directory will be copied to the TV that Wits is configured for. 
+Default user app path is `www`. If you want use default path, place your html, js and css files for your project within the `~/path-to/Wits/www` directory. Otherwise, write your app directory path in the `connectionInfo.json` file. 
 
+The contents of this directory will be copied to the TV that Wits is configured for. 
 
 Each time you make a change in `your application path`, Wits will RELOAD your application on the TV instantly.
 
