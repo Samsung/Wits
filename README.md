@@ -1,8 +1,10 @@
 # Wits
 
-Wits is a development tool to help run your HTML5-based apps on your 2017+ Samsung TV during development.
+Wits is a development tool to help run your Tizen web application on your **2017+ Samsung TV** during development.
 
-It is the fastest way to get your local code running on device during development. Saving you from having to build, package, and reinstall your app each time you want to see how it will run on device.
+It is the fastest way to get your local code running on device during development. Saving you from having to build, package, and reinstall your app each time you want to see how it will run on device. We call it a `LIVE RELOAD`.
+
+**Wits is a help to continue your developing context.**
 
 <img src="https://user-images.githubusercontent.com/11974693/50271217-70b46280-0477-11e9-897b-7060f3a25fa2.jpg" width="100%" title="Wits">
 
@@ -66,7 +68,7 @@ Wits needs the following prerequisites on your local development machine.
     }` >> profileInfo.json
     ~~~
 
-    The default `path` on `MacOS` should be `/Users/my-mac-username/tizen-studio-data/profile/profiles.xml` and on `Windows` `C:\tizen-studio-data\profile\profiles.xml`.
+    The default `path` on `MacOS` should be `/Users/my-mac-username/tizen-studio-data/profile/profiles.xml` and on `Windows` `C:/tizen-studio-data/profile/profiles.xml`.
 
     The `name` should be your pre-configured certificate profile name found in one of these locations:
 		
@@ -79,9 +81,9 @@ Wits needs the following prerequisites on your local development machine.
 
 ## Running Your App
 
-Place your html, js and css files for your project within the `~/path-to/Wits/www` directory. The contents of this directory will be copied to the TV that Wits is configured for. 
+Write your application path(html, js and css files for your project) in the `connectionInfo.json` file. The contents of this directory will be copied to the TV that Wits is configured for. 
 
-Each time you make a change in `www`, Wits will RELOAD your application on the TV instantly.
+Each time you make a change in `your application path`, Wits will RELOAD your application on the TV instantly.
 
 ### Configuring the Connection
 You may change the directory that Wits uses to serve your app in the `connectionInfo.json` file within the Wits directory.
@@ -122,7 +124,7 @@ To launch the Wits container on your Samsung TV you will need to ensure Develope
 
 #### Enabling Developer Mode on Samsung TV
 1. With your Samsung Remote, press the `Home` button.
-2. Navigate to the `Apps` button and press `Enter/OK/Return`.
+2. Navigate to the `Apps` button and press `Enter/OK`.
 3. When on the `Apps` screen, press `1` `2` `3` `4` `5` in order on the remote to open the `Developer Mode Dialog`.  If this doesn't work, try it again.
 4. When the Developer Mode Dialog appears, toggle the switch to `On` and enter the IP address of your development machine.
 
