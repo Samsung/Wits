@@ -27,6 +27,7 @@ let isDebugMode = false;
 let deviceName = '';
 let deviceIpAddress = '';
 let witsIgnores = [];
+let startMode = '';
 
 const REG_REMOTE_URI = new RegExp(/(http|ftp|https):\/\/([\w+?\.\w+])+([a-zA-Z0-9\~\!\@\#\$\%\^\&\*\(\)_\-\=\+\\\/\?\.\:\;\,]*)?/);
 const REG_COMMENT = new RegExp(/<!--\s*.*?\s*-->/g);
@@ -58,6 +59,7 @@ const PROFILE_NAME = profileInfo.name;
 const PROFILE_PATH = profileInfo.path;
 const WATCHER_EVENT_UPDATE = 'update';
 const WATCHER_EVENT_REMOVE = 'remove';
+const WATCH_MODE = 'watch';
 
 process.on('SIGINT', () => {
     console.log('Exit Wits............');
@@ -69,42 +71,78 @@ process.on('SIGINT', () => {
 
 (function startWits() {
     console.log('Start Wits............');
-    let ask = getUserAskData();
-    let connectedDevices = [];
-    let appInstallPath = '';
-    getUserAnswer(ask).then(() => {
+    if(process.argv.slice(2)[0]) {
+        startMode = process.argv.slice(2)[0].toLowerCase();
+    }
+    let connectionInfo = getRecentlyConnectionInfo();
+    if(startMode == WATCH_MODE) {
+        baseAppPath = path.isAbsolute(connectionInfo.recentlyBaseAppPath) ? connectionInfo.recentlyBaseAppPath.replace(REG_BACKSLASH, '/') : getAbsolutePath(connectionInfo.recentlyBaseAppPath);
+        baseAppPath = baseAppPath.replace(REG_FIND_LAST_SLASH,'');
+        hostWidth = connectionInfo.width;
+        deviceIpAddress = connectionInfo.ip;
+        socketPort = connectionInfo.port+'';
+        isDebugMode = connectionInfo.isDebugMode;
+
         if(isIpAddress(deviceIpAddress) && deviceIpAddress !== EMULATOR_IP) {
             connectTV(deviceIpAddress);
         }
 
         connectedDevices = getConnectedDeviceList();
+        deviceName = connectedDevices[0];
 
-        selectDevice(connectedDevices).then(() => {
-            const SUPPORTED_MINIMUM_VERSION = '3.0';
-            let platformVersion = getPlatformVersion();
-            console.log('Platform version : ', platformVersion);
-            if(platformVersion < SUPPORTED_MINIMUM_VERSION) {
-                console.log('WITS is supported more Tizen platform 3.0 version.');
-                console.log('This device does not supported.');
-                process.exit(0);
+        const SUPPORTED_MINIMUM_VERSION = '3.0';
+        let platformVersion = getPlatformVersion();
+        console.log('Platform version : ', platformVersion);
+        if(platformVersion < SUPPORTED_MINIMUM_VERSION) {
+            console.log('WITS is supported more Tizen platform 3.0 version.');
+            console.log('This device does not supported.');
+            process.exit(0);
+        }
+        
+        appInstallPath = getAppInstallPath();
+        witsAppPath = appInstallPath + WITS_NAME;
+
+        openSocketServer();
+        terminateApp();
+        isDebugMode ? launchAppDebugMode() : launchApp();
+        watchAppCode();
+    } else {
+        let ask = getUserAskData(connectionInfo);
+        let connectedDevices = [];
+        let appInstallPath = '';
+        getUserAnswer(ask).then(() => {
+            if(isIpAddress(deviceIpAddress) && deviceIpAddress !== EMULATOR_IP) {
+                connectTV(deviceIpAddress);
             }
-            
-            appInstallPath = getAppInstallPath();
-            witsAppPath = appInstallPath + WITS_NAME;
 
-            setHostInfo();
-            buildPackage();
-            unInstallPackage();
-            installPackage(appInstallPath);
-            openSocketServer();
-            isDebugMode ? launchAppDebugMode() : launchApp();
-            watchAppCode();
+            connectedDevices = getConnectedDeviceList();
+
+            selectDevice(connectedDevices).then(() => {
+                const SUPPORTED_MINIMUM_VERSION = '3.0';
+                let platformVersion = getPlatformVersion();
+                console.log('Platform version : ', platformVersion);
+                if(platformVersion < SUPPORTED_MINIMUM_VERSION) {
+                    console.log('WITS is supported more Tizen platform 3.0 version.');
+                    console.log('This device does not supported.');
+                    process.exit(0);
+                }
+                
+                appInstallPath = getAppInstallPath();
+                witsAppPath = appInstallPath + WITS_NAME;
+
+                setHostInfo();
+                buildPackage();
+                unInstallPackage();
+                installPackage(appInstallPath);
+                openSocketServer();
+                isDebugMode ? launchAppDebugMode() : launchApp();
+                watchAppCode();
+            });
         });
-    });
+    }
 })();
 
-function getUserAskData() {
-    let connectionInfo = getRecentlyConnectionInfo();
+function getUserAskData(connectionInfo) {
     let baseAppPathQuestion = getBaseAppPathQuestion(connectionInfo);
 
     let ask = [{
@@ -177,7 +215,7 @@ async function getUserAnswer(ask) {
     baseAppPath = baseAppPath.replace(REG_FIND_LAST_SLASH,'');
     hostWidth = answer.width;
     deviceIpAddress = answer.ip;
-    socketPort = answer.port;
+    socketPort = answer.port+'';
     isDebugMode = answer.isDebugMode;
 
     return answer;
@@ -240,7 +278,8 @@ function openSocketServer() {
         }
         socket.emit('response', {
             rsp: {
-                status: 'connected'
+                status: 'connected',
+                startMode: startMode == WATCH_MODE ? WATCH_MODE : ''
             }
         });
 
@@ -518,6 +557,12 @@ function launchAppDebugMode() {
         debugIP = deviceIpAddress;
     }
     launchChrome(debugIP + ':' + debugPort);
+}
+
+function terminateApp() {
+    const APP_TERMINATE_COMMAND = 'sdb -s ' + deviceName + ' shell 0 was_kill '+WITS_ID;
+
+    let result = shelljs.exec(APP_TERMINATE_COMMAND).stdout;
 }
 
 function setPortForward(port) {

@@ -32,10 +32,10 @@
     var PORT = '{{HOST_PORT}}';
     var CONNECTED = 'Connected';
     var DISCONNECTED = 'Disconnected';
+    var CONNECTION_WAIT_TIME = 500;
 
     window.onload = function () {
         console.log('onload!!!');
-        var CONNECTION_WAIT_TIME = 500;
         iframeElem = document.getElementById('contentHTML');
         loadingElem = document.getElementById('loading');
         connectIconElem = document.getElementById('connectIcon');
@@ -44,27 +44,12 @@
         pieSliceRightElem = document.getElementById('pieSliceRight');
         toggleConnectInfo(DISCONNECTED);
         runIconDimAnimation();
-
-        if(isLaunchFromCommand()) {
-            tizen.filesystem.resolve(CONTENT_PATH, function(path) {
-                path.parent.deleteDirectory(path.fullPath, true, function() {
-                    console.log('Directory Deleted');
-                    connectPC();
-                }, function(e) {
-                    console.log('[Warning]: Failed to delete directory ' + CONTENT_PATH);
-                    connectPC();
-                });
-            }, function(e) {
-                console.log('[Warning]: Failed to resolved '+ CONTENT_PATH);
-                connectPC();
-            }, 'rw');
-        }
-        else {
+        connectPC();
+        if(!isLaunchFromCommand()) {
             tizen.filesystem.resolve(CONTENT_PATH, function(path) {
                 loadingElem.innerHTML = 'loading : 100%';
                 loadingElem.style.width = '100%';
                 stopIconDimAnimation();
-                connectPC();
                 setTimeout(function() {
                     loadContent(CONTENT_SRC);
                 },CONNECTION_WAIT_TIME);
@@ -179,7 +164,33 @@
             if(chunk.rsp.status === 'connected') {
                 toggleConnectInfo(CONNECTED);
                 if(isLaunchFromCommand()) {
-                    socket.emit('push_request');
+                    if(chunk.rsp.startMode == 'watch') {
+                        tizen.filesystem.resolve(CONTENT_PATH, function(path) {
+                            loadingElem.innerHTML = 'loading : 100%';
+                            loadingElem.style.width = '100%';
+                            stopIconDimAnimation();
+                            setTimeout(function() {
+                                loadContent(CONTENT_SRC);
+                            },CONNECTION_WAIT_TIME);
+                        },function(e) {
+                            alert('Failed to resolve Content Application');
+                            tizen.application.getCurrentApplication().exit();
+                        }, 'r');
+                    }
+                    else {
+                        tizen.filesystem.resolve(CONTENT_PATH, function(path) {
+                            path.parent.deleteDirectory(path.fullPath, true, function() {
+                                console.log('Directory Deleted');
+                                socket.emit('push_request');
+                            }, function(e) {
+                                console.log('[Warning]: Failed to delete directory ' + CONTENT_PATH);
+                                socket.emit('push_request');
+                            });
+                        }, function(e) {
+                            console.log('[Warning]: Failed to resolved '+ CONTENT_PATH);
+                            socket.emit('push_request');
+                        }, 'rw');
+                    }
                 }
             }
         });
