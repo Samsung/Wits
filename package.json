@@ -10,9 +10,6 @@
   "dependencies": {
     "chrome-launcher": "^0.10.5",
     "express": "^4.16.3",
-    "grunt": "^1.0.3",
-    "grunt-contrib-jshint": "^2.0.0",
-    "grunt-jscs": "^3.0.1",
     "inquirer": "=5.2.0",
     "ip": "^1.1.5",
     "mkdirp": "^0.5.1",
@@ -22,5 +19,10 @@
     "socket.io": "^1.7.3",
     "xml2js": "^0.4.19"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^1.0.3",
+    "grunt-contrib-jshint": "^2.0.0",
+    "grunt-jscs": "^3.0.1"
+  }
 }

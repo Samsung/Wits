@@ -10,7 +10,6 @@ let chromeLauncher = require('chrome-launcher');
 let xml2js = require('xml2js');
 let inspect = require('util').inspect;
 
-
 let express = require('express');
 let app = express();
 let http = require('http').createServer(app);
@@ -72,8 +71,6 @@ process.on('SIGINT', () => {
     process.exit(0);
 });
 
-
-
 (function startWits() {
     console.log('Start Wits............');
     let ask = getUserAskData();
@@ -91,9 +88,9 @@ process.on('SIGINT', () => {
             let deviceProfile = await getDeviceProfile(profileInfo.path);
             if(deviceProfile) {
                 let DEVICE_PROFILE_PUSH_COMMAND = 'sdb -s ' + deviceName + ' push ' + '"' + deviceProfile + '"'+ ' ' + '"' + appInstallPath + '"';
-                shelljs.exec(DEVICE_PROFILE_PUSH_COMMAND,{silent:true});
+                shelljs.exec(DEVICE_PROFILE_PUSH_COMMAND,{silent: true});
             }
-            
+
             userAppId = getUserAppId();
             userAppName = userAppId.split('.')[1];
             witsAppPath = appInstallPath + userAppName;
@@ -104,6 +101,7 @@ process.on('SIGINT', () => {
             installPackage(appInstallPath);
             openSocketServer();
             isDebugMode ? launchAppDebugMode() : launchApp();
+
             // watchAppCode();
         });
     });
@@ -199,9 +197,9 @@ async function makeWitsConfigFile(configFilepath) {
         process.exit(0);
     }
 
-    let xmlParser = new xml2js.Parser({attrkey : 'attributes'});
+    let xmlParser = new xml2js.Parser({attrkey: 'attributes'});
 
-    let parsedXmlData = await new Promise ((resolve,reject) => xmlParser.parseString(userConfigData, function(err, result){
+    let parsedXmlData = await new Promise ((resolve,reject) => xmlParser.parseString(userConfigData, function(err, result) {
         resolve(result);
     }));
 
@@ -209,11 +207,11 @@ async function makeWitsConfigFile(configFilepath) {
         setWitsConfigData(parsedXmlData.widget);
     }
     else {
-        console.log('User config.xml is not supported format.')
+        console.log('User config.xml is not supported format.');
         process.exit(0);
     }
 
-    let xmlBuilder = new xml2js.Builder({attrkey : 'attributes', xmldec: {'version': '1.0', 'encoding': 'UTF-8'}});
+    let xmlBuilder = new xml2js.Builder({attrkey: 'attributes', xmldec: {'version': '1.0', 'encoding': 'UTF-8'}});
 
     let witsConfigData = xmlBuilder.buildObject(parsedXmlData);
 
@@ -234,28 +232,27 @@ function setWitsConfigData(configData) {
     const FILESYSTEM_READ_PRIVILEGE = 'http://tizen.org/privilege/filesystem.read';
     const FILESYSTEM_WRITE_PRIVILEGE = 'http://tizen.org/privilege/filesystem.write';
 
-
     configData[WITS_CONFIG_ACCESS_TAG] = [{
-        attributes : {
-            origin: '*', 
+        attributes: {
+            origin: '*',
             subdomains: 'true'
         }
-    }]
+    }];
 
     configData[WITS_CONFIG_CONTENT_TAG] = [{
-        attributes : {
+        attributes: {
             src: 'index.html'
         }
-    }]
+    }];
 
     configData[WITS_CONFIG_ICON_TAG] = [{
-        attributes : {
+        attributes: {
             src: 'icon.png'
         }
-    }]
+    }];
 
     if(configData.hasOwnProperty(WITS_CONFIG_PRIVILEGE_TAG)) {
-        configData[WITS_CONFIG_PRIVILEGE_TAG].push({ 
+        configData[WITS_CONFIG_PRIVILEGE_TAG].push({
             attributes: {
                 name: FILESYSTEM_READ_PRIVILEGE
             }
@@ -263,7 +260,7 @@ function setWitsConfigData(configData) {
             attributes: {
                 name: FILESYSTEM_WRITE_PRIVILEGE
             }
-        })
+        });
     }
     else {
         configData[WITS_CONFIG_PRIVILEGE_TAG] = [{
@@ -274,7 +271,7 @@ function setWitsConfigData(configData) {
             attributes: {
                 name: FILESYSTEM_WRITE_PRIVILEGE
             }
-        }]
+        }];
     }
 }
 
@@ -777,40 +774,40 @@ function getProfileInfo() {
 }
 
 async function getDeviceProfile(path) {
-        let profileData = '';
-        const DEVICE_PROFILE_FILE_NAME = 'device-profile.xml';
-        try {
-            profileData = fs.readFileSync(path, 'utf8');
-        }
-        catch(e) {
-            console.log('Failed to read user profile.xml.',e);
-            process.exit(0);
-        }
+    let profileData = '';
+    const DEVICE_PROFILE_FILE_NAME = 'device-profile.xml';
+    try {
+        profileData = fs.readFileSync(path, 'utf8');
+    }
+    catch(e) {
+        console.log('Failed to read user profile.xml.',e);
+        process.exit(0);
+    }
 
-        let xmlParser = new xml2js.Parser({attrkey : 'attr'});
+    let xmlParser = new xml2js.Parser({attrkey: 'attr'});
 
-        let deviceProfilePath = await new Promise ((resolve,reject) => xmlParser.parseString(profileData, function(err, result) {
-            let activeProfileName = result.profiles.attr.active;
-            let activeProfileDistributorPath = '';
-            result.profiles.profile.forEach((profile) => {
-                if(profile.attr.name == activeProfileName) {
-                    profile.profileitem.forEach((profileitem) => {
-                        if(profileitem.attr.distributor == '1') {
-                            activeProfileDistributorPath = profileitem.attr.key.replace('distributor.p12','');
-                        }
-                    })
-                }
-            })
-            resolve(activeProfileDistributorPath);
-        }));
-        let deviceProfileFile = deviceProfilePath + DEVICE_PROFILE_FILE_NAME;
-        if(fs.existsSync(deviceProfileFile) && await checkDeviceProfileValidation(deviceProfileFile)) {
-            return deviceProfileFile
-        }
-        else {
-            console.log('[warning] device-profile.xml is invalid or not exist');
-            return null;
-        }
+    let deviceProfilePath = await new Promise ((resolve,reject) => xmlParser.parseString(profileData, function(err, result) {
+        let activeProfileName = result.profiles.attr.active;
+        let activeProfileDistributorPath = '';
+        result.profiles.profile.forEach((profile) => {
+            if(profile.attr.name == activeProfileName) {
+                profile.profileitem.forEach((profileitem) => {
+                    if(profileitem.attr.distributor == '1') {
+                        activeProfileDistributorPath = profileitem.attr.key.replace('distributor.p12','');
+                    }
+                });
+            }
+        });
+        resolve(activeProfileDistributorPath);
+    }));
+    let deviceProfileFile = deviceProfilePath + DEVICE_PROFILE_FILE_NAME;
+    if(fs.existsSync(deviceProfileFile) && await checkDeviceProfileValidation(deviceProfileFile)) {
+        return deviceProfileFile;
+    }
+    else {
+        console.log('[warning] device-profile.xml is invalid or not exist');
+        return null;
+    }
 }
 
 async function checkDeviceProfileValidation(deviceProfile) {
@@ -823,7 +820,7 @@ async function checkDeviceProfileValidation(deviceProfile) {
         process.exit(0);
     }
 
-    let xmlParser = new xml2js.Parser({attrkey : 'attr'});
+    let xmlParser = new xml2js.Parser({attrkey: 'attr'});
 
     let isValid = await new Promise ((resolve,reject) => xmlParser.parseString(deviceProfileData, function(err, result) {
         const GET_DEVICE_INFO_COMMAND = 'sdb -s ' + deviceName + ' shell 0 getduid';

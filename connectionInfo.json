@@ -1,8 +1,7 @@
 {
   "recentlyBaseAppPath": "www",
   "baseAppPaths": [
-    "www",
-    "D:/PIE/PIE"
+    "www"
   ],
   "width": "1920",
   "ip": "192.168.250.250",

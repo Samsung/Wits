@@ -32,7 +32,7 @@
     var PORT = '{{HOST_PORT}}';
     var CONNECTED = 'Connected';
     var DISCONNECTED = 'Disconnected';
-    var HOST_BASE_CONTENT_PATH = '{{HOST_BASE_CONTENT_PATH}}' 
+    var HOST_BASE_CONTENT_PATH = '{{HOST_BASE_CONTENT_PATH}}';
 
     window.onload = function () {
         console.log('onload!!!');
@@ -173,8 +173,8 @@
                     socket.emit('push_request');
                 }
                 socket.emit('watch_request',{
-                    destPath : CONTENT_PATH,
-                    basePath : HOST_BASE_CONTENT_PATH
+                    destPath: CONTENT_PATH,
+                    basePath: HOST_BASE_CONTENT_PATH
                 });
             }
         });
