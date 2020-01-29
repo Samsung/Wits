@@ -9,6 +9,16 @@ body {
 	margin: 0px auto;
 	padding: 0px auto;
 	display: block;
+}
+
+.wits-container {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 1920px;
+	height: 1080px;
+	margin: 0px auto;
+	padding: 0px auto;
 	background-color : #f1f1f1;
 }
 

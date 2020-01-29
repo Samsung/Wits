@@ -1,18 +1,174 @@
 # Wits
 
-Wits for Your Samsung SMART TV web application development.
+Wits is a development tool to help run your Tizen web application on your **2017+ Samsung TV** during development.
 
-It will saved your development times and bring pleasure of developing out.
+It is the fastest way to get your local code running on device during development. Saving you from having to build, package, and reinstall your app each time you want to see how it will run on device. We call it a `LIVE RELOAD`.
 
-**Using Wits, You can instantly RELOAD your app's JavaScript/CSS code instead of reinstalling your app every time you make a change.**
+**Wits is a help to continue your developing context.**
 
 <img src="https://user-images.githubusercontent.com/11974693/50271217-70b46280-0477-11e9-897b-7060f3a25fa2.jpg" width="100%" title="Wits">
 
-To do so, run "npm start" from Wits.
+## System Requirements
 
-For using Wits, Please refer to the followings.
+Wits needs the following prerequisites on your local development machine.
 
-# Project Structure
+1. `Terminal` on MacOS / Linux or `PowerShell` on Windows
+
+2. You must have Node.js (we recommend v7.10.1 for Wits) and Git installed on your system. We will not describe how to do these installations as there are many ways to do it and its developer preference. We recommend using something like `nvm` or `asdf` to manage different versions of Node.js across your code projects.
+
+4. Install the Latest Version of [Samsung Tizen Studio](http://developer.samsung.com/tv).
+
+5. Wits requires the Tizen Studio CLI binaries added to your `$PATH` for access to the `tizen` and `sdb` command-line utilities.
+    * For **bash**:
+      ~~~ bash
+      $ echo 'export PATH="$HOME/tizen-studio/tools/ide/bin:$PATH"' >> ~/.bash_profile
+      $ echo 'export PATH="$HOME/tizen-studio/tools:$PATH"' >> ~/.bash_profile
+      ~~~
+    * For **Ubuntu Desktop**:
+      ~~~ bash
+      $ echo 'export PATH="$HOME/tizen-studio/tools/ide/bin:$PATH"' >> ~/.bashrc
+      $ echo 'export PATH="$HOME/tizen-studio/tools:$PATH"' >> ~/.bashrc
+      ~~~
+    * For **Zsh**:
+      ~~~ zsh
+      $ echo 'export PATH="$HOME/tizen-studio/tools/ide/bin:$PATH"' >> ~/.zshrc
+      $ echo 'export PATH="$HOME/tizen-studio/tools:$PATH"' >> ~/.zshrc
+      ~~~
+    * For **Fish shell**:
+      ~~~ fish
+      $ set -Ux fish_user_paths $HOME/tizen-studio/tools/ide/bin $fish_user_paths
+      $ set -Ux fish_user_paths $HOME/tizen-studio/tools $fish_user_paths
+      ~~~
+
+## Installing and Configuring Wits
+
+1. Clone the Wits repository to your machine.
+
+	~~~sh
+	$ git clone https://github.com/Samsung/Wits.git
+	~~~
+
+2. Install Wits Dependencies
+	~~~ bash
+	$ cd ~/path-to/Wits
+	$ npm install
+	~~~
+
+3. Modify `profileInfo.json` within the `Wits` directory.
+
+    Configure the Tizen Studio Certificate Profile Name and the path to your `profiles.xml`.
+
+    You can modify and run the following command on `MacOS` to set this to the default.
+
+    ~~~ bash
+    $ cd ~/path-to/Wits
+    $ echo `{
+      "name": "my-certificate-profile",
+      "path": "$HOME/tizen-studio-data/profile/profiles.xml"
+    }` >> profileInfo.json
+    ~~~
+
+    The default `path` on `MacOS` should be `/Users/my-mac-username/tizen-studio-data/profile/profiles.xml` and on `Windows` `C:/tizen-studio-data/profile/profiles.xml`.
+
+    The `name` should be your pre-configured certificate profile name found in one of these locations:
+		
+    - **Tizen Studio (Recommended)** `Tools > Certificate Manager > Certificate Profile (Actived one)`
+    - **Tizen TV SDK 2.4 (legacy)** `window > Preferences > Tizen SDK > Security Profiles`
+
+    If your `profiles.xml` is not in one of the default locations, you may have it in the following legacy location.
+    
+    - **Tizen TV SDK 2.4 (legacy)** `/<yourWorkspace>/.metadata/.plugins/org.tizen.common.sign/profiles.xml`
+
+## Running Your App
+Default user app path is `www`. If you want use default path, place your html, js and css files for your project within the `~/path-to/Wits/www` directory. Otherwise, write your app directory path in the `connectionInfo.json` file. 
+
+The contents of this directory will be copied to the TV that Wits is configured for. 
+
+Each time you make a change in `your application path`, Wits will RELOAD your application on the TV instantly.
+
+### Configuring the Connection
+You may change the directory that Wits uses to serve your app in the `connectionInfo.json` file within the Wits directory.
+
+You may configure Wits to listen to multiple paths for changes.
+
+* on `Windows` and `MacOS`, **Wits** recognize path segment only one separator(**`/`**).
+
+```js
+// connectionInfo.json
+{
+	...
+	"baseAppPaths": [
+      "www",
+      "my-app",
+      "C:/YourProject/YourApp"
+	],
+	...
+}
+```
+
+### Configure Wits to Ignore Files
+
+Sometimes there are files you do not want Wits to copy to your TV device such as your apps `src` directory or `node_modules`.
+
+For this, add a `.witsignore` to the base of your `www` or code directory.
+
+This works the same as `.gitignore`.
+
+Example of `.witsignore`:
+~~~text
+node_modules
+.git
+src
+~~~
+
+### Launching Wits on your TV
+
+To launch the Wits container on your Samsung TV you will need to ensure Developer Mode is enabled on the device.
+
+#### Enabling Developer Mode on Samsung TV
+1. With your Samsung Remote, press the `Home` button.
+2. Navigate to the `Apps` button and press `Enter/OK`.
+3. When on the `Apps` screen, press `1` `2` `3` `4` `5` in order on the remote to open the `Developer Mode Dialog`.  If this doesn't work, try it again.
+4. When the Developer Mode Dialog appears, toggle the switch to `On` and enter the IP address of your development machine.
+
+#### Start Wits from your Development Machine
+
+You will need to know the IP address of the TV.
+Get this from the `Settings > General > Network Status` on your Samsung TV screen using the Samsung Remote.
+
+Now, within the Wits project directory on your computer run `npm start` to start it up and deploy it to your TV.
+
+~~~bash
+$ cd ~/path-to/Wits
+$ npm start
+~~~
+
+You will be prompted to confirm each field in `connectionInfo.json` before the app installs. Simply press `Enter/Return` if the default is to be used.  
+
+
+The results when you're finished should look similar to the following:
+
+```bash
+? Input your Application Path : www
+? Input your Application width (1920 or 1280) : 1920
+? Input your TV Ip address(If using Emulator, input 0.0.0.0) : 10.8.83.8
+? Input your port number : 8498
+? Do you want to launch with chrome DevTools? :  Yes
+```
+
+### Debugging with Google Chrome DevTools
+
+After running `npm start` in the previous step, one of the prompts will ask `Do you want to launch with chrome DevTools?`.  Answer `Yes` or press `Enter` if default.
+
+- A Google Chrome window should have opened after your app installs on the TV.
+- Click the address link on the page.
+- This opens a DevTools window.
+- In console tab, change the value of Execution Context Selector `top` to `ContentHTML`.
+
+![change-to-iframe](https://user-images.githubusercontent.com/24784445/63758009-14eb8480-c8f6-11e9-9f8a-cff2b282e5cc.gif)
+
+## The Wits Project Structure
+
 ```
     ./
      |-tizen/ ................ Wits project
@@ -22,112 +178,9 @@ For using Wits, Please refer to the followings.
      |-package.json .......... npm package configuration
      '-README.md ............. Introduce Wits file.
 ```
-# Supported Platforms
+
+## Supported Platforms
+
 *  2017 Samsung Smart TV (Tizen 3.0)
 *  2018 Samsung Smart TV (Tizen 4.0)
 *  2019 Samsung Smart TV (Tizen 5.0)
-# How to Build
-
-## Precondition
-First, Wits needs the followings. Please install these.
-
-* [nodejs](https://nodejs.org/) **(Optimized Version v7.10.1)**
-* [git](https://git-scm.com/)
-* [Samsung Tizen Studio](http://developer.samsung.com/tv) **(Recommend Using The Latest Tizen Studio Version)**
-* Command Line Interface
-* Set the `PATH` of environment variables.
-
-	* For use a Wits as a command line tool, then set "tizen" and "sdb" globally command.<br>
-	To do so, You must add there installed path in the PATH which is one of the environment variables. 
-		- For "tizen" command
-			```./
-			tizen-studio/tools/ide/bin
-			```
-		- For "sdb" command
-			```./
-			tizen-studio/tools
-			```
-* Set the Samsung Tizen TV to **DEVELOP MODE**.
-	* Run Developer pop-up. (Press 1 2 3 4 5 keys in Apps)
-	* Input your PC IP address.
-	* reboot TV.
-
-## git clone & install dependencies modules.
-
-* `git clone` the Wits repository.
-
-	```sh
-	$ git clone https://github.com/Samsung/Wits.git
-	```
-* Install dependencies modules in Wits.
-
-	```sh
-	$ cd Wits
-	$ npm install
-	```
-* Modify profileInfo.json
-
-	Fill out your profile name and path for Tizen Web application package.
-
-	```js
-	{
-		"name": "<yourprofileName>",
-		"path": "C:/tizen-studio-data/profile/profiles.xml"
-	}
-	```
-
-	- Check your profilePath
-		* Case 1. Tizen TV SDK 2.4 (previous version) :
-
-			`/<yourWorkspace>/.metadata/.plugins/org.tizen.common.sign/profiles.xml`
-		* Case 2. Tizen Studio (Recommended) :
-
-			`C:/tizen-studio-data/profile/profiles.xml`;
-	- Check your profileName
-		* Case 1. Tizen TV SDK 2.4 (previous version) : 
-
-			`window > Preferences > Tizen SDK > Security Profiles`
-		* Case 2. Tizen Studio (Recommended) :
-
-			`Tools > Certificate Manager > Certificate Profile (Actived one)`
-			
-## Set Your Tizen web applications path on `baseAppPaths` property in connectionInfo.json file.
-
-As a Tizen web application developer, the most of your code and assets should be placed here, such as .html .css .js and config.xml files.<br>
-They will be copied to the TV that Wits is prepared. In this folder, every time you make a change, Wits can RELOAD your application instantly.<br>
-The baseAppPaths is array type and be supported absolute / relative path, defalut value is `www` folder which Wits contains.
-
-* on `Windows` and `Mac OS`, **Wits** recognize path segment only one separator(**`/`**).
-	```js
-	{
-		...
-		"baseAppPaths": [
-		"www",
-		"C:/YourProject/YourApp"
-		],
-		...
-	}
-	```
-## Set `.witsignore` in Your Tizen web application.
-
-Wits supported to ignore directory in your Tizen web application using `.witsignore` file.<br>
-If you create a file in your Tizen web application `.witsignore`, Wits uses it to determine which directories to ignore,<br> before Wits project start. **This file MUST be located root** in your Tizen web application.<br>
-
-  * `.witsignore` support relative path 
-  * A blank line can serve as a separator for readablilty.
-  * A slash(**`/`**) can serve as a separator for path segment. 
-  	```js
-	node_modules
-	.git
-	some/your/ignore/folder
-	...
-	```
-
-
-## Run Wits
-
-* Run Wits on Samsung Tizen TV.
-
-	```sh
-	$ npm start
-	```

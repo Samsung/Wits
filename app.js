@@ -35,4 +35,3 @@ process.on('SIGINT', () => {
     watchHelper.openSocketServer(baseAppPath,deviceInfo,socketPort);
     isDebugMode ? appLaunchHelper.launchDebugMode(deviceName,hostAppId,deviceIpAddress) : appLaunchHelper.launchApp(deviceName,hostAppId);
 })();
-
