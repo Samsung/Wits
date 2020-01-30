@@ -6,7 +6,7 @@ It is the fastest way to get your local code running on device during developmen
 
 **Wits is a help to continue your developing context.**
 
-<img src="https://user-images.githubusercontent.com/11974693/50271217-70b46280-0477-11e9-897b-7060f3a25fa2.jpg" width="100%" title="Wits">
+<img src="https://user-images.githubusercontent.com/11974693/73414912-a2267f80-4353-11ea-9685-fefb09d8e6b5.jpg" width="100%" title="Wits">
 
 ## System Requirements
 
