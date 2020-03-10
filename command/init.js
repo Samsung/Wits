@@ -1,1 +1,5 @@
-console.log("option init");
+module.exports = {
+    start: () => {
+        console.log("init command start!");
+    }
+};

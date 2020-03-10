@@ -1,1 +1,5 @@
-console.log("option watch");
+module.exports = {
+    start: () => {
+        console.log("watch command start!");
+    }
+};
