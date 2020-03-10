@@ -1,5 +1,5 @@
 module.exports = {
-    start: () => {
-        console.log("watch command start!");
+    run: () => {
+        console.log("watch command run!");
     }
 };

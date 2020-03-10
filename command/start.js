@@ -12,7 +12,7 @@ process.on("SIGINT", () => {
 });
 
 module.exports = {
-    startWits: async () => {
+    run: async () => {
         console.log(`Start Wits............`);
         let profileInfo = util.getProfileInfo();
         let userAnswer = await userInfo.getUserAnswer();

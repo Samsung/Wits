@@ -1,5 +1,5 @@
 module.exports = {
-    start: () => {
-        console.log("init command start!");
+    run: () => {
+        console.log("init command run!");
     }
 };
