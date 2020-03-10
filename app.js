@@ -1,4 +1,3 @@
-
 const util = require('./lib/util.js');
 const userInfo = require('./lib/userInfoHelper.js');
 const deviceConnectHelper = require('./lib/deviceConnectHelper.js');
@@ -7,22 +6,24 @@ const appLaunchHelper = require('./lib/appLaunchHelper.js');
 const watchHelper = require('./lib/watchHelper.js');
 
 process.on('SIGINT', () => {
-    console.log('Exit Wits............');
+    console.log(`Exit Wits............`);
     watchHelper.closeSocketServer();
     process.exit(0);
 });
 
 (async function startWits() {
-    console.log('Start Wits............');
+    console.log(`Start Wits............`);
     let profileInfo = util.getProfileInfo();
     let userAnswer = await userInfo.getUserAnswer();
     let deviceIpAddress = userAnswer.deviceIpAddress;
     let baseAppPath = userAnswer.baseAppPath;
     let isDebugMode = userAnswer.isDebugMode;
     let socketPort = userAnswer.socketPort;
-    let deviceInfo = await deviceConnectHelper.getConnectedDeviceInfo(deviceIpAddress);
+    let deviceInfo = await deviceConnectHelper.getConnectedDeviceInfo(
+        deviceIpAddress
+    );
 
-    await hostAppHelper.setHostAppEnv(userAnswer,deviceInfo);
+    await hostAppHelper.setHostAppEnv(userAnswer, deviceInfo);
 
     hostAppHelper.buildPackage(profileInfo);
 
@@ -30,8 +31,14 @@ process.on('SIGINT', () => {
     let hostAppName = hostAppId.split('.')[1];
     let deviceName = deviceInfo.deviceName;
 
-    appLaunchHelper.unInstallPackage(deviceName,hostAppName);
-    appLaunchHelper.installPackage(deviceInfo,hostAppName);
-    watchHelper.openSocketServer(baseAppPath,deviceInfo,socketPort);
-    isDebugMode ? appLaunchHelper.launchDebugMode(deviceName,hostAppId,deviceIpAddress) : appLaunchHelper.launchApp(deviceName,hostAppId);
+    appLaunchHelper.unInstallPackage(deviceName, hostAppName);
+    appLaunchHelper.installPackage(deviceInfo, hostAppName);
+    watchHelper.openSocketServer(baseAppPath, deviceInfo, socketPort);
+    isDebugMode
+        ? appLaunchHelper.launchDebugMode(
+              deviceName,
+              hostAppId,
+              deviceIpAddress
+          )
+        : appLaunchHelper.launchApp(deviceName, hostAppId);
 })();
