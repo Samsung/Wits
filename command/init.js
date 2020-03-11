@@ -1,7 +1,7 @@
-const util = require("../lib/util.js");
+const util = require('../lib/util.js');
 
-const WITS_CONFIG_FILE_NAME = ".witsconfig.json";
-const WITS_IGNORE_FILE_NAME = ".witsignore";
+const WITS_CONFIG_FILE_NAME = '.witsconfig.json';
+const WITS_IGNORE_FILE_NAME = '.witsignore';
 
 module.exports = {
     run: () => {

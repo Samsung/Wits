@@ -1,11 +1,11 @@
-const util = require("../lib/util.js");
-const userInfo = require("../lib/userInfoHelper.js");
-const deviceConnectHelper = require("../lib/deviceConnectHelper.js");
-const hostAppHelper = require("../lib/hostAppHelper.js");
-const appLaunchHelper = require("../lib/appLaunchHelper.js");
-const watchHelper = require("../lib/watchHelper.js");
+const util = require('../lib/util.js');
+const userInfo = require('../lib/userInfoHelper.js');
+const deviceConnectHelper = require('../lib/deviceConnectHelper.js');
+const hostAppHelper = require('../lib/hostAppHelper.js');
+const appLaunchHelper = require('../lib/appLaunchHelper.js');
+const watchHelper = require('../lib/watchHelper.js');
 
-process.on("SIGINT", () => {
+process.on('SIGINT', () => {
     console.log(`Exit Wits............`);
     watchHelper.closeSocketServer();
     process.exit(0);
@@ -29,7 +29,7 @@ module.exports = {
         hostAppHelper.buildPackage(profileInfo);
 
         let hostAppId = hostAppHelper.getHostAppId();
-        let hostAppName = hostAppId.split(".")[1];
+        let hostAppName = hostAppId.split('.')[1];
         let deviceName = deviceInfo.deviceName;
 
         appLaunchHelper.unInstallPackage(deviceName, hostAppName);
