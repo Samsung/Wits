@@ -14,7 +14,7 @@ process.on("SIGINT", () => {
 module.exports = {
     run: async () => {
         console.log(`Start Wits............`);
-        let profileInfo = util.getProfileInfo();
+        let profileInfo = userInfo.getProfileInfo();
         let userAnswer = await userInfo.getUserAnswer();
         let deviceIpAddress = userAnswer.deviceIpAddress;
         let baseAppPath = userAnswer.baseAppPath;
