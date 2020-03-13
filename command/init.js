@@ -7,6 +7,7 @@ const WITS_IGNORE_FILE_NAME = '.witsignore';
 
 module.exports = {
     run: () => {
+        console.log(`Start configuration for Wits............`);
         makeWitsignoreFile();
         makeWitsconfigFile();
     }
@@ -44,7 +45,7 @@ function copyWitsconfigFile() {
             );
         }
     } catch (e) {
-        console.log(`Failed to getWitsconfig ${e}`);
+        console.log(`Failed to copyWitsconfigFile ${e}`);
         process.exit(0);
     }
 }
