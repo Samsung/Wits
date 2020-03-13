@@ -14,18 +14,20 @@ module.exports = {
 
 function makeWitsignoreFile() {
     util.createEmptyFile(util.CURRENT_PROJECT_PATH, WITS_IGNORE_FILE_NAME);
+    console.log('.witsignore is prepared.');
 }
 
 function makeWitsconfigFile() {
     util.createEmptyFile(util.CURRENT_PROJECT_PATH, WITS_CONFIG_FILE_NAME);
     copyWitsconfigFile();
+    console.log('.witsconfig.json is prepared.');
 }
 
 function copyWitsconfigFile() {
     try {
-        // if (isExistCustomFile()) {
-        //     return;
-        // }
+        if (isExistCustomFile()) {
+            return;
+        }
 
         let witsConfigData = JSON.parse(
             fs.readFileSync(
@@ -48,11 +50,9 @@ function copyWitsconfigFile() {
 }
 
 function isExistCustomFile() {
-    let customData = JSON.parse(
-        fs.readFileSync(
-            path.join(util.CURRENT_PROJECT_PATH, WITS_CONFIG_FILE_NAME),
-            'utf8'
-        )
+    let customData = fs.readFileSync(
+        path.join(util.CURRENT_PROJECT_PATH, WITS_CONFIG_FILE_NAME),
+        'utf8'
     );
     if (isValidWitsconfigFile(customData)) {
         return true;
@@ -61,9 +61,14 @@ function isExistCustomFile() {
 }
 
 function isValidWitsconfigFile(data) {
+    let witsConfigData = data;
+    if (witsConfigData !== '' && typeof witsConfigData === 'string') {
+        witsConfigData = JSON.parse(data);
+    }
+
     if (
-        data.hasOwnProperty('profileInfo') &&
-        data.hasOwnProperty('connectionInfo')
+        witsConfigData.hasOwnProperty('profileInfo') &&
+        witsConfigData.hasOwnProperty('connectionInfo')
     ) {
         return true;
     }
