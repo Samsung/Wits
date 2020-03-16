@@ -19,7 +19,7 @@ module.exports = {
         let isDebugMode = data.userAnswer.isDebugMode;
         let socketPort = data.userAnswer.socketPort;
 
-        let deviceInfo = await userInfoHelper.getDeviceInfo();
+        let deviceInfo = await userInfoHelper.getDeviceInfo(deviceIpAddress);
 
         await hostAppHelper.setHostAppEnv(data.userAnswer, deviceInfo);
         hostAppHelper.buildPackage(data.profileInfo);
