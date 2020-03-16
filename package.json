@@ -9,6 +9,14 @@
         "watch": "node lib/cli.js --watch"
     },
     "author": "Samsung Electronics Co., Ltd.",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Samsung/Wits.git"
+    },
+    "bugs": {
+        "url": "https://github.com/Samsung/Wits/issues"
+    },
+    "homepage": "https://github.com/Samsung/Wits/issues",
     "dependencies": {
         "chrome-launcher": "^0.10.5",
         "express": "^4.16.3",
