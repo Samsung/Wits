@@ -1,7 +1,7 @@
 {
     "name": "Wits",
-    "version": "1.0.0",
-    "description": "",
+    "version": "0.1.0",
+    "description": "Instant live reload tool for Tizen Web Application development",
     "main": "lib/cli.js",
     "scripts": {
         "start": "node lib/cli.js --start",
@@ -31,7 +31,11 @@
     "keywords": [
         "Wits",
         "Tizen",
-        "Web developer"
+        "Web developer",
+        "live reload",
+        "hot reload",
+        "debugging tool",
+        "samsung"
     ],
     "bin": {
         "wits": "./lib/cli.js"
