@@ -19,16 +19,18 @@ module.exports = {
         let isDebugMode = data.userAnswer.isDebugMode;
         let socketPort = data.userAnswer.socketPort;
 
-        await hostAppHelper.setHostAppEnv(data.userAnswer, data.deviceInfo);
+        let deviceInfo = await userInfoHelper.getDeviceInfo();
+
+        await hostAppHelper.setHostAppEnv(data.userAnswer, deviceInfo);
         hostAppHelper.buildPackage(data.profileInfo);
 
         let hostAppId = hostAppHelper.getHostAppId();
         let hostAppName = hostAppId.split('.')[1];
-        let deviceName = data.deviceInfo.deviceName;
+        let deviceName = deviceInfo.deviceName;
 
         appLaunchHelper.unInstallPackage(deviceName, hostAppName);
-        appLaunchHelper.installPackage(data.deviceInfo, hostAppName);
-        watchHelper.openSocketServer(baseAppPath, data.deviceInfo, socketPort);
+        appLaunchHelper.installPackage(deviceInfo, hostAppName);
+        watchHelper.openSocketServer(baseAppPath, deviceInfo, socketPort);
         isDebugMode
             ? appLaunchHelper.launchDebugMode(
                   deviceName,

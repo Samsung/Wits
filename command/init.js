@@ -1,15 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 const util = require('../lib/util.js');
+const userInfoHelper = require('../lib/userInfoHelper.js');
 
 const WITS_CONFIG_FILE_NAME = '.witsconfig.json';
 const WITS_IGNORE_FILE_NAME = '.witsignore';
 
 module.exports = {
-    run: () => {
+    run: async () => {
         console.log(`Start configuration for Wits............`);
         makeWitsignoreFile();
         makeWitsconfigFile();
+
+        await userInfoHelper.getWitsSettingInfo();
     }
 };
 
