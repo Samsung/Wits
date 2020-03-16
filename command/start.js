@@ -30,7 +30,6 @@ module.exports = {
 
         appLaunchHelper.unInstallPackage(deviceName, hostAppName);
         appLaunchHelper.installPackage(deviceInfo, hostAppName);
-        console.log('baseAppPath : ', baseAppPath);
         watchHelper.openSocketServer(baseAppPath, deviceInfo, socketPort);
         isDebugMode
             ? appLaunchHelper.launchDebugMode(
