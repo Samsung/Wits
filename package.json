@@ -48,5 +48,6 @@
     "bin": {
         "wits": "./lib/cli.js"
     },
-    "preferGlobal": true
+    "preferGlobal": true,
+    "private": false
 }
