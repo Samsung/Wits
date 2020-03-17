@@ -1,11 +1,9 @@
-const util = require("../lib/util.js");
-const userInfo = require("../lib/userInfoHelper.js");
-const deviceConnectHelper = require("../lib/deviceConnectHelper.js");
-const hostAppHelper = require("../lib/hostAppHelper.js");
-const appLaunchHelper = require("../lib/appLaunchHelper.js");
-const watchHelper = require("../lib/watchHelper.js");
+const userInfoHelper = require('../lib/userInfoHelper.js');
+const hostAppHelper = require('../lib/hostAppHelper.js');
+const appLaunchHelper = require('../lib/appLaunchHelper.js');
+const watchHelper = require('../lib/watchHelper.js');
 
-process.on("SIGINT", () => {
+process.on('SIGINT', () => {
     console.log(`Exit Wits............`);
     watchHelper.closeSocketServer();
     process.exit(0);
@@ -13,23 +11,21 @@ process.on("SIGINT", () => {
 
 module.exports = {
     run: async () => {
-        console.log(`Start Wits............`);
-        let profileInfo = userInfo.getProfileInfo();
-        let userAnswer = await userInfo.getUserAnswer();
-        let deviceIpAddress = userAnswer.deviceIpAddress;
-        let baseAppPath = userAnswer.baseAppPath;
-        let isDebugMode = userAnswer.isDebugMode;
-        let socketPort = userAnswer.socketPort;
-        let deviceInfo = await deviceConnectHelper.getConnectedDeviceInfo(
-            deviceIpAddress
-        );
+        console.log(`Start running Wits............`);
 
-        await hostAppHelper.setHostAppEnv(userAnswer, deviceInfo);
+        let data = await userInfoHelper.getWitsSettingInfo();
+        let deviceIpAddress = data.userAnswer.deviceIpAddress;
+        let baseAppPath = data.userAnswer.baseAppPath;
+        let isDebugMode = data.userAnswer.isDebugMode;
+        let socketPort = data.userAnswer.socketPort;
 
-        hostAppHelper.buildPackage(profileInfo);
+        let deviceInfo = await userInfoHelper.getDeviceInfo(deviceIpAddress);
+
+        await hostAppHelper.setHostAppEnv(data.userAnswer, deviceInfo);
+        hostAppHelper.buildPackage(data.profileInfo);
 
         let hostAppId = hostAppHelper.getHostAppId();
-        let hostAppName = hostAppId.split(".")[1];
+        let hostAppName = hostAppId.split('.')[1];
         let deviceName = deviceInfo.deviceName;
 
         appLaunchHelper.unInstallPackage(deviceName, hostAppName);
