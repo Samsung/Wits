@@ -9,7 +9,7 @@ const WITS_CONFIG_FILE_NAME = '.witsconfig.json';
 const WITS_IGNORE_FILE_NAME = '.witsignore';
 const CONTAINER_ZIP_FILE_NAME = 'container.zip';
 const CONTAINER_ZIP_URL =
-    'https://github.com/Samsung/Wits/raw/npm-release/container.zip';
+    'https://github.com/Samsung/Wits/raw/npm-release/archive/container.zip';
 const samsungProxy = 'http://168.219.61.252:8080';
 
 module.exports = {
