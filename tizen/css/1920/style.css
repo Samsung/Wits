@@ -1,0 +1,160 @@
+* {
+    font-family: Verdana, Lucida Sans, Arial, Helvetica, sans-serif;
+}
+
+body {
+	position: absolute;
+	width: 1920px;
+	height: 1080px;
+	margin: 0px auto;
+	padding: 0px auto;
+	display: block;
+}
+
+.wits-container {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 1920px;
+	height: 1080px;
+	margin: 0px auto;
+	padding: 0px auto;
+	background-color : #f1f1f1;
+}
+
+.wit-icon-container {
+	position: absolute;
+	left: 860px;
+	top: 280px;
+	width: 200px;
+	height: 200px;
+	margin: auto;
+}
+
+.wit-icon {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 200px;
+	height: 200px;
+	margin: auto;
+}
+
+.pie-wrap-left {
+	position:relative;
+}
+
+.slice-wrap:before {
+	content:" ";
+	position: absolute;
+	width: 174px;
+	height: 174px;
+	border-radius: 100px;
+	box-sizing: border-box;
+	clip: rect(0, 87px, 174px, 0);
+	background-color:rgba(0,0,0,0.1);
+	transform:rotate(10deg);
+}
+.slice-wrap {
+	position: absolute;
+	left: 13px;
+	top: 13px;
+	width: 174px;
+	height: 174px;
+	border-radius: 87px;
+	clip: rect(0, 174px, 174px, 87px);
+}
+.slice-right.slice-wrap {
+	transform:rotate(180deg);
+}
+.slice-left:before {
+	animation: 1s spin linear forwards;
+}
+.slice-right:before {
+	transform:rotate(0.00001deg);
+	animation: 1s spin2 linear 1s forwards;
+}
+.pie-wrap-right:after{display:none}
+
+@keyframes spin {
+	from {transform: rotate(10deg);}
+	to {transform: rotate(180deg);}
+}
+@keyframes spin2 {
+	from {transform: rotate(0deg);}
+	to {transform: rotate(180deg);}
+}
+
+.loading-progress {
+	position: absolute;
+	left: 5%;
+	top: 50%;
+	width: 90%;
+	height: 45px;
+	font-size: 20px;
+	margin: auto;
+}
+
+.progress-bar-item {
+	font-size: 20px;
+	line-height: 45px;
+}
+
+.connectInfo-container {
+	position: absolute;
+	z-index: 1000;
+	top: 22px;
+	right: 15px;
+	width: 225px;
+	height: 120px;
+	background-position: center;
+	background-size: 100%;
+	background-color:rgba(0,0,0,0.6);
+	display: block;
+}
+
+#connectIcon {
+	position: absolute;
+	z-index: 1000;
+	top: 7px;
+	left: 75px;
+	width: 75px;
+	height: 75px;
+	background-position: center;
+	background-size: 100%;
+	display: block;
+}
+
+.connected {
+	background-image: url('../../res/connected.png');
+}
+
+.disconnected {
+	background-image: url('../../res/disconnected.png');
+}
+
+#connectMessage {
+	position: absolute;
+	z-index: 1000;
+	top: 82px;
+	left: 0px;
+	width: 225px;
+	height: 30px;
+	font-size: 25px;
+	text-align: center;
+	color: white;
+	display: block;
+}
+
+#contentHTML {
+	position: absolute;
+	top : 0px;
+	left: 0px;
+	width: 1920px;
+	height: 1080px;
+	margin: 0;
+	padding: 0;
+	border: none;
+	display: none;
+	background: block;
+}
