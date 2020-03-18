@@ -1,14 +1,22 @@
 const fs = require('fs');
 const path = require('path');
+const request = require('request');
+const admzip = require('adm-zip');
 const util = require('../lib/util.js');
 const userInfoHelper = require('../lib/userInfoHelper.js');
 
 const WITS_CONFIG_FILE_NAME = '.witsconfig.json';
 const WITS_IGNORE_FILE_NAME = '.witsignore';
+const CONTAINER_ZIP_FILE_NAME = 'container.zip';
+const CONTAINER_ZIP_URL =
+    'https://github.com/Samsung/Wits/raw/npm-release/container.zip';
+const samsungProxy = 'http://168.219.61.252:8080';
 
 module.exports = {
     run: async () => {
         console.log(`Start configuration for Wits............`);
+        await downloadHttpsFile();
+        extractDirectory();
         makeWitsignoreFile();
         makeWitsconfigFile();
 
@@ -77,4 +85,33 @@ function isValidWitsconfigFile(data) {
         return true;
     }
     return false;
+}
+
+async function downloadHttpsFile() {
+    let zip = fs.createWriteStream(
+        path.join(util.WITS_BASE_PATH, '../', CONTAINER_ZIP_FILE_NAME)
+    );
+    await new Promise((resolve, reject) => {
+        let stream = request({
+            uri: CONTAINER_ZIP_URL,
+            strictSSL: false,
+            proxy: samsungProxy
+        })
+            .pipe(zip)
+            .on('finish', () => {
+                resolve();
+            })
+            .on('error', error => {
+                reject(error);
+            });
+    }).catch(error => {
+        console.log(`${error}`);
+    });
+}
+
+function extractDirectory() {
+    let zip = new admzip(
+        path.join(util.WITS_BASE_PATH, '../', CONTAINER_ZIP_FILE_NAME)
+    );
+    zip.extractAllTo(path.join(util.WITS_BASE_PATH, '../', 'container'));
 }

@@ -1,9 +1,5 @@
 node_modules
+package-lock.json
 Wits.wgt
 www/
-tizen/js/main.js
-tizen/index.html
-tizen/config.xml
-connectionInfo.json
-profileInfo.json
-
+container/
