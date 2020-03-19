@@ -12,7 +12,6 @@ const CONTAINER_DIRECTORY_NAME = 'container';
 const CONTAINER_ZIP_FILE_NAME = 'container.zip';
 const CONTAINER_ZIP_URL =
     'https://github.com/Samsung/Wits/raw/npm-release/archive/container.zip';
-const samsungProxy = 'http://168.219.61.252:8080';
 const CONTAINER_ZIP_FILE_PATH = path.join(
     util.WITS_BASE_PATH,
     '../',
@@ -27,10 +26,10 @@ const CONTAINER_DIRECTORY_PATH = path.join(
 module.exports = {
     run: async () => {
         console.log(`Start configuration for Wits............`);
-        await downloadHttpsFile();
-        await extractDirectory();
         makeWitsignoreFile();
         makeWitsconfigFile();
+        await downloadHttpsFile();
+        await extractDirectory();
 
         await userInfoHelper.getWitsSettingInfo();
     }
@@ -103,13 +102,18 @@ async function downloadHttpsFile() {
     if (util.isFileExist(CONTAINER_ZIP_FILE_PATH)) {
         return;
     }
+    let optionalInfo = await userInfoHelper.getOptionalInfo();
     let zip = fs.createWriteStream(CONTAINER_ZIP_FILE_PATH);
     await new Promise((resolve, reject) => {
-        let stream = request({
-            uri: CONTAINER_ZIP_URL,
-            strictSSL: false,
-            proxy: samsungProxy
-        })
+        let requestOptions = { uri: CONTAINER_ZIP_URL };
+        if (util.isPropertyExist(optionalInfo, 'proxyServer')) {
+            requestOptions = {
+                uri: CONTAINER_ZIP_URL,
+                strictSSL: false,
+                proxy: optionalInfo.proxyServer
+            };
+        }
+        request(requestOptions)
             .pipe(zip)
             .on('finish', () => {
                 resolve();
@@ -118,6 +122,9 @@ async function downloadHttpsFile() {
                 reject(error);
             });
     }).catch(error => {
+        console.log(
+            'if you are behind proxy, please set proxyServer[optional] at the .witsconfig.json'
+        );
         console.log(`${error}`);
     });
 }
