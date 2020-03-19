@@ -7,16 +7,28 @@ const userInfoHelper = require('../lib/userInfoHelper.js');
 
 const WITS_CONFIG_FILE_NAME = '.witsconfig.json';
 const WITS_IGNORE_FILE_NAME = '.witsignore';
+
+const CONTAINER_DIRECTORY_NAME = 'container';
 const CONTAINER_ZIP_FILE_NAME = 'container.zip';
 const CONTAINER_ZIP_URL =
     'https://github.com/Samsung/Wits/raw/npm-release/archive/container.zip';
 const samsungProxy = 'http://168.219.61.252:8080';
+const CONTAINER_ZIP_FILE_PATH = path.join(
+    util.WITS_BASE_PATH,
+    '../',
+    CONTAINER_ZIP_FILE_NAME
+);
+const CONTAINER_DIRECTORY_PATH = path.join(
+    util.WITS_BASE_PATH,
+    '../',
+    CONTAINER_DIRECTORY_NAME
+);
 
 module.exports = {
     run: async () => {
         console.log(`Start configuration for Wits............`);
         await downloadHttpsFile();
-        extractDirectory();
+        await extractDirectory();
         makeWitsignoreFile();
         makeWitsconfigFile();
 
@@ -88,9 +100,10 @@ function isValidWitsconfigFile(data) {
 }
 
 async function downloadHttpsFile() {
-    let zip = fs.createWriteStream(
-        path.join(util.WITS_BASE_PATH, '../', CONTAINER_ZIP_FILE_NAME)
-    );
+    if (isFileExist(CONTAINER_ZIP_FILE_PATH)) {
+        return;
+    }
+    let zip = fs.createWriteStream(CONTAINER_ZIP_FILE_PATH);
     await new Promise((resolve, reject) => {
         let stream = request({
             uri: CONTAINER_ZIP_URL,
@@ -109,9 +122,19 @@ async function downloadHttpsFile() {
     });
 }
 
-function extractDirectory() {
-    let zip = new admzip(
-        path.join(util.WITS_BASE_PATH, '../', CONTAINER_ZIP_FILE_NAME)
-    );
-    zip.extractAllTo(path.join(util.WITS_BASE_PATH, '../', 'container'));
+async function extractDirectory() {
+    if (!isFileExist(CONTAINER_ZIP_FILE_PATH)) {
+        await downloadHttpsFile();
+    }
+    let zip = new admzip(CONTAINER_ZIP_FILE_PATH);
+    zip.extractAllTo(CONTAINER_DIRECTORY_PATH);
+}
+
+function isFileExist(filePath) {
+    try {
+        fs.accessSync(filePath);
+        return true;
+    } catch (e) {
+        return false;
+    }
 }
