@@ -24,10 +24,19 @@ const CONTAINER_DIRECTORY_PATH = path.join(
     '../',
     CONTAINER_DIRECTORY_NAME
 );
+const CONFIG_FILE_NAME = 'config.xml';
+const CONFIG_FILE_PATH = path.join(util.CURRENT_PROJECT_PATH, CONFIG_FILE_NAME);
 
 module.exports = {
     run: async () => {
         console.log(`Start configuration for Wits............`);
+
+        if (!util.isFileExist(CONFIG_FILE_PATH)) {
+            console.log(
+                'There is no config.xml. Please run on a tizen application.'
+            );
+            process.exit(0);
+        }
         makeWitsignoreFile();
         makeWitsconfigFile();
         await downloadHttpsFile();
