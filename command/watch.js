@@ -6,11 +6,14 @@ const watchHelper = require('../lib/watchHelper.js');
 module.exports = {
     run: async () => {
         console.log(`Start running Wits watch mode............`);
-        let data = await userInfoHelper.getLatestWitsconfigInfo();
-        let deviceIpAddress = data.deviceIpAddress;
-        let baseAppPath = data.baseAppPath;
+        let data = await userInfoHelper.getLatestWitsconfigInfo()
+            .connectionInfo;
+        let deviceIpAddress = data.ip;
+        let baseAppPath = userInfoHelper.getBaseAppPath(
+            data.recentlyBaseAppPath
+        );
         let isDebugMode = data.isDebugMode;
-        let socketPort = data.socketPort;
+        let socketPort = data.port;
 
         let deviceInfo = await userInfoHelper.getDeviceInfo(deviceIpAddress);
 

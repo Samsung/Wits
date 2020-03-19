@@ -117,8 +117,10 @@ async function downloadHttpsFile() {
                 proxy: optionalInfo.proxyServer
             };
         }
-
         progress(request(requestOptions))
+            .on('response', data => {
+                console.log('');
+            })
             .on('progress', state => {
                 overwrite(
                     `Downloading Container.zip............. ${parseInt(
