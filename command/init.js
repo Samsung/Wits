@@ -100,7 +100,7 @@ function isValidWitsconfigFile(data) {
 }
 
 async function downloadHttpsFile() {
-    if (isFileExist(CONTAINER_ZIP_FILE_PATH)) {
+    if (util.isFileExist(CONTAINER_ZIP_FILE_PATH)) {
         return;
     }
     let zip = fs.createWriteStream(CONTAINER_ZIP_FILE_PATH);
@@ -123,18 +123,9 @@ async function downloadHttpsFile() {
 }
 
 async function extractDirectory() {
-    if (!isFileExist(CONTAINER_ZIP_FILE_PATH)) {
+    if (!util.isFileExist(CONTAINER_ZIP_FILE_PATH)) {
         await downloadHttpsFile();
     }
     let zip = new admzip(CONTAINER_ZIP_FILE_PATH);
     zip.extractAllTo(CONTAINER_DIRECTORY_PATH);
-}
-
-function isFileExist(filePath) {
-    try {
-        fs.accessSync(filePath);
-        return true;
-    } catch (e) {
-        return false;
-    }
 }
