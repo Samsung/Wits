@@ -1,6 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 const request = require('request');
+const progress = require('request-progress');
+const overwrite = require('terminal-overwrite');
 const admzip = require('adm-zip');
 const util = require('../lib/util.js');
 const userInfoHelper = require('../lib/userInfoHelper.js');
@@ -102,8 +104,10 @@ async function downloadHttpsFile() {
     if (util.isFileExist(CONTAINER_ZIP_FILE_PATH)) {
         return;
     }
+
     let optionalInfo = await userInfoHelper.getOptionalInfo();
     let zip = fs.createWriteStream(CONTAINER_ZIP_FILE_PATH);
+    let count = 0;
     await new Promise((resolve, reject) => {
         let requestOptions = { uri: CONTAINER_ZIP_URL };
         if (util.isPropertyExist(optionalInfo, 'proxyServer')) {
@@ -113,9 +117,18 @@ async function downloadHttpsFile() {
                 proxy: optionalInfo.proxyServer
             };
         }
-        request(requestOptions)
+
+        progress(request(requestOptions))
+            .on('progress', state => {
+                overwrite(
+                    `Downloading Container.zip............. ${parseInt(
+                        state.percent * 100
+                    )} %`
+                );
+            })
             .pipe(zip)
             .on('finish', () => {
+                overwrite.done();
                 resolve();
             })
             .on('error', error => {

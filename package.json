@@ -28,8 +28,10 @@
         "node-watch": "^0.6.2",
         "recursive-readdir": "^2.2.2",
         "request": "^2.88.2",
+        "request-progress": "^3.0.0",
         "shelljs": "^0.8.2",
         "socket.io": "^1.7.3",
+        "terminal-overwrite": "^2.0.1",
         "xml2js": "^0.4.19"
     },
     "devDependencies": {
