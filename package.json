@@ -1,5 +1,5 @@
 {
-    "name": "wits",
+    "name": "@tizentv/wits",
     "version": "1.0.1",
     "description": "Instant live reload tool for Tizen Web Application development",
     "main": "lib/cli.js",

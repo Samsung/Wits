@@ -1,9 +1,7 @@
 # Wits
 
 Wits is a useful development tool for helping to run and develop your Tizen web application easily on your **2017+ Samsung TV**.
-
 It is the fastest way to get your local code running on the TV device during development. Saving you from having to build, package, and reinstall your application every time you want to see how it will run on device. We call it a `LIVE RELOAD`.
-
 **Wits is helpful to continue your developing context.**
 
 <img src="https://user-images.githubusercontent.com/11974693/73414912-a2267f80-4353-11ea-9685-fefb09d8e6b5.jpg" width="100%" title="Wits">
@@ -36,9 +34,7 @@ It is the fastest way to get your local code running on the TV device during dev
 3. Modify `.witsconfig.json` within `Wits` directory.
 
     Configure Tizen Studio Certificate Profile `Name` and the `path` of your profiles.xml to **.witsconfig.json**
-
     The default `path` on `MacOS` is `/Users/{your-mac-username}/tizen-studio-data/profile/profiles.xml` and on `Windows` is `C:/tizen-studio-data/profile/profiles.xml`.
-
     The `name` should be your pre-configured certificate profile name which is foundable at the one of these locations:
 
     - **Tizen Studio (Recommended)** `Tools > Certificate Manager > Certificate Profile (Actived one)`
@@ -53,11 +49,8 @@ It is the fastest way to get your local code running on the TV device during dev
 Wits needs the following prerequisites on your local development machine.
 
 1. **`Terminal` on MacOS / Linux** or **`PowerShell` on Windows**
-
 2. Node.js and Git are required.(we recommend v7.10.1 for Wits). We will not describe how to do these installations as there are many ways to do it and its developer preference. We recommend using something like `nvm` or `asdf` to manage different versions of Node.js across your code projects.
-
 3. Install the Latest Version of [Samsung Tizen Studio](http://developer.samsung.com/tv).
-
 4. For using Wits, Tizen Studio CLI binaries should be added to your `$PATH` for accessing to `tizen` and `sdb` command-line utilities.
     - For **bash**:
         ```bash
@@ -164,7 +157,6 @@ stglib
 Open the cli tool at your project path or move to your project path
 
 1.  Configuration for the first time
-
     After running `wits -i`, you can see .witsconfig.json and .witsignore files are created at your project.
 
     ```sh
@@ -206,12 +198,10 @@ Open the cli tool at your project path or move to your project path
     ```
 
 3.  Turn on the TV device (Enabled Developer Mode)
-
     Make sure for using wits with TV device, It should be used same network as your PC one.
     Also It is required developer mode is enabled.
 
 4.  Start wits
-
     Once you type wits -s, wits will do everything such as connecting to TV, installing your app, launching your app, pushing your local files, even watching your changes on your local codes.
 
     ```sh
@@ -233,7 +223,6 @@ Open the cli tool at your project path or move to your project path
     ```
 
 5.  Reconnect
-
     After disconnecting, if you just want to connect and use live reload feature, You can use `wits -w`
 
 ## Launching Wits on your TV
@@ -247,23 +236,12 @@ To launch the Wits container on your Samsung TV you will need to ensure Develope
 3. When on the `Apps` screen, press `1` `2` `3` `4` `5` in order on the remote to open the `Developer Mode Dialog`. If this doesn't work, try it again.
 4. When the Developer Mode Dialog appears, toggle the switch to `On` and enter the IP address of your development machine.
 
-### Get TV IP address
-
-You need to know the IP address of the TV for connecting.
-Get it from `Settings > General > Network Status` on your Samsung TV screen using the Samsung Remote controller.
-
-## Debugging with Google Chrome DevTools
-
-If you set isDebugMode to true,
-
--   A Google Chrome window should have opened after your app installs on the TV.
--   Click the address link on the page.
--   This opens a DevTools window.
--   In console tab, change the value of Execution Context Selector `top` to `ContentHTML`.
-
-![change-to-iframe](https://user-images.githubusercontent.com/24784445/63758009-14eb8480-c8f6-11e9-9f8a-cff2b282e5cc.gif)
-
 ## FAQ
+
+[Wits FAQ](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions)
+[How to use debug mode on Wits with Chrome inspector](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#answer-1)
+[What if being behind a proxy](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#question-6)
+[How to get your TV IP Address](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#question-7)
 
 ## Supported Platforms
 
