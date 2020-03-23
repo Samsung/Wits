@@ -238,10 +238,10 @@ To launch the Wits container on your Samsung TV you will need to ensure Develope
 
 ## FAQ
 
-[Wits FAQ](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions)
-[How to use debug mode on Wits with Chrome inspector](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#answer-1)
-[What if being behind a proxy](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#question-6)
-[How to get your TV IP Address](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#question-7)
+-   [Wits FAQ](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions)
+-   [How to use debug mode on Wits with Chrome inspector](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#answer-1)
+-   [What if being behind a proxy](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#question-6)
+-   [How to get your TV IP Address](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#question-7)
 
 ## Supported Platforms
 
