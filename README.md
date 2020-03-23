@@ -8,38 +8,6 @@ It is the fastest way to get your local code running on the TV device during dev
 
 <img src="https://user-images.githubusercontent.com/11974693/73414912-a2267f80-4353-11ea-9685-fefb09d8e6b5.jpg" width="100%" title="Wits">
 
-## System Requirements
-
-Wits needs the following prerequisites on your local development machine.
-
-1. **`Terminal` on MacOS / Linux** or **`PowerShell` on Windows**
-
-2. Node.js and Git are required.(we recommend v7.10.1 for Wits). We will not describe how to do these installations as there are many ways to do it and its developer preference. We recommend using something like `nvm` or `asdf` to manage different versions of Node.js across your code projects.
-
-3. Install the Latest Version of [Samsung Tizen Studio](http://developer.samsung.com/tv).
-
-4. For using Wits, Tizen Studio CLI binaries should be added to your `$PATH` for accessing to `tizen` and `sdb` command-line utilities.
-    - For **bash**:
-        ```bash
-        $ echo 'export PATH="$HOME/tizen-studio/tools/ide/bin:$PATH"' >> ~/.bash_profile
-        $ echo 'export PATH="$HOME/tizen-studio/tools:$PATH"' >> ~/.bash_profile
-        ```
-    - For **Ubuntu Desktop**:
-        ```bash
-        $ echo 'export PATH="$HOME/tizen-studio/tools/ide/bin:$PATH"' >> ~/.bashrc
-        $ echo 'export PATH="$HOME/tizen-studio/tools:$PATH"' >> ~/.bashrc
-        ```
-    - For **Zsh**:
-        ```zsh
-        $ echo 'export PATH="$HOME/tizen-studio/tools/ide/bin:$PATH"' >> ~/.zshrc
-        $ echo 'export PATH="$HOME/tizen-studio/tools:$PATH"' >> ~/.zshrc
-        ```
-    - For **Fish shell**:
-        ```fish
-        $ set -Ux fish_user_paths $HOME/tizen-studio/tools/ide/bin $fish_user_paths
-        $ set -Ux fish_user_paths $HOME/tizen-studio/tools $fish_user_paths
-        ```
-
 ## Installing and Configuring Wits
 
 ### For developers using npm
@@ -47,7 +15,7 @@ Wits needs the following prerequisites on your local development machine.
 1. Install wits npm globally
 
     ```sh
-    npm install -g tizentv@wits
+    npm install -g @tizentv/wits
     ```
 
 ### For developers using Git repository
@@ -79,6 +47,38 @@ Wits needs the following prerequisites on your local development machine.
     If your `profiles.xml` is not exist at the one of the default locations, you might have it in the following legacy location.
 
     - **Tizen TV SDK 2.4 (legacy)** `/{your-workspace}/.metadata/.plugins/org.tizen.common.sign/profiles.xml`
+
+## System Requirements
+
+Wits needs the following prerequisites on your local development machine.
+
+1. **`Terminal` on MacOS / Linux** or **`PowerShell` on Windows**
+
+2. Node.js and Git are required.(we recommend v7.10.1 for Wits). We will not describe how to do these installations as there are many ways to do it and its developer preference. We recommend using something like `nvm` or `asdf` to manage different versions of Node.js across your code projects.
+
+3. Install the Latest Version of [Samsung Tizen Studio](http://developer.samsung.com/tv).
+
+4. For using Wits, Tizen Studio CLI binaries should be added to your `$PATH` for accessing to `tizen` and `sdb` command-line utilities.
+    - For **bash**:
+        ```bash
+        $ echo 'export PATH="$HOME/tizen-studio/tools/ide/bin:$PATH"' >> ~/.bash_profile
+        $ echo 'export PATH="$HOME/tizen-studio/tools:$PATH"' >> ~/.bash_profile
+        ```
+    - For **Ubuntu Desktop**:
+        ```bash
+        $ echo 'export PATH="$HOME/tizen-studio/tools/ide/bin:$PATH"' >> ~/.bashrc
+        $ echo 'export PATH="$HOME/tizen-studio/tools:$PATH"' >> ~/.bashrc
+        ```
+    - For **Zsh**:
+        ```zsh
+        $ echo 'export PATH="$HOME/tizen-studio/tools/ide/bin:$PATH"' >> ~/.zshrc
+        $ echo 'export PATH="$HOME/tizen-studio/tools:$PATH"' >> ~/.zshrc
+        ```
+    - For **Fish shell**:
+        ```fish
+        $ set -Ux fish_user_paths $HOME/tizen-studio/tools/ide/bin $fish_user_paths
+        $ set -Ux fish_user_paths $HOME/tizen-studio/tools $fish_user_paths
+        ```
 
 ## Wits details
 
