@@ -146,9 +146,6 @@ async function downloadHttpsFile() {
                 reject(error);
             });
     }).catch(error => {
-        console.log(
-            'if you are behind proxy, please set proxyServer[optional] at the .witsconfig.json'
-        );
         console.log(`${error}`);
     });
 }
@@ -157,6 +154,18 @@ async function extractDirectory() {
     if (!util.isFileExist(CONTAINER_ZIP_FILE_PATH)) {
         await downloadHttpsFile();
     }
-    let zip = new admzip(CONTAINER_ZIP_FILE_PATH);
-    zip.extractAllTo(CONTAINER_DIRECTORY_PATH);
+
+    try {
+        let zip = new admzip(CONTAINER_ZIP_FILE_PATH);
+        zip.extractAllTo(CONTAINER_DIRECTORY_PATH);
+    } catch (error) {
+        console.log(`${error}`);
+        if (util.isFileExist(CONTAINER_ZIP_FILE_PATH)) {
+            fs.unlinkSync(CONTAINER_ZIP_FILE_PATH);
+            console.log(
+                `Invalid zip file was successfully removed. Retry please.`
+            );
+        }
+        process.exit(0);
+    }
 }

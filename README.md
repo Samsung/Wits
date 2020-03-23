@@ -80,7 +80,7 @@ Wits needs the following prerequisites on your local development machine.
 
     - **Tizen TV SDK 2.4 (legacy)** `/{your-workspace}/.metadata/.plugins/org.tizen.common.sign/profiles.xml`
 
-## wits details
+## Wits details
 
 ### The Project Structure for using wits
 
@@ -127,21 +127,21 @@ Wits needs the following prerequisites on your local development machine.
 }
 ```
 
-    - connectionInfo (mandatory)
-        - recentlyBaseAppPath [string] : Recently using project path. Let it be as a default. Wits is mainly run on your current project ex) "."
-        - baseAppPaths [array] : Paths of your working projects
-        - width [string] : Resolution
-        - ip [string] : TV Ip address
-        - port [integer] : TV port. It is generated randomly in Wits.
-        - isDebugMode [boolean] : Setting true, chrome inspector is launched automatically. / Setting false, nothing happened.
-    - profileInfo (mandatory)
-        - name [string] : Tizen Studio Certificate Profile name
-        - path [string] : Tizen Studio Certificate Profile path
-    - optionalInfo (optional)
-        - proxyServer [string] : In case you are behind proxy ex) http://192.168.250.250:8080
-        - hostIp [string] : Basically wits gets your pc ip address automatically, but use it in case you need to use your custom pc Ip.
+-   **connectionInfo** (mandatory)
+    -   recentlyBaseAppPath [string] : Recently using project path. Let it be as a default. Wits is mainly run on your current project ex) "."
+    -   baseAppPaths [array] : Paths of your working projects
+    -   width [string] : Resolution
+    -   ip [string] : TV Ip address
+    -   port [integer] : TV port. It is generated randomly in Wits.
+    -   isDebugMode [boolean] : Setting true, chrome inspector is launched automatically. / Setting false, nothing happened.
+-   **profileInfo** (mandatory)
+    -   name [string] : Tizen Studio Certificate Profile name
+    -   path [string] : Tizen Studio Certificate Profile path
+-   **optionalInfo** (optional)
+    -   proxyServer [string] : In case you are behind proxy ex) http://192.168.250.250:8080
+    -   hostIp [string] : Basically wits gets your pc ip address automatically, but use it in case you need to use your custom pc Ip.
 
-    * on `Windows` and `MacOS` both, **Wits** recognises path segment only one separator(**`/`**).
+*   on `Windows` and `MacOS` both, **Wits** recognises path segment only one separator(**`/`**).
 
 ### .witsignore of Wits
 
@@ -233,7 +233,8 @@ Open the cli tool at your project path or move to your project path
     ```
 
 5.  Reconnect
-    After disconnecting, if you just want to connect and use live reload feature, Just use `wits -w`
+
+    After disconnecting, if you just want to connect and use live reload feature, You can use `wits -w`
 
 ## Launching Wits on your TV
 
