@@ -52,26 +52,7 @@ Wits needs the following prerequisites on your local development machine.
 2. Node.js and Git are required.(we recommend v7.10.1 for Wits). We will not describe how to do these installations as there are many ways to do it and its developer preference. We recommend using something like `nvm` or `asdf` to manage different versions of Node.js across your code projects.
 3. Install the Latest Version of [Samsung Tizen Studio](http://developer.samsung.com/tv).
 4. For using Wits, Tizen Studio CLI binaries should be added to your `$PATH` for accessing to `tizen` and `sdb` command-line utilities.
-    - For **bash**:
-        ```bash
-        $ echo 'export PATH="$HOME/tizen-studio/tools/ide/bin:$PATH"' >> ~/.bash_profile
-        $ echo 'export PATH="$HOME/tizen-studio/tools:$PATH"' >> ~/.bash_profile
-        ```
-    - For **Ubuntu Desktop**:
-        ```bash
-        $ echo 'export PATH="$HOME/tizen-studio/tools/ide/bin:$PATH"' >> ~/.bashrc
-        $ echo 'export PATH="$HOME/tizen-studio/tools:$PATH"' >> ~/.bashrc
-        ```
-    - For **Zsh**:
-        ```zsh
-        $ echo 'export PATH="$HOME/tizen-studio/tools/ide/bin:$PATH"' >> ~/.zshrc
-        $ echo 'export PATH="$HOME/tizen-studio/tools:$PATH"' >> ~/.zshrc
-        ```
-    - For **Fish shell**:
-        ```fish
-        $ set -Ux fish_user_paths $HOME/tizen-studio/tools/ide/bin $fish_user_paths
-        $ set -Ux fish_user_paths $HOME/tizen-studio/tools $fish_user_paths
-        ```
+5.
 
 ## Wits details
 
@@ -97,44 +78,23 @@ Wits needs the following prerequisites on your local development machine.
 
 ### .witsconfig.json of Wits
 
-```js
-{
-  "connectionInfo": {
-    "recentlyBaseAppPath": ".",
-    "baseAppPaths": [
-      "."
-    ],
-    "width": "1920",
-    "ip": "192.168.250.250",
-    "port": 8498,
-    "isDebugMode": false
-  },
-  "profileInfo": {
-    "name": "yourProfileName",
-    "path": "C:/tizen-studio-data/profile/profiles.xml"
-  },
-  "optionalInfo": {
-    "proxyServer": "http://192.168.250.250:8080",
-    "hostIp": "192.168.250.250"
-  }
-}
-```
+-   For more details, please refer to Wiki [Set Wits Environment](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment)
 
--   **connectionInfo** (mandatory)
+*   **connectionInfo** (mandatory)
     -   recentlyBaseAppPath [string] : Recently using project path. Let it be as a default. Wits is mainly run on your current project ex) "."
     -   baseAppPaths [array] : Paths of your working projects
     -   width [string] : Resolution
     -   ip [string] : TV Ip address
     -   port [integer] : TV port. It is generated randomly in Wits.
     -   isDebugMode [boolean] : Setting true, chrome inspector is launched automatically. / Setting false, nothing happened.
--   **profileInfo** (mandatory)
+*   **profileInfo** (mandatory)
     -   name [string] : Tizen Studio Certificate Profile name
     -   path [string] : Tizen Studio Certificate Profile path
--   **optionalInfo** (optional)
+*   **optionalInfo** (optional)
     -   proxyServer [string] : In case you are behind proxy ex) http://192.168.250.250:8080
     -   hostIp [string] : Basically wits gets your pc ip address automatically, but use it in case you need to use your custom pc Ip.
 
-*   on `Windows` and `MacOS` both, **Wits** recognises path segment only one separator(**`/`**).
+-   on `Windows` and `MacOS` both, **Wits** recognises path segment only one separator(**`/`**).
 
 ### .witsignore of Wits
 
