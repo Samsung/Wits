@@ -12,33 +12,32 @@ It is the fastest way to get your local code running on the TV device during dev
 
 #### 1. Install wits npm globally
 
-    ```sh
+```bash
     npm install -g @tizentv/wits
-    ```
+```
 
 ### For developers using Git repository
 
 #### 1. Clone Wits git repository.
 
-    ```sh
+```bash
     $ git clone https://github.com/Samsung/Wits.git
-    ```
+```
 
 #### 2. Install Wits Dependencies
 
-    ```bash
+```bash
     $ cd ~/{path-to}/Wits
     $ npm install
-    ```
+```
 
 #### 3. Modify `.witsconfig.json` within `Wits` directory.
 
-    Configure Tizen Studio Certificate Profile `Name` and the `path` of your profiles.xml to **.witsconfig.json**
-    The default `path` is `tizen-studio-data/profile/profiles.xml` on Mac and Windows both.
-    The `name` should be your pre-configured certificate profile name which is foundable at the one of these locations:
-    - **Tizen Studio (Recommended)** `Tools > Certificate Manager > Certificate Profile (Actived one)`
+Configure Tizen Studio Certificate Profile `Name` and the `path` of your profiles.xml to **.witsconfig.json**
+The default `path` is `tizen-studio-data/profile/profiles.xml` on Mac and Windows both.
+The `name` should be your pre-configured certificate profile name which is foundable at the one of these locations: - **Tizen Studio (Recommended)** `Tools > Certificate Manager > Certificate Profile (Actived one)`
 
-    - For details, [How to get your profile information](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment#get-your-profile-information-from-tizen-studio)
+For details, [How to get your profile information](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment#get-your-profile-information-from-tizen-studio)
 
 ## **System Requirements**
 
@@ -48,20 +47,23 @@ Wits needs the following prerequisites on your local development machine.
 
 #### 2. Install Node.js and Git (recommend v7.10.1 for Wits)
 
-    - We will not describe how to do these installations as there are many ways to do it and its developer preference. We recommend using something like `nvm` or `asdf` to manage different versions of Node.js across your code projects.
+We will not describe how to do these installations as there are many ways to do it and its developer preference. We recommend using something like `nvm` or `asdf` to manage different versions of Node.js across your code projects.
 
 #### 3. Install the Latest Version of [Samsung Tizen Studio](http://developer.samsung.com/tv).
 
 #### 4. Tizen Studio CLI binaries should be added to your `$PATH` for accessing to `tizen` and `sdb` command-line utilities.
 
-    - For details, [How to add System environment path for Wits](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment#add-system-environment-path)
+For details, [How to add System environment path for Wits](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment#add-system-environment-path)
 
 #### 5. Developer Mode is enabled on your Samsung TV.
 
-    -   1. With your Samsung Remote, press the `Home` button.
-    -   2. Navigate to the `Apps` button and press `Enter/OK`.
-    -   3. When on the `Apps` screen, press `1` `2` `3` `4` `5` in order on the remote to open the `Developer Mode Dialog`. If this doesn't work, try it again.
-    -   4. When the Developer Mode Dialog appears, toggle the switch to `On` and enter the IP address of your development machine.
+1 With your Samsung Remote, press the `Home` button.
+
+2 Navigate to the `Apps` button and press `Enter/OK`.
+
+3 When on the `Apps` screen, press `1` `2` `3` `4` `5` in order on the remote to open the `Developer Mode Dialog`. If this doesn't work, try it again.
+
+4 When the Developer Mode Dialog appears, toggle the switch to `On` and enter the IP address of your development machine.
 
 ## Wits details
 
@@ -73,44 +75,43 @@ Wits needs the following prerequisites on your local development machine.
 
 #### 1. `wits`
 
-    - For showing which options you can use
+For showing which options you can use
 
 #### 2. `wits -i` / `wits --init`
 
-    - For configuring wits
-      Please note that, It should be run when you use first time on your tizen application project.
-      .witsconfig.json and .witsignore files are generated on your tizen app project.
-      After then, you can modify your information to them.
+For configuring wits
+Please note that, It should be run when you use first time on your tizen application project.
+.witsconfig.json and .witsignore files are generated on your tizen app project.
+After then, you can modify your information to them.
 
 #### 3. `wits -s` / `wits --start`
 
-    - All in one. For connecting to TV, installing and launching your app and using Live Reload
-      If `wits -i` hasn't run before, It is not allowed to run.
+All in one. For connecting to TV, installing and launching your app and using Live Reload
+If `wits -i` hasn't run before, It is not allowed to run.
 
 #### 4. `wits -w` / `wits --watch`
 
-    - For conneting to TV, using Live Reload
-      After connecting, every time you make changes on `your tizen app project`, It is reflected to TV device instantly.
+For conneting to TV, using Live Reload
+After connecting, every time you make changes on `your tizen app project`, It is reflected to TV device instantly.
 
 ### .witsconfig.json of Wits
 
--   For details, [Sample data for .witsconfig.json](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment#data-structure-of-witsconfigjson)
+For details, [Sample data for .witsconfig.json](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment#data-structure-of-witsconfigjson)
+on `Windows` and `MacOS` both, **Wits** recognises path segment only one separator(**`/`**).
 
-*   **connectionInfo** (mandatory)
+-   **connectionInfo** (mandatory)
     -   recentlyBaseAppPath [string] : Recently using project path. Let it be as a default. Wits is mainly run on your current project ex) "."
     -   baseAppPaths [array] : Paths of your working projects
     -   width [string] : Resolution
     -   ip [string] : TV Ip address
     -   port [integer] : TV port. It is generated randomly in Wits.
     -   isDebugMode [boolean] : Setting true, chrome inspector is launched automatically. / Setting false, nothing happened.
-*   **profileInfo** (mandatory)
+-   **profileInfo** (mandatory)
     -   name [string] : Tizen Studio Certificate Profile name
     -   path [string] : Tizen Studio Certificate Profile path
-*   **optionalInfo** (optional)
+-   **optionalInfo** (optional)
     -   proxyServer [string] : In case you are behind proxy ex) http://192.168.250.250:8080
     -   hostIp [string] : Basically wits gets your pc ip address automatically, but use it in case you need to use your custom pc Ip.
-
--   on `Windows` and `MacOS` both, **Wits** recognises path segment only one separator(**`/`**).
 
 ### .witsignore of Wits
 
