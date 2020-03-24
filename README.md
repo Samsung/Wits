@@ -12,21 +12,21 @@ It is the fastest way to get your local code running on the TV device during dev
 
 #### 1. Install wits npm globally
 
-```bash
-    npm install -g @tizentv/wits
+```sh
+    $ npm install -g @tizentv/wits
 ```
 
 ### For developers using Git repository
 
 #### 1. Clone Wits git repository.
 
-```bash
+```sh
     $ git clone https://github.com/Samsung/Wits.git
 ```
 
 #### 2. Install Wits Dependencies
 
-```bash
+```sh
     $ cd ~/{path-to}/Wits
     $ npm install
 ```
@@ -35,7 +35,9 @@ It is the fastest way to get your local code running on the TV device during dev
 
 Configure Tizen Studio Certificate Profile `Name` and the `path` of your profiles.xml to **.witsconfig.json**
 The default `path` is `tizen-studio-data/profile/profiles.xml` on Mac and Windows both.
-The `name` should be your pre-configured certificate profile name which is foundable at the one of these locations: - **Tizen Studio (Recommended)** `Tools > Certificate Manager > Certificate Profile (Actived one)`
+The `name` should be your pre-configured certificate profile name which is foundable at the one of these locations:
+
+-**Tizen Studio (Recommended)** `Tools > Certificate Manager > Certificate Profile (Actived one)`
 
 For details, [How to get your profile information](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment#get-your-profile-information-from-tizen-studio)
 
@@ -57,13 +59,13 @@ For details, [How to add System environment path for Wits](https://github.com/Sa
 
 #### 5. Developer Mode is enabled on your Samsung TV.
 
-1 With your Samsung Remote, press the `Home` button.
+-   1 With your Samsung Remote, press the `Home` button.
 
-2 Navigate to the `Apps` button and press `Enter/OK`.
+-   2 Navigate to the `Apps` button and press `Enter/OK`.
 
-3 When on the `Apps` screen, press `1` `2` `3` `4` `5` in order on the remote to open the `Developer Mode Dialog`. If this doesn't work, try it again.
+-   3 When on the `Apps` screen, press `1` `2` `3` `4` `5` in order on the remote to open the `Developer Mode Dialog`. If this doesn't work, try it again.
 
-4 When the Developer Mode Dialog appears, toggle the switch to `On` and enter the IP address of your development machine.
+-   4 When the Developer Mode Dialog appears, toggle the switch to `On` and enter the IP address of your development machine.
 
 ## Wits details
 
