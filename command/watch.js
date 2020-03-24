@@ -17,7 +17,7 @@ module.exports = {
 
         let deviceInfo = await userInfoHelper.getDeviceInfo(deviceIpAddress);
 
-        let hostAppId = hostAppHelper.getHostAppId();
+        let hostAppId = hostAppHelper.getHostAppId(baseAppPath);
         let deviceName = deviceInfo.deviceName;
 
         watchHelper.openSocketServer(baseAppPath, deviceInfo, socketPort);

@@ -38,7 +38,7 @@ module.exports = {
         await hostAppHelper.setHostAppEnv(data.userAnswer, deviceInfo);
         hostAppHelper.buildPackage(data.profileInfo);
 
-        let hostAppId = hostAppHelper.getHostAppId();
+        let hostAppId = hostAppHelper.getHostAppId(baseAppPath);
         let hostAppName = hostAppId.split('.')[1];
         let deviceName = deviceInfo.deviceName;
 
