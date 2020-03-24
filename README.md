@@ -44,19 +44,19 @@ It is the fastest way to get your local code running on the TV device during dev
 
 Wits needs the following prerequisites on your local development machine.
 
-### 1. Open **`Terminal` on MacOS / Linux** or **`CMD` / `PowerShell` on Windows**
+#### 1. Open **`Terminal` on MacOS / Linux** or **`CMD` / `PowerShell` on Windows**
 
-### 2. Install Node.js and Git (recommend v7.10.1 for Wits)
+#### 2. Install Node.js and Git (recommend v7.10.1 for Wits)
 
     - We will not describe how to do these installations as there are many ways to do it and its developer preference. We recommend using something like `nvm` or `asdf` to manage different versions of Node.js across your code projects.
 
-### 3. Install the Latest Version of [Samsung Tizen Studio](http://developer.samsung.com/tv).
+#### 3. Install the Latest Version of [Samsung Tizen Studio](http://developer.samsung.com/tv).
 
-### 4. Tizen Studio CLI binaries should be added to your `$PATH` for accessing to `tizen` and `sdb` command-line utilities.
+#### 4. Tizen Studio CLI binaries should be added to your `$PATH` for accessing to `tizen` and `sdb` command-line utilities.
 
     - For details, [How to add System environment path for Wits](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment#add-system-environment-path)
 
-### 5. Developer Mode is enabled on your Samsung TV.
+#### 5. Developer Mode is enabled on your Samsung TV.
 
     -   1. With your Samsung Remote, press the `Home` button.
     -   2. Navigate to the `Apps` button and press `Enter/OK`.
@@ -71,23 +71,23 @@ Wits needs the following prerequisites on your local development machine.
 
 ### Wits command options
 
-#### `wits`
+#### 1. `wits`
 
     - For showing which options you can use
 
-#### `wits -i` / `wits --init`
+#### 2. `wits -i` / `wits --init`
 
     - For configuring wits
       Please note that, It should be run when you use first time on your tizen application project.
       .witsconfig.json and .witsignore files are generated on your tizen app project.
       After then, you can modify your information to them.
 
-#### `wits -s` / `wits --start`
+#### 3. `wits -s` / `wits --start`
 
     - All in one. For connecting to TV, installing and launching your app and using Live Reload
       If `wits -i` hasn't run before, It is not allowed to run.
 
-#### `wits -w` / `wits --watch`
+#### 4. `wits -w` / `wits --watch`
 
     - For conneting to TV, using Live Reload
       After connecting, every time you make changes on `your tizen app project`, It is reflected to TV device instantly.
