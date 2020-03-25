@@ -33,10 +33,15 @@ module.exports = {
         let isDebugMode = data.userAnswer.isDebugMode;
         let socketPort = data.userAnswer.socketPort;
 
+        let profileInfo = {
+            name: data.userAnswer.profileName,
+            path: data.userAnswer.profilePath
+        };
+
         let deviceInfo = await userInfoHelper.getDeviceInfo(deviceIpAddress);
 
         await hostAppHelper.setHostAppEnv(data.userAnswer, deviceInfo);
-        hostAppHelper.buildPackage(data.profileInfo);
+        hostAppHelper.buildPackage(profileInfo);
 
         let hostAppId = hostAppHelper.getHostAppId(baseAppPath);
         let hostAppName = hostAppId.split('.')[1];
