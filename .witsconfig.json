@@ -1,14 +1,12 @@
 {
-    "connectionInfo": {
-        "recentlyBaseAppPath": ".",
-        "baseAppPaths": ["."],
-        "width": "1920",
-        "ip": "192.168.250.250",
-        "port": "8498",
-        "isDebugMode": false
-    },
-    "profileInfo": {
-        "name": "test",
-        "path": "C:/tizen-studio-data/profile/profiles.xml"
-    }
+  "connectionInfo": {
+    "ip": "192.168.250.250",
+    "port": 8498,
+    "width": "1920",
+    "isDebugMode": false
+  },
+  "profileInfo": {
+    "name": "test",
+    "path": "C:/tizen-studio-data/profile/profiles.xml"
+  }
 }
