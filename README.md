@@ -136,6 +136,18 @@ stglib
 If you want to follow Step by Step.
 Please refer [Running Your App using Wits](https://github.com/Samsung/Wits/wiki/Running-Your-App-using-Wits)
 
+### wits -i
+
+![witsi](https://user-images.githubusercontent.com/1733182/77503919-3ddef280-6ea2-11ea-9bb4-06f3cb9ebbc6.gif)
+
+### wits -s
+
+![witss](https://user-images.githubusercontent.com/1733182/77503927-420b1000-6ea2-11ea-88f5-49ab0c5fc227.gif)
+
+### wits -w
+
+![witsw](https://user-images.githubusercontent.com/1733182/77503928-43d4d380-6ea2-11ea-8ece-4f5182cb7d6d.gif)
+
 ## FAQ
 
 -   [Wits FAQ](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions)
