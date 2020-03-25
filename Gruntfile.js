@@ -6,7 +6,7 @@ module.exports = function(grunt) {
                 options: {
                     jshintrc: '.jshintrc'
                 },
-                src: ['tizen/js/*.js']
+                src: ['app.js', 'tizen/js/*.js']
             }
         },
         jscs: {
@@ -14,7 +14,7 @@ module.exports = function(grunt) {
                 options: {
                     config: '.jscsrc'
                 },
-                src: ['tizen/js/*.js']
+                src: ['app.js', 'tizen/js/*.js']
             }
         }
     });

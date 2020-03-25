@@ -1,22 +1,12 @@
 {
-    "name": "wits",
-    "version": "1.0.1",
-    "description": "Instant live reload tool for Tizen Web Application development",
-    "main": "lib/cli.js",
+    "name": "Wits",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
     "scripts": {
-        "start": "node lib/cli.js --start",
-        "init": "node lib/cli.js --init",
-        "watch": "node lib/cli.js --watch"
+        "start": "node app.js"
     },
     "author": "Samsung Electronics Co., Ltd.",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Samsung/Wits.git"
-    },
-    "bugs": {
-        "url": "https://github.com/Samsung/Wits/issues"
-    },
-    "homepage": "https://github.com/Samsung/Wits/issues",
     "dependencies": {
         "chrome-launcher": "^0.10.5",
         "express": "^4.16.3",
@@ -39,15 +29,10 @@
     "keywords": [
         "Wits",
         "Tizen",
-        "Web developer",
-        "live reload",
-        "debugging tool",
-        "samsung",
-        "tizen web app"
+        "Web developer"
     ],
     "bin": {
         "wits": "./lib/cli.js"
     },
-    "preferGlobal": true,
-    "private": false
+    "preferGlobal": true
 }
