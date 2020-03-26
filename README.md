@@ -1,16 +1,16 @@
-# Wits
+# WITs
 
-Wits is a useful development tool for helping to run and develop your Tizen web application easily on your **2017+ Samsung TV**.
+WITs is a useful development tool for helping to run and develop your Tizen web application easily on your **2017+ Samsung TV**.
 It is the fastest way to get your local code running on the TV device during development. Saving you from having to build, package, and reinstall your application every time you want to see how it will run on device. We call it a `LIVE RELOAD`.
-**Wits is helpful to continue your developing context.**
+**WITs is helpful to continue your developing context.**
 
 <img src="https://user-images.githubusercontent.com/11974693/73414912-a2267f80-4353-11ea-9685-fefb09d8e6b5.jpg" width="100%" title="Wits">
 
-## Installing and Configuring Wits
+## Installing and Configuring WITs
 
 ### For developers using npm
 
-#### 1. Install wits npm globally
+#### 1. Install WITs npm globally
 
 ```sh
     $ npm install -g @tizentv/wits
@@ -18,17 +18,17 @@ It is the fastest way to get your local code running on the TV device during dev
 
 ### For developers using Git repository
 
-#### 1. Clone Wits git repository.
+#### 1. Clone WITs git repository.
 
 ```sh
     $ git clone https://github.com/Samsung/Wits.git
 ```
 
-#### 2. Install Wits Dependencies
+#### 2. Install WITs Dependencies
 
 ```sh
     $ cd ~/{path-to}/Wits
-    $ npm install
+    $ npm install -g
 ```
 
 #### 3. Modify `.witsconfig.json` within `Wits` directory.
@@ -43,11 +43,11 @@ For details, [How to get your profile information](https://github.com/Samsung/Wi
 
 ## **System Requirements**
 
-Wits needs the following prerequisites on your local development machine.
+WITs needs the following prerequisites on your local development machine.
 
 #### 1. Open **`Terminal` on MacOS / Linux** or **`CMD` / `PowerShell` on Windows**
 
-#### 2. Install Node.js and Git (recommend v7.10.1 for Wits)
+#### 2. Install Node.js and Git (recommend v7.10.1 for WITs)
 
 We will not describe how to do these installations as there are many ways to do it and its developer preference. We recommend using something like `nvm` or `asdf` to manage different versions of Node.js across your code projects.
 
@@ -55,7 +55,7 @@ We will not describe how to do these installations as there are many ways to do 
 
 #### 4. Tizen Studio CLI binaries should be added to your `$PATH` for accessing to `tizen` and `sdb` command-line utilities.
 
-For details, [How to add System environment path for Wits](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment#add-system-environment-path)
+For details, [How to add System environment path for WITs](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment#add-system-environment-path)
 
 #### 5. Developer Mode is enabled on your Samsung TV.
 
@@ -67,13 +67,13 @@ For details, [How to add System environment path for Wits](https://github.com/Sa
 
 -   4 When the Developer Mode Dialog appears, toggle the switch to `On` and enter the IP address of your development machine.
 
-## Wits details
+## WITs details
 
-### The Project Structure for using wits
+### The Project Structure for using WITs
 
 .witsconfig.json, .witsignore files are only added at the your tizen web application.
 
-### Wits command options
+### WITs command options
 
 #### 1. `wits`
 
@@ -81,7 +81,7 @@ For showing which options you can use
 
 #### 2. `wits -i` / `wits --init`
 
-For configuring wits
+For configuring WITs
 Please note that, It should be run when you use first time on your tizen application project.
 .witsconfig.json and .witsignore files are generated on your tizen app project.
 After then, you can modify your information to them.
@@ -96,26 +96,26 @@ If `wits -i` hasn't run before, It is not allowed to run.
 For conneting to TV, using Live Reload
 After connecting, every time you make changes on `your tizen app project`, It is reflected to TV device instantly.
 
-### .witsconfig.json of Wits
+### .witsconfig.json of WITs
 
 For details, [Sample data for .witsconfig.json](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment#data-structure-of-witsconfigjson)
-on `Windows` and `MacOS` both, **Wits** recognises path segment only one separator(**`/`**).
+on `Windows` and `MacOS` both, **WITs** recognises path segment only one separator(**`/`**).
 
 -   **connectionInfo** (mandatory)
-    -   recentlyBaseAppPath [string] : Recently using project path. Let it be as a default. Wits is mainly run on your current project ex) "."
+    -   recentlyBaseAppPath [string] : Recently using project path. Let it be as a default. WITs is mainly run on your current project ex) "."
     -   baseAppPaths [array] : Paths of your working projects
     -   width [string] : Resolution
     -   ip [string] : TV Ip address
-    -   port [integer] : TV port. It is generated randomly in Wits.
+    -   port [integer] : TV port. It is generated randomly in WITs.
     -   isDebugMode [boolean] : Setting true, chrome inspector is launched automatically. / Setting false, nothing happened.
 -   **profileInfo** (mandatory)
     -   name [string] : Tizen Studio Certificate Profile name
     -   path [string] : Tizen Studio Certificate Profile path
 -   **optionalInfo** (optional)
     -   proxyServer [string] : In case you are behind proxy ex) http://192.168.250.250:8080
-    -   hostIp [string] : Basically wits gets your pc ip address automatically, but use it in case you need to use your custom pc Ip.
+    -   hostIp [string] : Basically WITs gets your pc ip address automatically, but use it in case you need to use your custom pc Ip.
 
-### .witsignore of Wits
+### .witsignore of WITs
 
 Sometimes there are a few files what you do not want to push to your TV device such as `.git` or `node_modules`.
 If you input unnecessary files or directories on .witsignore file before pushing files to the TV device, It would be pushed except them to your TV.
@@ -134,7 +134,7 @@ stglib
 ## Running Your App
 
 If you want to follow Step by Step.
-Please refer [Running Your App using Wits](https://github.com/Samsung/Wits/wiki/Running-Your-App-using-Wits)
+Please refer [Running Your App using WITs](https://github.com/Samsung/Wits/wiki/Running-Your-App-using-Wits)
 
 ### wits -i
 
@@ -150,8 +150,8 @@ Please refer [Running Your App using Wits](https://github.com/Samsung/Wits/wiki/
 
 ## FAQ
 
--   [Wits FAQ](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions)
--   [How to use debug mode on Wits with Chrome inspector](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#answer-1)
+-   [WITs FAQ](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions)
+-   [How to use debug mode on WITs with Chrome inspector](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#answer-1)
 -   [What if being behind a proxy](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#question-6)
 -   [How to get your TV IP Address](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#question-7)
 
