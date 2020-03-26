@@ -30,9 +30,5 @@
         "Wits",
         "Tizen",
         "Web developer"
-    ],
-    "bin": {
-        "wits": "./lib/cli.js"
-    },
-    "preferGlobal": true
+    ]
 }
