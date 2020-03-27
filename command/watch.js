@@ -13,14 +13,15 @@ module.exports = {
             data.recentlyBaseAppPath
         );
         let isDebugMode = data.isDebugMode;
-        let socketPort = data.port;
 
         let deviceInfo = await userInfoHelper.getDeviceInfo(deviceIpAddress);
 
         let hostAppId = hostAppHelper.getHostAppId(baseAppPath);
         let deviceName = deviceInfo.deviceName;
+        data.baseAppPath = baseAppPath;
+        data.socketPort = data.port;
 
-        watchHelper.openSocketServer(baseAppPath, deviceInfo, socketPort);
+        watchHelper.openSocketServer(data, deviceInfo);
         appLaunchHelper.terminateApp(deviceName, hostAppId);
         isDebugMode
             ? appLaunchHelper.launchDebugMode(

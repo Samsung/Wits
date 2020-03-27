@@ -31,6 +31,7 @@ module.exports = {
         let deviceIpAddress = data.userAnswer.deviceIpAddress;
         let baseAppPath = data.userAnswer.baseAppPath;
         let isDebugMode = data.userAnswer.isDebugMode;
+        let pcIp = data.userAnswer.pcIp;
         let socketPort = data.userAnswer.socketPort;
 
         let profileInfo = {
@@ -49,7 +50,7 @@ module.exports = {
 
         appLaunchHelper.unInstallPackage(deviceName, hostAppName);
         appLaunchHelper.installPackage(deviceInfo, hostAppName);
-        watchHelper.openSocketServer(baseAppPath, deviceInfo, socketPort);
+        watchHelper.openSocketServer(data.userAnswer, deviceInfo);
         isDebugMode
             ? appLaunchHelper.launchDebugMode(
                   deviceName,
