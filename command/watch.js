@@ -8,18 +8,17 @@ module.exports = {
         console.log(`Start running Wits watch mode............`);
         let data = await userInfoHelper.getLatestWitsconfigInfo()
             .connectionInfo;
-        let deviceIpAddress = data.ip;
         let baseAppPath = userInfoHelper.getBaseAppPath(
             data.recentlyBaseAppPath
         );
         let isDebugMode = data.isDebugMode;
 
-        let deviceInfo = await userInfoHelper.getDeviceInfo(deviceIpAddress);
+        let deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
 
         let hostAppId = hostAppHelper.getHostAppId(baseAppPath);
         let deviceName = deviceInfo.deviceName;
         data.baseAppPath = baseAppPath;
-        data.socketPort = data.port;
+        data.socketPort = data.socketPort;
 
         watchHelper.openSocketServer(data, deviceInfo);
         appLaunchHelper.terminateApp(deviceName, hostAppId);
@@ -27,7 +26,7 @@ module.exports = {
             ? appLaunchHelper.launchDebugMode(
                   deviceName,
                   hostAppId,
-                  deviceIpAddress
+                  data.deviceIp
               )
             : appLaunchHelper.launchApp(deviceName, hostAppId);
     }

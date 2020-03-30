@@ -19,35 +19,30 @@ module.exports = {
 
         checkConfiguration();
 
-        let witsData = await userInfoHelper.prepareWitsSetting();
-        let deviceIpAddress = data.userAnswer.deviceIpAddress;
-        let baseAppPath = data.userAnswer.baseAppPath;
-        let isDebugMode = data.userAnswer.isDebugMode;
-        let pcIp = data.userAnswer.pcIp;
-        let socketPort = data.userAnswer.socketPort;
-
+        let userAnswer = await userInfoHelper.prepareWitsSetting();
+        let deviceInfo = await userInfoHelper.getDeviceInfo(
+            userAnswer.deviceIp
+        );
         let profileInfo = {
-            name: data.userAnswer.profileName,
-            path: data.userAnswer.profilePath
+            name: userAnswer.profileName,
+            path: userAnswer.profilePath
         };
 
-        let deviceInfo = await userInfoHelper.getDeviceInfo(deviceIpAddress);
-
-        await hostAppHelper.setHostAppEnv(data.userAnswer, deviceInfo);
+        await hostAppHelper.setHostAppEnv(userAnswer, deviceInfo);
         hostAppHelper.buildPackage(profileInfo);
 
-        let hostAppId = hostAppHelper.getHostAppId(baseAppPath);
+        let hostAppId = hostAppHelper.getHostAppId(userAnswer.baseAppPath);
         let hostAppName = hostAppId.split('.')[1];
         let deviceName = deviceInfo.deviceName;
 
         appLaunchHelper.unInstallPackage(deviceName, hostAppName);
         appLaunchHelper.installPackage(deviceInfo, hostAppName);
-        watchHelper.openSocketServer(data.userAnswer, deviceInfo);
-        isDebugMode
+        watchHelper.openSocketServer(userAnswer, deviceInfo);
+        userAnswer.isDebugMode
             ? appLaunchHelper.launchDebugMode(
                   deviceName,
                   hostAppId,
-                  deviceIpAddress
+                  userAnswer.deviceIp
               )
             : appLaunchHelper.launchApp(deviceName, hostAppId);
     }
