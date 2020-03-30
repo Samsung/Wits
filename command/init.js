@@ -146,6 +146,9 @@ async function downloadContainer() {
             })
             .pipe(zip)
             .on('finish', () => {
+                overwrite(`Downloading Container.zip............. 100 %`);
+                console.log(`Download has been completed.`);
+                console.log(``);
                 overwrite.done();
                 resolve();
             })
