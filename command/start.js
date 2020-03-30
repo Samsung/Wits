@@ -1,4 +1,5 @@
 const path = require('path');
+
 const util = require('../lib/util.js');
 const userInfoHelper = require('../lib/userInfoHelper.js');
 const hostAppHelper = require('../lib/hostAppHelper.js');
@@ -11,23 +12,14 @@ const CONTAINER_DIRECTORY_PATH = path.join(
     '../',
     CONTAINER_DIRECTORY_NAME
 );
-process.on('SIGINT', () => {
-    console.log(`Exit Wits............`);
-    watchHelper.closeSocketServer();
-    process.exit(0);
-});
 
 module.exports = {
     run: async () => {
         console.log(`Start running Wits............`);
 
-        if (!util.isFileExist(CONTAINER_DIRECTORY_PATH)) {
-            console.error(
-                'Wits configuration is failed. "wits -i" is required before running "wits -s"'
-            );
-            process.exit(0);
-        }
-        let data = await userInfoHelper.prepareWitsSetting();
+        checkConfiguration();
+
+        let witsData = await userInfoHelper.prepareWitsSetting();
         let deviceIpAddress = data.userAnswer.deviceIpAddress;
         let baseAppPath = data.userAnswer.baseAppPath;
         let isDebugMode = data.userAnswer.isDebugMode;
@@ -60,3 +52,12 @@ module.exports = {
             : appLaunchHelper.launchApp(deviceName, hostAppId);
     }
 };
+
+function checkConfiguration() {
+    if (!util.isFileExist(CONTAINER_DIRECTORY_PATH)) {
+        console.error(
+            `Wits configuration is failed. "wits -i" is required before running "wits -s"`
+        );
+        process.exit(0);
+    }
+}

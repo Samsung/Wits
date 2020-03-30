@@ -1,12 +1,12 @@
 {
-  "connectionInfo": {
-    "ip": "192.168.250.250",
-    "port": 8498,
-    "width": "1920",
-    "isDebugMode": false
-  },
-  "profileInfo": {
-    "name": "test",
-    "path": "C:/tizen-studio-data/profile/profiles.xml"
-  }
+    "connectionInfo": {
+        "deviceIp": "192.168.250.250",
+        "socketPort": 8498,
+        "width": "1920",
+        "isDebugMode": false
+    },
+    "profileInfo": {
+        "name": "test",
+        "path": "C:/tizen-studio-data/profile/profiles.xml"
+    }
 }
