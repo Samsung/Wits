@@ -19,7 +19,7 @@ module.exports = {
 
         checkConfiguration();
 
-        let userAnswer = await userInfoHelper.prepareWitsSetting();
+        let userAnswer = await userInfoHelper.getUserAnswer();
         let deviceInfo = await userInfoHelper.getDeviceInfo(
             userAnswer.deviceIp
         );

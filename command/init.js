@@ -35,10 +35,12 @@ module.exports = {
         makeWitsignoreFile();
         makeWitsconfigFile();
 
+        console.log(``);
+
         await downloadContainer();
         await extractContainer();
 
-        await userInfoHelper.prepareWitsSetting();
+        await userInfoHelper.getQuestion();
     }
 };
 
