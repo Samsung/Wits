@@ -13,7 +13,7 @@ const WITS_IGNORE_FILE_NAME = '.witsignore';
 const CONTAINER_DIRECTORY_NAME = 'container';
 const CONTAINER_ZIP_FILE_NAME = 'container.zip';
 const CONTAINER_ZIP_URL =
-    'https://github.com/Samsung/Wits/raw/npm-release/archive/container.zip';
+    'https://github.com/Samsung/Wits/raw/master/archive/container.zip';
 const CONTAINER_ZIP_FILE_PATH = path.join(
     util.WITS_BASE_PATH,
     '../',
