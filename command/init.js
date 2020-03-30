@@ -40,7 +40,7 @@ module.exports = {
         await downloadContainer();
         await extractContainer();
 
-        await userInfoHelper.getQuestion();
+        await userInfoHelper.askQuestion();
     }
 };
 
@@ -123,7 +123,7 @@ async function downloadContainer() {
 
     let optionalInfo = await userInfoHelper.getOptionalInfo();
     let zip = fs.createWriteStream(CONTAINER_ZIP_FILE_PATH);
-    let count = 0;
+
     await new Promise((resolve, reject) => {
         let requestOptions = { uri: CONTAINER_ZIP_URL };
         if (util.isPropertyExist(optionalInfo, 'proxyServer')) {
