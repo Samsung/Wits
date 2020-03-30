@@ -4,12 +4,12 @@ const request = require('request');
 const progress = require('request-progress');
 const overwrite = require('terminal-overwrite');
 const admzip = require('adm-zip');
+
 const util = require('../lib/util.js');
 const userInfoHelper = require('../lib/userInfoHelper.js');
 
 const WITS_CONFIG_FILE_NAME = '.witsconfig.json';
 const WITS_IGNORE_FILE_NAME = '.witsignore';
-
 const CONTAINER_DIRECTORY_NAME = 'container';
 const CONTAINER_ZIP_FILE_NAME = 'container.zip';
 const CONTAINER_ZIP_URL =
@@ -31,20 +31,25 @@ module.exports = {
     run: async () => {
         console.log(`Start configuration for Wits............`);
 
-        if (!util.isFileExist(CONFIG_FILE_PATH)) {
-            console.log(
-                'There is no config.xml. Please run on a tizen application.'
-            );
-            process.exit(0);
-        }
+        checkValidTizenApp();
         makeWitsignoreFile();
         makeWitsconfigFile();
-        await downloadHttpsFile();
-        await extractDirectory();
 
-        await userInfoHelper.getWitsSettingInfo();
+        await downloadContainer();
+        await extractContainer();
+
+        await userInfoHelper.prepareWitsSetting();
     }
 };
+
+function checkValidTizenApp() {
+    if (!util.isFileExist(CONFIG_FILE_PATH)) {
+        console.log(
+            'There is no config.xml. Please run on a tizen application.'
+        );
+        process.exit(0);
+    }
+}
 
 function makeWitsignoreFile() {
     util.createEmptyFile(util.CURRENT_PROJECT_PATH, WITS_IGNORE_FILE_NAME);
@@ -109,7 +114,7 @@ function isValidWitsconfigFile(data) {
     return false;
 }
 
-async function downloadHttpsFile() {
+async function downloadContainer() {
     if (util.isFileExist(CONTAINER_ZIP_FILE_PATH)) {
         return;
     }
@@ -150,9 +155,9 @@ async function downloadHttpsFile() {
     });
 }
 
-async function extractDirectory() {
+async function extractContainer() {
     if (!util.isFileExist(CONTAINER_ZIP_FILE_PATH)) {
-        await downloadHttpsFile();
+        await downloadContainer();
     }
 
     try {

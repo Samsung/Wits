@@ -27,7 +27,7 @@ module.exports = {
             );
             process.exit(0);
         }
-        let data = await userInfoHelper.getWitsSettingInfo();
+        let data = await userInfoHelper.prepareWitsSetting();
         let deviceIpAddress = data.userAnswer.deviceIpAddress;
         let baseAppPath = data.userAnswer.baseAppPath;
         let isDebugMode = data.userAnswer.isDebugMode;
