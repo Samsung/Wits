@@ -113,7 +113,6 @@ on `Windows` and `MacOS` both, **WITs** recognises path segment only one separat
     -   path [string] : Tizen Studio Certificate Profile path
 -   **optionalInfo** (optional)
     -   proxyServer [string] : In case you are behind proxy ex) http://192.168.250.250:8080
-    -   hostIp [string] : Basically WITs gets your pc ip address automatically, but use it in case you need to use your custom pc Ip.
 
 ### .witsignore of WITs
 
