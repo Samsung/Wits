@@ -102,11 +102,10 @@ For details, [Sample data for .witsconfig.json](https://github.com/Samsung/Wits/
 on `Windows` and `MacOS` both, **WITs** recognises path segment only one separator(**`/`**).
 
 -   **connectionInfo** (mandatory)
-    -   recentlyBaseAppPath [string] : Recently using project path. Let it be as a default. WITs is mainly run on your current project ex) "."
-    -   baseAppPaths [array] : Paths of your working projects
+    -   deviceIp [string] : Device(TV) Ip address
+    -   hostIp [string] : Host(PC) Ip address
+    -   socketPort [integer] : TV port. It is generated randomly in WITs.
     -   width [string] : Resolution
-    -   ip [string] : TV Ip address
-    -   port [integer] : TV port. It is generated randomly in WITs.
     -   isDebugMode [boolean] : Setting true, chrome inspector is launched automatically. / Setting false, nothing happened.
 -   **profileInfo** (mandatory)
     -   name [string] : Tizen Studio Certificate Profile name
