@@ -31,6 +31,8 @@ module.exports = {
     run: async () => {
         console.log(`Start configuration for Wits............`);
 
+        let wInfo = userInfoHelper.getLatestWitsconfigInfo();
+
         checkValidTizenApp();
         makeWitsignoreFile();
         makeWitsconfigFile();
@@ -40,7 +42,7 @@ module.exports = {
         await downloadContainer();
         await extractContainer();
 
-        await userInfoHelper.askQuestion();
+        await userInfoHelper.askQuestion(wInfo.connectionInfo);
     }
 };
 
