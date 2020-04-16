@@ -47,7 +47,7 @@ WITs needs the following prerequisites on your local development machine.
 
 #### 1. Open **`Terminal` on MacOS / Linux** or **`CMD` / `PowerShell` on Windows**
 
-#### 2. Install Node.js and Git (recommend v7.10.1 for WITs)
+#### 2. Install Node.js and Git (recommend v7.10.1 ~)
 
 We will not describe how to do these installations as there are many ways to do it and its developer preference. We recommend using something like `nvm` or `asdf` to manage different versions of Node.js across your code projects.
 
