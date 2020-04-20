@@ -19,33 +19,31 @@ module.exports = {
 
         checkConfiguration();
 
-        let userAnswer = await userInfoHelper.getUserAnswer();
-        let deviceInfo = await userInfoHelper.getDeviceInfo(
-            userAnswer.deviceIp
-        );
+        let data = userInfoHelper.getRefinedData();
+        let deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
         let profileInfo = {
-            name: userAnswer.profileName,
-            path: userAnswer.profilePath
+            name: data.profileName,
+            path: data.profilePath,
         };
 
-        await hostAppHelper.setHostAppEnv(userAnswer, deviceInfo);
+        await hostAppHelper.setHostAppEnv(data, deviceInfo);
         hostAppHelper.buildPackage(profileInfo);
 
-        let hostAppId = hostAppHelper.getHostAppId(userAnswer.baseAppPath);
+        let hostAppId = hostAppHelper.getHostAppId(data.baseAppPath);
         let hostAppName = hostAppId.split('.')[1];
         let deviceName = deviceInfo.deviceName;
 
         appLaunchHelper.unInstallPackage(deviceName, hostAppName);
         appLaunchHelper.installPackage(deviceInfo, hostAppName);
-        watchHelper.openSocketServer(userAnswer, deviceInfo);
-        userAnswer.isDebugMode
+        watchHelper.openSocketServer(data, deviceInfo);
+        data.isDebugMode
             ? appLaunchHelper.launchDebugMode(
                   deviceName,
                   hostAppId,
-                  userAnswer.deviceIp
+                  data.deviceIp
               )
             : appLaunchHelper.launchApp(deviceName, hostAppId);
-    }
+    },
 };
 
 function checkConfiguration() {
@@ -53,6 +51,5 @@ function checkConfiguration() {
         console.error(
             `Wits configuration is failed. "wits -i" is required before running "wits -s"`
         );
-        process.exit(0);
     }
 }
