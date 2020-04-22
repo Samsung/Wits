@@ -45,7 +45,7 @@ module.exports = {
 
         await downloadContainer();
         await extractContainer();
-    },
+    }
 };
 
 function checkValidTizenApp() {
@@ -134,14 +134,14 @@ async function downloadContainer() {
             requestOptions = {
                 uri: CONTAINER_ZIP_URL,
                 strictSSL: false,
-                proxy: optionalInfo.proxyServer,
+                proxy: optionalInfo.proxyServer
             };
         }
         progress(request(requestOptions))
-            .on('response', (data) => {
+            .on('response', data => {
                 console.log('');
             })
-            .on('progress', (state) => {
+            .on('progress', state => {
                 overwrite(
                     `Downloading Container.zip............. ${parseInt(
                         state.percent * 100
@@ -156,10 +156,10 @@ async function downloadContainer() {
                 overwrite.done();
                 resolve();
             })
-            .on('error', (error) => {
+            .on('error', error => {
                 reject(error);
             });
-    }).catch((error) => {
+    }).catch(error => {
         console.log(`${error}`);
     });
 }
