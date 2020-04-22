@@ -2,12 +2,7 @@
     "name": "@tizentv/wits",
     "version": "2.0.2",
     "description": "Instant live reload tool for Tizen Web Application development",
-    "main": "lib/cli.js",
-    "scripts": {
-        "start": "node lib/cli.js --start",
-        "init": "node lib/cli.js --init",
-        "watch": "node lib/cli.js --watch"
-    },
+    "main": "index.js",
     "author": "Samsung Electronics Co., Ltd.",
     "repository": {
         "type": "git",
