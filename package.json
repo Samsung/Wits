@@ -3,6 +3,7 @@
     "version": "2.0.2",
     "description": "Instant live reload tool for Tizen Web Application development",
     "main": "index.js",
+    "types": "index.d.ts",
     "author": "Samsung Electronics Co., Ltd.",
     "repository": {
         "type": "git",
