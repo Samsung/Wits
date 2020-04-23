@@ -23,7 +23,7 @@ module.exports = {
         let deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
         let profileInfo = {
             name: data.profileName,
-            path: data.profilePath,
+            path: data.profilePath
         };
 
         await hostAppHelper.setHostAppEnv(data, deviceInfo);
@@ -43,7 +43,7 @@ module.exports = {
                   data.deviceIp
               )
             : appLaunchHelper.launchApp(deviceName, hostAppId);
-    },
+    }
 };
 
 function checkConfiguration() {
