@@ -32,7 +32,7 @@
         "socket.io": "^1.7.3",
         "terminal-overwrite": "^2.0.1",
         "xml2js": "^0.4.19",
-        "xmldom": "^0.1.27"
+        "xmldom": "^0.1.31"
     },
     "devDependencies": {
         "grunt": "^1.0.3",
