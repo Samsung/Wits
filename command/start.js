@@ -21,13 +21,13 @@ module.exports = {
 
         let data = userInfoHelper.getRefinedData();
         let deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
-        let profileInfo = {
-            name: data.profileName,
-            path: data.profilePath
-        };
-
+        
         await hostAppHelper.setHostAppEnv(data, deviceInfo);
-        hostAppHelper.buildPackage(profileInfo);
+        try {
+            await hostAppHelper.buildPackage();
+        } catch(e) {
+            console.log(`Failed to buildPackage: ${e}`);
+        }
 
         let hostAppId = hostAppHelper.getHostAppId(data.baseAppPath);
         let hostAppName = hostAppId.split('.')[1];
