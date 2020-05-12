@@ -12,11 +12,11 @@ const setWitsconfigInfo = data => {
     // {
     //     width: '1920',
     //     deviceIp: '192.168.250.250',
-    //     socketPort: 8498,
-    //     hostIp: '192.168.250.250',
-    //     baseAppPath: 'E:/dev/workspace/test',
+    //     socketPort: 8498, (optional)
+    //     hostIp: '192.168.250.250', 
+    //     baseAppPath: 'E:/dev/workspace/test', 
     //     isDebugMode: false,
-    //     profileName: 'test',
+    //     profileName: 'test', (optional)
     //     profilePath: 'C:/tizen-studio-data/profile/profiles.xml',
     // };
 };
