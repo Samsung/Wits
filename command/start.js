@@ -25,6 +25,10 @@ module.exports = {
         await hostAppHelper.setHostAppEnv(data, deviceInfo);
         try {
             await hostAppHelper.buildPackage();
+            // await hostAppHelper.buildPackage({
+            //     name: data.profileName,
+            //     path: data.profilePath
+            // });
         } catch(e) {
             console.log(`Failed to buildPackage: ${e}`);
         }
