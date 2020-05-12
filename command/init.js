@@ -37,7 +37,7 @@ module.exports = {
         await userInfoHelper.askQuestion(wInfo.connectionInfo);
     },
     prepareRun: async () => {
-        checkValidTizenApp();
+        // checkValidTizenApp();
         makeWitsignoreFile();
         makeWitsconfigFile();
 

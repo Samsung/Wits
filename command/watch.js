@@ -9,7 +9,7 @@ module.exports = {
         let data = await userInfoHelper.getLatestWitsconfigInfo()
             .connectionInfo;
         let baseAppPath = userInfoHelper.getBaseAppPath(
-            data.recentlyBaseAppPath
+            data.baseAppPath
         );
 
         let deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
