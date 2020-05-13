@@ -16,7 +16,6 @@ const setWitsconfigInfo = data => {
     //     hostIp: '192.168.250.250', 
     //     baseAppPath: 'E:/dev/workspace/test', 
     //     isDebugMode: false,
-    //     profileName: 'test', (optional)
     //     profilePath: 'C:/tizen-studio-data/profile/profiles.xml',
     // };
 };

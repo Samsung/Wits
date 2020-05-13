@@ -33,13 +33,8 @@ It is the fastest way to get your local code running on the TV device during dev
 
 #### 3. Modify `.witsconfig.json` within `Wits` directory.
 
-Configure Tizen Studio Certificate Profile `Name` and the `path` of your profiles.xml to **.witsconfig.json**
+Configure Tizen Studio Certificate Profile `path` of your profiles.xml to **.witsconfig.json**
 The default `path` is `tizen-studio-data/profile/profiles.xml` on Mac and Windows both.
-The `name` should be your pre-configured certificate profile name which is foundable at the one of these locations:
-
--**Tizen Studio (Recommended)** `Tools > Certificate Manager > Certificate Profile (Actived one)`
-
-For details, [How to get your profile information](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment#get-your-profile-information-from-tizen-studio)
 
 ## **System Requirements**
 
@@ -53,11 +48,7 @@ We will not describe how to do these installations as there are many ways to do 
 
 #### 3. Install the Latest Version of [Samsung Tizen Studio](http://developer.samsung.com/tv).
 
-#### 4. Tizen Studio CLI binaries should be added to your `$PATH` for accessing to `tizen` and `sdb` command-line utilities.
-
-For details, [How to add System environment path for WITs](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment#add-system-environment-path)
-
-#### 5. Developer Mode is enabled on your Samsung TV.
+#### 4. Developer Mode is enabled on your Samsung TV.
 
 -   1 With your Samsung Remote, press the `Home` button.
 
@@ -108,10 +99,9 @@ on `Windows` and `MacOS` both, **WITs** recognises path segment only one separat
     -   width [string] : Resolution
     -   isDebugMode [boolean] : Setting true, chrome inspector is launched automatically. / Setting false, nothing happened.
 -   **profileInfo** (mandatory)
-    -   name [string] : Tizen Studio Certificate Profile name
     -   path [string] : Tizen Studio Certificate Profile path
 -   **optionalInfo** (optional)
-    -   proxyServer [string] : In case you are behind proxy ex) http://192.168.250.250:8080
+    -   proxyServer [string] : In case you are behind proxy ex) http://255.255.255.255:8080
 
 ### .witsignore of WITs
 
