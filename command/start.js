@@ -35,13 +35,9 @@ module.exports = {
         let hostAppName = hostAppId.split('.')[1];
         let deviceName = deviceInfo.deviceName;
 
-        console.log('@@@@@@@@@@@@@1');
         appLaunchHelper.unInstallPackage(deviceName, hostAppName);
-        console.log('@@@@@@@@@@@@@2');
         appLaunchHelper.installPackage(deviceInfo, hostAppName);
-        console.log('@@@@@@@@@@@@@3');
         watchHelper.openSocketServer(data, deviceInfo);
-        console.log('@@@@@@@@@@@@@4');
         data.isDebugMode
             ? appLaunchHelper.launchDebugMode(
                   deviceName,
@@ -49,7 +45,6 @@ module.exports = {
                   data.deviceIp
               )
             : appLaunchHelper.launchApp(deviceName, hostAppId);
-            console.log('@@@@@@@@@@@@@5');
     }
 };
 
