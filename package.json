@@ -15,7 +15,6 @@
     "dependencies": {
         "adm-zip": "^0.4.14",
         "archiver": "^1.3.0",
-        "child_process": "^1.0.2",
         "chrome-launcher": "^0.10.5",
         "commander": "^4.1.1",
         "crypto": "^1.0.1",
@@ -28,7 +27,6 @@
         "recursive-readdir": "^2.2.2",
         "request": "^2.88.2",
         "request-progress": "^3.0.0",
-        "shelljs": "^0.8.2",
         "socket.io": "^1.7.3",
         "terminal-overwrite": "^2.0.1",
         "xml2js": "^0.4.19",
