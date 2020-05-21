@@ -53,7 +53,7 @@ function checkValidTizenApp() {
         console.log(
             'There is no config.xml. Please run on a tizen application.'
         );
-        process.exit(0);
+        util.close();
     }
 }
 
@@ -90,7 +90,7 @@ function copyWitsconfigFile() {
         }
     } catch (e) {
         console.log(`Failed to copyWitsconfigFile ${e}`);
-        process.exit(0);
+        util.close();
     }
 }
 
@@ -180,6 +180,6 @@ async function extractContainer() {
                 `Invalid zip file was successfully removed. Retry please.`
             );
         }
-        process.exit(0);
+        util.close();
     }
 }
