@@ -23,37 +23,38 @@ module.exports = {
         let deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
 
         await hostAppHelper.setHostAppEnv(data, deviceInfo);
-        try {
-            await hostAppHelper.buildPackage();
-        } catch (e) {
-            console.error(`Failed to buildPackage: ${e}`);
-            util.close();
-            return;
-        }
 
-        console.log(
-            '============================== Start to install the package'
-        );
+        hostAppHelper
+            .buildPackage()
+            .then(() => {
+                console.log(
+                    '============================== Start to install the package'
+                );
 
-        let hostAppId = hostAppHelper.getHostAppId(data.baseAppPath);
-        let hostAppName = hostAppId.split('.')[1];
-        let deviceName = deviceInfo.deviceName;
+                let hostAppId = hostAppHelper.getHostAppId(data.baseAppPath);
+                let hostAppName = hostAppId.split('.')[1];
+                let deviceName = deviceInfo.deviceName;
 
-        appLaunchHelper.unInstallPackage(deviceName, hostAppName);
-        appLaunchHelper.installPackage(deviceInfo, hostAppName);
-        watchHelper.openSocketServer(data, deviceInfo);
-        try {
-            data.isDebugMode
-                ? appLaunchHelper.launchDebugMode(
-                      deviceName,
-                      hostAppId,
-                      data.deviceIp
-                  )
-                : appLaunchHelper.launchApp(deviceName, hostAppId);
-        } catch (e) {
-            console.log(e);
-            util.close();
-        }
+                appLaunchHelper.unInstallPackage(deviceName, hostAppName);
+                appLaunchHelper.installPackage(deviceInfo, hostAppName);
+                watchHelper.openSocketServer(data, deviceInfo);
+                try {
+                    data.isDebugMode
+                        ? appLaunchHelper.launchDebugMode(
+                              deviceName,
+                              hostAppId,
+                              data.deviceIp
+                          )
+                        : appLaunchHelper.launchApp(deviceName, hostAppId);
+                } catch (e) {
+                    console.log(e);
+                    util.close();
+                }
+            })
+            .catch(e => {
+                console.error(`Failed to buildPackage: ${e}`);
+                util.close();
+            });
     }
 };
 
