@@ -21,15 +21,19 @@ module.exports = {
 
         let data = userInfoHelper.getRefinedData();
         let deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
-        
+
         await hostAppHelper.setHostAppEnv(data, deviceInfo);
         try {
             await hostAppHelper.buildPackage();
-        } catch(e) {
-            console.log(`Failed to buildPackage: ${e}`);
+        } catch (e) {
+            console.error(`Failed to buildPackage: ${e}`);
+            util.close();
+            return;
         }
 
-        console.log('============================== Start to install the package');
+        console.log(
+            '============================== Start to install the package'
+        );
 
         let hostAppId = hostAppHelper.getHostAppId(data.baseAppPath);
         let hostAppName = hostAppId.split('.')[1];
@@ -38,13 +42,18 @@ module.exports = {
         appLaunchHelper.unInstallPackage(deviceName, hostAppName);
         appLaunchHelper.installPackage(deviceInfo, hostAppName);
         watchHelper.openSocketServer(data, deviceInfo);
-        data.isDebugMode
-            ? appLaunchHelper.launchDebugMode(
-                  deviceName,
-                  hostAppId,
-                  data.deviceIp
-              )
-            : appLaunchHelper.launchApp(deviceName, hostAppId);
+        try {
+            data.isDebugMode
+                ? appLaunchHelper.launchDebugMode(
+                      deviceName,
+                      hostAppId,
+                      data.deviceIp
+                  )
+                : appLaunchHelper.launchApp(deviceName, hostAppId);
+        } catch (e) {
+            console.log(e);
+            util.close();
+        }
     }
 };
 

@@ -89,7 +89,7 @@ function copyWitsconfigFile() {
             );
         }
     } catch (e) {
-        console.log(`Failed to copyWitsconfigFile ${e}`);
+        console.error(`Failed to copyWitsconfigFile ${e}`);
         util.close();
     }
 }
