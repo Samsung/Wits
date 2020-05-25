@@ -31,9 +31,9 @@ module.exports = {
                     '============================== Start to install the package'
                 );
 
-                let hostAppId = hostAppHelper.getHostAppId(data.baseAppPath);
-                let hostAppName = hostAppId.split('.')[1];
-                let deviceName = deviceInfo.deviceName;
+                const hostAppId = hostAppHelper.getHostAppId(data.baseAppPath);
+                const hostAppName = hostAppId.split('.')[1];
+                const deviceName = deviceInfo.deviceName;
 
                 appLaunchHelper.unInstallPackage(deviceName, hostAppName);
                 appLaunchHelper.installPackage(deviceInfo, hostAppName);
