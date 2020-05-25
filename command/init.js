@@ -24,8 +24,6 @@ const CONTAINER_DIRECTORY_PATH = path.join(
     '../',
     CONTAINER_DIRECTORY_NAME
 );
-const CONFIG_FILE_NAME = 'config.xml';
-const CONFIG_FILE_PATH = path.join(util.CURRENT_PROJECT_PATH, CONFIG_FILE_NAME);
 
 module.exports = {
     run: async () => {
@@ -37,7 +35,6 @@ module.exports = {
         await userInfoHelper.askQuestion(wInfo.connectionInfo);
     },
     prepareRun: async () => {
-        // checkValidTizenApp();
         makeWitsignoreFile();
         makeWitsconfigFile();
 
@@ -49,22 +46,45 @@ module.exports = {
 };
 
 function makeWitsignoreFile() {
-    util.createEmptyFile(util.CURRENT_PROJECT_PATH, WITS_IGNORE_FILE_NAME);
-    console.log('.witsignore is prepared.');
+    const WITSIGNORE_PATH = path.join(
+        util.CURRENT_PROJECT_PATH,
+        WITS_IGNORE_FILE_NAME
+    );
+
+    try {
+        if (util.isFileExist(WITSIGNORE_PATH)) {
+            console.log('.witsignore is already exist.');
+            return;
+        }
+
+        util.createEmptyFile(WITSIGNORE_PATH);
+        console.log('.witsignore is prepared.');
+    } catch (error) {
+        console.error(`Failed to makeWitsignoreFile ${error}`);
+    }
 }
 
 function makeWitsconfigFile() {
-    util.createEmptyFile(util.CURRENT_PROJECT_PATH, WITS_CONFIG_FILE_NAME);
-    copyWitsconfigFile();
-    console.log('.witsconfig.json is prepared.');
+    const WITSCONFIG_PATH = path.join(
+        util.CURRENT_PROJECT_PATH,
+        WITS_CONFIG_FILE_NAME
+    );
+
+    try {
+        if (util.isFileExist(WITSCONFIG_PATH) && isExistCustomFile()) {
+            console.log('.witsconfig.json is already exist.');
+            return;
+        }
+        util.createEmptyFile(WITSCONFIG_PATH);
+        copyWitsconfigFile();
+        console.log('.witsconfig.json is prepared.');
+    } catch (error) {
+        console.error(`Failed to makeWitsconfigFile ${error}`);
+    }
 }
 
 function copyWitsconfigFile() {
     try {
-        if (isExistCustomFile()) {
-            return;
-        }
-
         let witsConfigData = JSON.parse(
             fs.readFileSync(
                 path.join(util.WITS_BASE_PATH, '../', WITS_CONFIG_FILE_NAME),
