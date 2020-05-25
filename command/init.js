@@ -48,15 +48,6 @@ module.exports = {
     }
 };
 
-function checkValidTizenApp() {
-    if (!util.isFileExist(CONFIG_FILE_PATH)) {
-        console.log(
-            'There is no config.xml. Please run on a tizen application.'
-        );
-        util.close();
-    }
-}
-
 function makeWitsignoreFile() {
     util.createEmptyFile(util.CURRENT_PROJECT_PATH, WITS_IGNORE_FILE_NAME);
     console.log('.witsignore is prepared.');
