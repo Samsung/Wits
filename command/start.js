@@ -19,8 +19,8 @@ module.exports = {
 
         checkConfiguration();
 
-        let data = userInfoHelper.getRefinedData();
-        let deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
+        const data = userInfoHelper.getRefinedData();
+        const deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
 
         await hostAppHelper.setHostAppEnv(data, deviceInfo);
 
