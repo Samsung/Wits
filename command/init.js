@@ -33,7 +33,7 @@ module.exports = {
 
         await module.exports.prepareRun();
 
-        let wInfo = userInfoHelper.getLatestWitsconfigInfo();
+        const wInfo = userInfoHelper.getLatestWitsconfigInfo();
         await userInfoHelper.askQuestion(wInfo.connectionInfo);
     },
     prepareRun: async () => {
@@ -43,7 +43,6 @@ module.exports = {
 
         console.log(``);
 
-        await downloadContainer();
         await extractContainer();
         return;
     }
@@ -87,7 +86,7 @@ function copyWitsconfigFile() {
 }
 
 function isExistCustomFile() {
-    let customData = fs.readFileSync(
+    const customData = fs.readFileSync(
         path.join(util.CURRENT_PROJECT_PATH, WITS_CONFIG_FILE_NAME),
         'utf8'
     );
@@ -117,8 +116,8 @@ async function downloadContainer() {
         return;
     }
 
-    let optionalInfo = await userInfoHelper.getOptionalInfo();
-    let zip = fs.createWriteStream(CONTAINER_ZIP_FILE_PATH);
+    const optionalInfo = await userInfoHelper.getOptionalInfo();
+    const zip = fs.createWriteStream(CONTAINER_ZIP_FILE_PATH);
 
     await new Promise((resolve, reject) => {
         let requestOptions = { uri: CONTAINER_ZIP_URL };
@@ -149,10 +148,15 @@ async function downloadContainer() {
                 resolve();
             })
             .on('error', error => {
+                console.warn(
+                    `Failed to download, please check if you're behind proxy : ${error}`
+                );
                 reject(error);
             });
     }).catch(error => {
-        console.log(`${error}`);
+        console.warn(
+            `Failed to download, please check if you're behind proxy : ${error}`
+        );
     });
 }
 
@@ -162,7 +166,7 @@ async function extractContainer() {
     }
 
     try {
-        let zip = new admzip(CONTAINER_ZIP_FILE_PATH);
+        const zip = new admzip(CONTAINER_ZIP_FILE_PATH);
         zip.extractAllTo(CONTAINER_DIRECTORY_PATH);
     } catch (error) {
         console.log(`${error}`);
