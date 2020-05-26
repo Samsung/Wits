@@ -3,11 +3,11 @@ const watchCommand = require('./command/watch.js');
 const startCommand = require('./command/start.js');
 const userInfoHelper = require('./lib/userInfoHelper');
 
-const setWitsconfigInfo = data => {
+const setWitsconfigInfo = async data => {
     console.log('WITs::setWitsconfigInfo');
-    initCommand.prepareRun();
-    userInfoHelper.updateLatestUserAnswer(data);
-
+    await initCommand.prepareRun();
+    await userInfoHelper.updateLatestUserAnswer(data);
+    return;
     /**
         {
             width: '1920',
