@@ -128,18 +128,19 @@ async function download(name, downloadUrl) {
         console.log(`Invalid zip file was successfully removed.\n`);
     }
 
+    let requestOptions = { uri: downloadUrl };
     const optionalInfo = await userInfoHelper.getOptionalInfo();
+    console.log(optionalInfo);
+    if (optionalInfo && util.isPropertyExist(optionalInfo, 'proxyServer')) {
+        requestOptions = {
+            uri: downloadUrl,
+            strictSSL: false,
+            proxy: optionalInfo.proxyServer
+        };
+    }
     const zip = fs.createWriteStream(ZIP_FILE_PATH);
 
     await new Promise((resolve, reject) => {
-        let requestOptions = { uri: downloadUrl };
-        if (util.isPropertyExist(optionalInfo, 'proxyServer')) {
-            requestOptions = {
-                uri: downloadUrl,
-                strictSSL: false,
-                proxy: optionalInfo.proxyServer
-            };
-        }
         progress(request(requestOptions))
             .on('response', data => {})
             .on('progress', state => {
