@@ -21,14 +21,16 @@ const setWitsconfigInfo = async data => {
      */
 };
 
-const start = () => {
+const start = async () => {
     console.log('WITs::start');
-    startCommand.run();
+    await startCommand.run();
+    return;
 };
 
-const watch = () => {
+const watch = async () => {
     console.log('WITs::watch');
-    watchCommand.run();
+    await watchCommand.run();
+    return;
 };
 
 module.exports = {
