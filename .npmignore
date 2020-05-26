@@ -4,3 +4,7 @@ package-lock.json
 archive/
 container/
 container.zip
+tools/
+tools.zip
+resource/
+resource.zip
