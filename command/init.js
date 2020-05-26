@@ -73,32 +73,9 @@ function makeWitsconfigFile() {
             return;
         }
         util.createEmptyFile(WITSCONFIG_PATH);
-        copyWitsconfigFile();
         console.log('.witsconfig.json is prepared.');
     } catch (error) {
         console.error(`Failed to makeWitsconfigFile ${error}`);
-    }
-}
-
-function copyWitsconfigFile() {
-    try {
-        let witsConfigData = JSON.parse(
-            fs.readFileSync(
-                path.join(util.WITS_BASE_PATH, '../', WITS_CONFIG_FILE_NAME),
-                'utf8'
-            )
-        );
-
-        if (isValidWitsconfigFile(witsConfigData)) {
-            fs.writeFileSync(
-                path.join(util.CURRENT_PROJECT_PATH, WITS_CONFIG_FILE_NAME),
-                JSON.stringify(witsConfigData, null, 2),
-                'utf8'
-            );
-        }
-    } catch (e) {
-        console.error(`Failed to copyWitsconfigFile ${e}`);
-        util.close();
     }
 }
 
