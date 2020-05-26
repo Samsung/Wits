@@ -21,7 +21,7 @@ const TOOLS_ZIP_URL =
 
 const RESOURCE_NAME = 'resource';
 const RESOURCE_ZIP_URL =
-    'https://github.com/Samsung/Wits/raw/wits-vscode/archive/resource.zip';
+    'https://github.com/Samsung/Wits/raw/master/archive/resource.zip';
 
 module.exports = {
     run: async () => {
@@ -36,7 +36,7 @@ module.exports = {
         makeWitsignoreFile();
         makeWitsconfigFile();
 
-        console.log(``);
+        console.log(`\nStart downloading files for configuration...`);
 
         await Promise.all([
             prepareTool(CONTAINER_NAME, CONTAINER_ZIP_URL),
@@ -77,7 +77,7 @@ function makeWitsconfigFile() {
             console.log('.witsconfig.json is already exist.');
             return;
         }
-        util.createEmptyFile(WITSCONFIG_PATH);
+        util.createEmptyFile(WITSCONFIG_PATH, '{}');
         console.log('.witsconfig.json is prepared.');
     } catch (error) {
         console.error(`Failed to makeWitsconfigFile ${error}`);
@@ -125,22 +125,20 @@ async function download(name, downloadUrl) {
 
     if (getFileSize(ZIP_FILE_PATH) === 0) {
         util.removeFile(ZIP_FILE_PATH);
-        console.log(`Invalid zip file was successfully removed.\n`);
     }
 
-    let requestOptions = { uri: downloadUrl };
     const optionalInfo = await userInfoHelper.getOptionalInfo();
-    console.log(optionalInfo);
-    if (optionalInfo && util.isPropertyExist(optionalInfo, 'proxyServer')) {
-        requestOptions = {
-            uri: downloadUrl,
-            strictSSL: false,
-            proxy: optionalInfo.proxyServer
-        };
-    }
     const zip = fs.createWriteStream(ZIP_FILE_PATH);
 
     await new Promise((resolve, reject) => {
+        let requestOptions = { uri: downloadUrl };
+        if (optionalInfo && util.isPropertyExist(optionalInfo, 'proxyServer')) {
+            requestOptions = {
+                uri: downloadUrl,
+                strictSSL: false,
+                proxy: optionalInfo.proxyServer
+            };
+        }
         progress(request(requestOptions))
             .on('response', data => {})
             .on('progress', state => {
