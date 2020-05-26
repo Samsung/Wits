@@ -17,7 +17,15 @@ module.exports = {
     run: async () => {
         console.log(`Start running Wits............`);
 
-        checkConfiguration();
+        if (!checkConfiguration()) {
+            console.error(
+                'Wits configuration is failed. "wits -i" is required before running "wits -s"'
+            );
+            console.error(
+                'Please check the required tools are available. (ex. sdb)'
+            );
+            return;
+        }
 
         const data = userInfoHelper.getRefinedData();
         const deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
@@ -59,9 +67,12 @@ module.exports = {
 };
 
 function checkConfiguration() {
-    if (!util.isFileExist(CONTAINER_DIRECTORY_PATH)) {
-        console.error(
-            `Wits configuration is failed. "wits -i" is required before running "wits -s"`
-        );
+    if (
+        !util.isFileExist(CONTAINER_DIRECTORY_PATH) ||
+        !util.isFileExist(util.TOOLS_CRYPT_PATH) ||
+        !util.isFileExist(util.TOOLS_SDB_PATH)
+    ) {
+        return false;
     }
+    return true;
 }

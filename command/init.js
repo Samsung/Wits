@@ -12,10 +12,12 @@ const WITS_CONFIG_FILE_NAME = '.witsconfig.json';
 const WITS_IGNORE_FILE_NAME = '.witsignore';
 
 const CONTAINER_NAME = 'container';
-const CONTAINER_ZIP_URL = 'https://github.com/Samsung/Wits/raw/master/archive/container.zip';
+const CONTAINER_ZIP_URL =
+    'https://github.com/Samsung/Wits/raw/master/archive/container.zip';
 
 const TOOLS_NAME = 'tools';
-const TOOLS_ZIP_URL = 'https://github.com/Samsung/Wits/raw/wits-vscode/archive/tools.zip';
+const TOOLS_ZIP_URL =
+    'https://github.com/Samsung/Wits/raw/wits-vscode/archive/tools.zip';
 
 module.exports = {
     run: async () => {
@@ -118,8 +120,9 @@ function isValidWitsconfigFile(data) {
     }
 
     if (
-        witsConfigData.hasOwnProperty('profileInfo') &&
-        witsConfigData.hasOwnProperty('connectionInfo')
+        (witsConfigData.hasOwnProperty('profileInfo') &&
+            witsConfigData.hasOwnProperty('connectionInfo')) ||
+        witsConfigData.hasOwnProperty('optionalInfo')
     ) {
         return true;
     }
@@ -127,19 +130,12 @@ function isValidWitsconfigFile(data) {
 }
 
 async function prepareTool(name, downloadUrl) {
-    new Promise((resolve, reject) => {
-        await download(name, downloadUrl);
-        await extract(name);
-        resolve();
-    })
+    await download(name, downloadUrl);
+    await extract(name);
 }
 
 async function download(name, downloadUrl) {
-    const ZIP_FILE_PATH = path.join(
-        util.WITS_BASE_PATH,
-        '../',
-        `${name}.zip`
-    );
+    const ZIP_FILE_PATH = path.join(util.WITS_BASE_PATH, '../', `${name}.zip`);
 
     if (util.isFileExist(ZIP_FILE_PATH)) {
         return;
@@ -190,16 +186,8 @@ async function download(name, downloadUrl) {
 }
 
 async function extract(name) {
-    const ZIP_FILE_PATH = path.join(
-        util.WITS_BASE_PATH,
-        '../',
-        `${name}.zip`
-    );
-    const DIRECTORY_PATH = path.join(
-        util.WITS_BASE_PATH,
-        '../',
-        name
-    );
+    const ZIP_FILE_PATH = path.join(util.WITS_BASE_PATH, '../', `${name}.zip`);
+    const DIRECTORY_PATH = path.join(util.WITS_BASE_PATH, '../', name);
     try {
         const zip = new admzip(ZIP_FILE_PATH);
         zip.extractAllTo(DIRECTORY_PATH);
