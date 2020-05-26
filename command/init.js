@@ -36,7 +36,7 @@ module.exports = {
         makeWitsignoreFile();
         makeWitsconfigFile();
 
-        console.log(``);
+        console.log(`\nStart downloading files for configuration...`);
 
         await Promise.all([
             prepareTool(CONTAINER_NAME, CONTAINER_ZIP_URL),
@@ -77,7 +77,7 @@ function makeWitsconfigFile() {
             console.log('.witsconfig.json is already exist.');
             return;
         }
-        util.createEmptyFile(WITSCONFIG_PATH);
+        util.createEmptyFile(WITSCONFIG_PATH, '{}');
         console.log('.witsconfig.json is prepared.');
     } catch (error) {
         console.error(`Failed to makeWitsconfigFile ${error}`);
@@ -125,7 +125,6 @@ async function download(name, downloadUrl) {
 
     if (getFileSize(ZIP_FILE_PATH) === 0) {
         util.removeFile(ZIP_FILE_PATH);
-        console.log(`Invalid zip file was successfully removed.\n`);
     }
 
     const optionalInfo = await userInfoHelper.getOptionalInfo();
@@ -133,7 +132,7 @@ async function download(name, downloadUrl) {
 
     await new Promise((resolve, reject) => {
         let requestOptions = { uri: downloadUrl };
-        if (util.isPropertyExist(optionalInfo, 'proxyServer')) {
+        if (optionalInfo && util.isPropertyExist(optionalInfo, 'proxyServer')) {
             requestOptions = {
                 uri: downloadUrl,
                 strictSSL: false,

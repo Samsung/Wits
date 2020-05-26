@@ -7,10 +7,16 @@ const appLaunchHelper = require('../lib/appLaunchHelper.js');
 const watchHelper = require('../lib/watchHelper.js');
 
 const CONTAINER_DIRECTORY_NAME = 'container';
+const RESOURCE_DIRECTORY_NAME = 'resource';
 const CONTAINER_DIRECTORY_PATH = path.join(
     util.WITS_BASE_PATH,
     '../',
     CONTAINER_DIRECTORY_NAME
+);
+const RESOURCE_DIRECTORY_PATH = path.join(
+    util.WITS_BASE_PATH,
+    '../',
+    RESOURCE_DIRECTORY_NAME
 );
 
 module.exports = {
@@ -69,6 +75,7 @@ module.exports = {
 function checkConfiguration() {
     if (
         !util.isFileExist(CONTAINER_DIRECTORY_PATH) ||
+        !util.isFileExist(RESOURCE_DIRECTORY_PATH) ||
         !util.isFileExist(util.TOOLS_CRYPT_PATH) ||
         !util.isFileExist(util.TOOLS_SDB_PATH)
     ) {
