@@ -25,7 +25,7 @@ module.exports = {
 
         await module.exports.prepareRun();
 
-        const wInfo = userInfoHelper.getLatestWitsconfigInfo();
+        const wInfo = userInfoHelper.getRefinedData();
         await userInfoHelper.askQuestion(wInfo.connectionInfo);
     },
     prepareRun: async () => {
@@ -137,8 +137,13 @@ async function prepareTool(name, downloadUrl) {
 async function download(name, downloadUrl) {
     const ZIP_FILE_PATH = path.join(util.WITS_BASE_PATH, '../', `${name}.zip`);
 
-    if (util.isFileExist(ZIP_FILE_PATH)) {
+    if (util.isFileExist(ZIP_FILE_PATH) && getFileSize(ZIP_FILE_PATH) !== 0) {
         return;
+    }
+
+    if (getFileSize(ZIP_FILE_PATH) === 0) {
+        util.removeFile(ZIP_FILE_PATH);
+        console.log(`Invalid zip file was successfully removed.\n`);
     }
 
     const optionalInfo = await userInfoHelper.getOptionalInfo();
@@ -154,9 +159,7 @@ async function download(name, downloadUrl) {
             };
         }
         progress(request(requestOptions))
-            .on('response', data => {
-                console.log('');
-            })
+            .on('response', data => {})
             .on('progress', state => {
                 overwrite(
                     `Downloading ${name}.zip ............. ${parseInt(
@@ -194,11 +197,22 @@ async function extract(name) {
     } catch (error) {
         console.log(`${error}`);
         if (util.isFileExist(ZIP_FILE_PATH)) {
-            fs.unlinkSync(ZIP_FILE_PATH);
+            await fs.unlink(ZIP_FILE_PATH);
             console.log(
                 `Invalid zip file was successfully removed. Retry please.`
             );
         }
         util.close();
+    }
+}
+
+function getFileSize(filePath) {
+    try {
+        if (util.isFileExist(filePath)) {
+            const stats = fs.statSync(filePath);
+            return stats['size'];
+        }
+    } catch (error) {
+        console.error(`Failed to getFileSize ${error}`);
     }
 }
