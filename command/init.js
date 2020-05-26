@@ -21,7 +21,7 @@ const TOOLS_ZIP_URL =
 
 const RESOURCE_NAME = 'resource';
 const RESOURCE_ZIP_URL =
-    'https://github.com/Samsung/Wits/raw/master/archive/resource.zip';
+    'https://github.com/Samsung/Wits/raw/wits-vscode/archive/resource.zip';
 
 module.exports = {
     run: async () => {
