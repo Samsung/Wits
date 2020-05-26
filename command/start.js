@@ -17,39 +17,62 @@ module.exports = {
     run: async () => {
         console.log(`Start running Wits............`);
 
-        checkConfiguration();
+        if (!checkConfiguration()) {
+            console.error(
+                'Wits configuration is failed. "wits -i" is required before running "wits -s"'
+            );
+            console.error(
+                'Please check the required tools are available. (ex. sdb)'
+            );
+            return;
+        }
 
-        let data = userInfoHelper.getRefinedData();
-        let deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
-        let profileInfo = {
-            name: data.profileName,
-            path: data.profilePath
-        };
+        const data = userInfoHelper.getRefinedData();
+        const deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
 
         await hostAppHelper.setHostAppEnv(data, deviceInfo);
-        hostAppHelper.buildPackage(profileInfo);
 
-        let hostAppId = hostAppHelper.getHostAppId(data.baseAppPath);
-        let hostAppName = hostAppId.split('.')[1];
-        let deviceName = deviceInfo.deviceName;
+        hostAppHelper
+            .buildPackage()
+            .then(() => {
+                console.log(
+                    '============================== Start to install the package'
+                );
 
-        appLaunchHelper.unInstallPackage(deviceName, hostAppName);
-        appLaunchHelper.installPackage(deviceInfo, hostAppName);
-        watchHelper.openSocketServer(data, deviceInfo);
-        data.isDebugMode
-            ? appLaunchHelper.launchDebugMode(
-                  deviceName,
-                  hostAppId,
-                  data.deviceIp
-              )
-            : appLaunchHelper.launchApp(deviceName, hostAppId);
+                const hostAppId = hostAppHelper.getHostAppId(data.baseAppPath);
+                const hostAppName = hostAppId.split('.')[1];
+                const deviceName = deviceInfo.deviceName;
+
+                appLaunchHelper.unInstallPackage(deviceName, hostAppName);
+                appLaunchHelper.installPackage(deviceInfo, hostAppName);
+                watchHelper.openSocketServer(data, deviceInfo);
+                try {
+                    data.isDebugMode
+                        ? appLaunchHelper.launchDebugMode(
+                              deviceName,
+                              hostAppId,
+                              data.deviceIp
+                          )
+                        : appLaunchHelper.launchApp(deviceName, hostAppId);
+                } catch (e) {
+                    console.log(e);
+                    util.close();
+                }
+            })
+            .catch(e => {
+                console.error(`Failed to buildPackage: ${e}`);
+                util.close();
+            });
     }
 };
 
 function checkConfiguration() {
-    if (!util.isFileExist(CONTAINER_DIRECTORY_PATH)) {
-        console.error(
-            `Wits configuration is failed. "wits -i" is required before running "wits -s"`
-        );
+    if (
+        !util.isFileExist(CONTAINER_DIRECTORY_PATH) ||
+        !util.isFileExist(util.TOOLS_CRYPT_PATH) ||
+        !util.isFileExist(util.TOOLS_SDB_PATH)
+    ) {
+        return false;
     }
+    return true;
 }

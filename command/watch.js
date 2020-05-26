@@ -2,30 +2,35 @@ const userInfoHelper = require('../lib/userInfoHelper.js');
 const hostAppHelper = require('../lib/hostAppHelper.js');
 const appLaunchHelper = require('../lib/appLaunchHelper.js');
 const watchHelper = require('../lib/watchHelper.js');
+const util = require('../lib/util.js');
 
 module.exports = {
     run: async () => {
         console.log(`Start running Wits watch mode............`);
-        let data = await userInfoHelper.getLatestWitsconfigInfo()
+        const data = await userInfoHelper.getLatestWitsconfigInfo()
             .connectionInfo;
-        let baseAppPath = userInfoHelper.getBaseAppPath(
-            data.recentlyBaseAppPath
-        );
+        const baseAppPath = userInfoHelper.getBaseAppPath(data.baseAppPath);
 
-        let deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
+        const deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
 
-        let hostAppId = hostAppHelper.getHostAppId(baseAppPath);
-        let deviceName = deviceInfo.deviceName;
+        const hostAppId = hostAppHelper.getHostAppId(baseAppPath);
+        const deviceName = deviceInfo.deviceName;
         data.baseAppPath = baseAppPath;
 
         watchHelper.openSocketServer(data, deviceInfo);
-        appLaunchHelper.terminateApp(deviceName, hostAppId);
-        data.isDebugMode
-            ? appLaunchHelper.launchDebugMode(
-                  deviceName,
-                  hostAppId,
-                  data.deviceIp
-              )
-            : appLaunchHelper.launchApp(deviceName, hostAppId);
+        // appLaunchHelper.terminateApp(deviceName, hostAppId);
+
+        try {
+            data.isDebugMode
+                ? appLaunchHelper.launchDebugMode(
+                      deviceName,
+                      hostAppId,
+                      data.deviceIp
+                  )
+                : appLaunchHelper.launchApp(deviceName, hostAppId);
+        } catch (e) {
+            console.log(e);
+            util.close();
+        }
     }
 };

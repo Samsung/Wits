@@ -10,92 +10,77 @@ const userInfoHelper = require('../lib/userInfoHelper.js');
 
 const WITS_CONFIG_FILE_NAME = '.witsconfig.json';
 const WITS_IGNORE_FILE_NAME = '.witsignore';
-const CONTAINER_DIRECTORY_NAME = 'container';
-const CONTAINER_ZIP_FILE_NAME = 'container.zip';
+
+const CONTAINER_NAME = 'container';
 const CONTAINER_ZIP_URL =
     'https://github.com/Samsung/Wits/raw/master/archive/container.zip';
-const CONTAINER_ZIP_FILE_PATH = path.join(
-    util.WITS_BASE_PATH,
-    '../',
-    CONTAINER_ZIP_FILE_NAME
-);
-const CONTAINER_DIRECTORY_PATH = path.join(
-    util.WITS_BASE_PATH,
-    '../',
-    CONTAINER_DIRECTORY_NAME
-);
-const CONFIG_FILE_NAME = 'config.xml';
-const CONFIG_FILE_PATH = path.join(util.CURRENT_PROJECT_PATH, CONFIG_FILE_NAME);
+
+const TOOLS_NAME = 'tools';
+const TOOLS_ZIP_URL =
+    'https://github.com/Samsung/Wits/raw/master/archive/tools.zip';
 
 module.exports = {
     run: async () => {
         console.log(`Start configuration for Wits............`);
 
-        module.exports.prepareRun();
+        await module.exports.prepareRun();
 
-        let wInfo = userInfoHelper.getLatestWitsconfigInfo();
+        const wInfo = userInfoHelper.getRefinedData();
         await userInfoHelper.askQuestion(wInfo.connectionInfo);
     },
     prepareRun: async () => {
-        checkValidTizenApp();
         makeWitsignoreFile();
         makeWitsconfigFile();
 
         console.log(``);
 
-        await downloadContainer();
-        await extractContainer();
+        await Promise.all([
+            prepareTool(CONTAINER_NAME, CONTAINER_ZIP_URL),
+            prepareTool(TOOLS_NAME, TOOLS_ZIP_URL)
+        ]);
+        return;
     }
 };
 
-function checkValidTizenApp() {
-    if (!util.isFileExist(CONFIG_FILE_PATH)) {
-        console.log(
-            'There is no config.xml. Please run on a tizen application.'
-        );
-        process.exit(0);
-    }
-}
-
 function makeWitsignoreFile() {
-    util.createEmptyFile(util.CURRENT_PROJECT_PATH, WITS_IGNORE_FILE_NAME);
-    console.log('.witsignore is prepared.');
-}
+    const WITSIGNORE_PATH = path.join(
+        util.CURRENT_PROJECT_PATH,
+        WITS_IGNORE_FILE_NAME
+    );
 
-function makeWitsconfigFile() {
-    util.createEmptyFile(util.CURRENT_PROJECT_PATH, WITS_CONFIG_FILE_NAME);
-    copyWitsconfigFile();
-    console.log('.witsconfig.json is prepared.');
-}
-
-function copyWitsconfigFile() {
     try {
-        if (isExistCustomFile()) {
+        if (util.isFileExist(WITSIGNORE_PATH)) {
+            console.log('.witsignore is already exist.');
             return;
         }
 
-        let witsConfigData = JSON.parse(
-            fs.readFileSync(
-                path.join(util.WITS_BASE_PATH, '../', WITS_CONFIG_FILE_NAME),
-                'utf8'
-            )
-        );
+        util.createEmptyFile(WITSIGNORE_PATH);
+        console.log('.witsignore is prepared.');
+    } catch (error) {
+        console.error(`Failed to makeWitsignoreFile ${error}`);
+    }
+}
 
-        if (isValidWitsconfigFile(witsConfigData)) {
-            fs.writeFileSync(
-                path.join(util.CURRENT_PROJECT_PATH, WITS_CONFIG_FILE_NAME),
-                JSON.stringify(witsConfigData, null, 2),
-                'utf8'
-            );
+function makeWitsconfigFile() {
+    const WITSCONFIG_PATH = path.join(
+        util.CURRENT_PROJECT_PATH,
+        WITS_CONFIG_FILE_NAME
+    );
+
+    try {
+        if (util.isFileExist(WITSCONFIG_PATH) && isExistCustomFile()) {
+            console.log('.witsconfig.json is already exist.');
+            return;
         }
-    } catch (e) {
-        console.log(`Failed to copyWitsconfigFile ${e}`);
-        process.exit(0);
+        util.createEmptyFile(WITSCONFIG_PATH);
+        console.log('.witsconfig.json is prepared.');
+    } catch (error) {
+        console.error(`Failed to makeWitsconfigFile ${error}`);
     }
 }
 
 function isExistCustomFile() {
-    let customData = fs.readFileSync(
+    const customData = fs.readFileSync(
         path.join(util.CURRENT_PROJECT_PATH, WITS_CONFIG_FILE_NAME),
         'utf8'
     );
@@ -112,74 +97,99 @@ function isValidWitsconfigFile(data) {
     }
 
     if (
-        witsConfigData.hasOwnProperty('profileInfo') &&
-        witsConfigData.hasOwnProperty('connectionInfo')
+        (witsConfigData.hasOwnProperty('profileInfo') &&
+            witsConfigData.hasOwnProperty('connectionInfo')) ||
+        witsConfigData.hasOwnProperty('optionalInfo')
     ) {
         return true;
     }
     return false;
 }
 
-async function downloadContainer() {
-    if (util.isFileExist(CONTAINER_ZIP_FILE_PATH)) {
+async function prepareTool(name, downloadUrl) {
+    await download(name, downloadUrl);
+    await extract(name);
+}
+
+async function download(name, downloadUrl) {
+    const ZIP_FILE_PATH = path.join(util.WITS_BASE_PATH, '../', `${name}.zip`);
+
+    if (util.isFileExist(ZIP_FILE_PATH) && getFileSize(ZIP_FILE_PATH) !== 0) {
         return;
     }
 
-    let optionalInfo = await userInfoHelper.getOptionalInfo();
-    let zip = fs.createWriteStream(CONTAINER_ZIP_FILE_PATH);
+    if (getFileSize(ZIP_FILE_PATH) === 0) {
+        util.removeFile(ZIP_FILE_PATH);
+        console.log(`Invalid zip file was successfully removed.\n`);
+    }
+
+    const optionalInfo = await userInfoHelper.getOptionalInfo();
+    const zip = fs.createWriteStream(ZIP_FILE_PATH);
 
     await new Promise((resolve, reject) => {
-        let requestOptions = { uri: CONTAINER_ZIP_URL };
+        let requestOptions = { uri: downloadUrl };
         if (util.isPropertyExist(optionalInfo, 'proxyServer')) {
             requestOptions = {
-                uri: CONTAINER_ZIP_URL,
+                uri: downloadUrl,
                 strictSSL: false,
                 proxy: optionalInfo.proxyServer
             };
         }
         progress(request(requestOptions))
-            .on('response', data => {
-                console.log('');
-            })
+            .on('response', data => {})
             .on('progress', state => {
                 overwrite(
-                    `Downloading Container.zip............. ${parseInt(
+                    `Downloading ${name}.zip ............. ${parseInt(
                         state.percent * 100
                     )} %`
                 );
             })
             .pipe(zip)
             .on('finish', () => {
-                overwrite(`Downloading Container.zip............. 100 %`);
+                overwrite(`Downloading ${name}.zip ............. 100 %`);
                 console.log(`Download has been completed.`);
                 console.log(``);
                 overwrite.done();
                 resolve();
             })
             .on('error', error => {
+                console.warn(
+                    `Failed to download, please check if you're behind proxy : ${error}`
+                );
                 reject(error);
             });
     }).catch(error => {
-        console.log(`${error}`);
+        console.warn(
+            `Failed to download, please check if you're behind proxy : ${error}`
+        );
     });
 }
 
-async function extractContainer() {
-    if (!util.isFileExist(CONTAINER_ZIP_FILE_PATH)) {
-        await downloadContainer();
-    }
-
+async function extract(name) {
+    const ZIP_FILE_PATH = path.join(util.WITS_BASE_PATH, '../', `${name}.zip`);
+    const DIRECTORY_PATH = path.join(util.WITS_BASE_PATH, '../', name);
     try {
-        let zip = new admzip(CONTAINER_ZIP_FILE_PATH);
-        zip.extractAllTo(CONTAINER_DIRECTORY_PATH);
+        const zip = new admzip(ZIP_FILE_PATH);
+        zip.extractAllTo(DIRECTORY_PATH);
     } catch (error) {
         console.log(`${error}`);
-        if (util.isFileExist(CONTAINER_ZIP_FILE_PATH)) {
-            fs.unlinkSync(CONTAINER_ZIP_FILE_PATH);
+        if (util.isFileExist(ZIP_FILE_PATH)) {
+            await fs.unlink(ZIP_FILE_PATH);
             console.log(
                 `Invalid zip file was successfully removed. Retry please.`
             );
         }
-        process.exit(0);
+        util.close();
+    }
+}
+
+function getFileSize(filePath) {
+    try {
+        if (util.isFileExist(filePath)) {
+            const stats = fs.statSync(filePath);
+            return stats['size'];
+        }
+    } catch (error) {
+        console.error(`Failed to getFileSize ${error}`);
     }
 }
