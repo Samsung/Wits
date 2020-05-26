@@ -10,20 +10,12 @@ const userInfoHelper = require('../lib/userInfoHelper.js');
 
 const WITS_CONFIG_FILE_NAME = '.witsconfig.json';
 const WITS_IGNORE_FILE_NAME = '.witsignore';
-const CONTAINER_DIRECTORY_NAME = 'container';
-const CONTAINER_ZIP_FILE_NAME = 'container.zip';
-const CONTAINER_ZIP_URL =
-    'https://github.com/Samsung/Wits/raw/master/archive/container.zip';
-const CONTAINER_ZIP_FILE_PATH = path.join(
-    util.WITS_BASE_PATH,
-    '../',
-    CONTAINER_ZIP_FILE_NAME
-);
-const CONTAINER_DIRECTORY_PATH = path.join(
-    util.WITS_BASE_PATH,
-    '../',
-    CONTAINER_DIRECTORY_NAME
-);
+
+const CONTAINER_NAME = 'container';
+const CONTAINER_ZIP_URL = 'https://github.com/Samsung/Wits/raw/master/archive/container.zip';
+
+const TOOLS_NAME = 'tools';
+const TOOLS_ZIP_URL = 'https://github.com/Samsung/Wits/raw/wits-vscode/archive/tools.zip';
 
 module.exports = {
     run: async () => {
@@ -40,7 +32,10 @@ module.exports = {
 
         console.log(``);
 
-        await extractContainer();
+        await Promise.all([
+            prepareTool(CONTAINER_NAME, CONTAINER_ZIP_URL),
+            prepareTool(TOOLS_NAME, TOOLS_ZIP_URL)
+        ]);
         return;
     }
 };
@@ -131,19 +126,33 @@ function isValidWitsconfigFile(data) {
     return false;
 }
 
-async function downloadContainer() {
-    if (util.isFileExist(CONTAINER_ZIP_FILE_PATH)) {
+async function prepareTool(name, downloadUrl) {
+    new Promise((resolve, reject) => {
+        await download(name, downloadUrl);
+        await extract(name);
+        resolve();
+    })
+}
+
+async function download(name, downloadUrl) {
+    const ZIP_FILE_PATH = path.join(
+        util.WITS_BASE_PATH,
+        '../',
+        `${name}.zip`
+    );
+
+    if (util.isFileExist(ZIP_FILE_PATH)) {
         return;
     }
 
     const optionalInfo = await userInfoHelper.getOptionalInfo();
-    const zip = fs.createWriteStream(CONTAINER_ZIP_FILE_PATH);
+    const zip = fs.createWriteStream(ZIP_FILE_PATH);
 
     await new Promise((resolve, reject) => {
-        let requestOptions = { uri: CONTAINER_ZIP_URL };
+        let requestOptions = { uri: downloadUrl };
         if (util.isPropertyExist(optionalInfo, 'proxyServer')) {
             requestOptions = {
-                uri: CONTAINER_ZIP_URL,
+                uri: downloadUrl,
                 strictSSL: false,
                 proxy: optionalInfo.proxyServer
             };
@@ -154,14 +163,14 @@ async function downloadContainer() {
             })
             .on('progress', state => {
                 overwrite(
-                    `Downloading Container.zip............. ${parseInt(
+                    `Downloading ${name}.zip ............. ${parseInt(
                         state.percent * 100
                     )} %`
                 );
             })
             .pipe(zip)
             .on('finish', () => {
-                overwrite(`Downloading Container.zip............. 100 %`);
+                overwrite(`Downloading ${name}.zip ............. 100 %`);
                 console.log(`Download has been completed.`);
                 console.log(``);
                 overwrite.done();
@@ -180,18 +189,24 @@ async function downloadContainer() {
     });
 }
 
-async function extractContainer() {
-    if (!util.isFileExist(CONTAINER_ZIP_FILE_PATH)) {
-        await downloadContainer();
-    }
-
+async function extract(name) {
+    const ZIP_FILE_PATH = path.join(
+        util.WITS_BASE_PATH,
+        '../',
+        `${name}.zip`
+    );
+    const DIRECTORY_PATH = path.join(
+        util.WITS_BASE_PATH,
+        '../',
+        name
+    );
     try {
-        const zip = new admzip(CONTAINER_ZIP_FILE_PATH);
-        zip.extractAllTo(CONTAINER_DIRECTORY_PATH);
+        const zip = new admzip(ZIP_FILE_PATH);
+        zip.extractAllTo(DIRECTORY_PATH);
     } catch (error) {
         console.log(`${error}`);
-        if (util.isFileExist(CONTAINER_ZIP_FILE_PATH)) {
-            fs.unlinkSync(CONTAINER_ZIP_FILE_PATH);
+        if (util.isFileExist(ZIP_FILE_PATH)) {
+            fs.unlinkSync(ZIP_FILE_PATH);
             console.log(
                 `Invalid zip file was successfully removed. Retry please.`
             );
