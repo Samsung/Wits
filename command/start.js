@@ -76,7 +76,6 @@ function checkConfiguration() {
     if (
         !util.isFileExist(CONTAINER_DIRECTORY_PATH) ||
         !util.isFileExist(RESOURCE_DIRECTORY_PATH) ||
-        !util.isFileExist(util.TOOLS_CRYPT_PATH) ||
         !util.isFileExist(util.TOOLS_SDB_PATH)
     ) {
         return false;
