@@ -43,6 +43,7 @@ module.exports = {
             prepareTool(TOOLS_NAME, TOOLS_ZIP_URL),
             prepareTool(RESOURCE_NAME, RESOURCE_ZIP_URL)
         ]);
+        givePermission();
         return;
     }
 };
@@ -55,6 +56,7 @@ function makeWitsignoreFile() {
 
     try {
         if (util.isFileExist(WITSIGNORE_PATH)) {
+            fs.chmodSync(WITSIGNORE_PATH, '0775');
             console.log('.witsignore is already exist.');
             return;
         }
@@ -74,6 +76,7 @@ function makeWitsconfigFile() {
 
     try {
         if (util.isFileExist(WITSCONFIG_PATH) && isExistCustomFile()) {
+            fs.chmodSync(WITSCONFIG_PATH, '0775');
             console.log('.witsconfig.json is already exist.');
             return;
         }
@@ -175,6 +178,9 @@ async function extract(name) {
     try {
         const zip = new admzip(ZIP_FILE_PATH);
         zip.extractAllTo(DIRECTORY_PATH);
+        fs.chmod(DIRECTORY_PATH, '0775', () => {
+            return;
+        });
     } catch (error) {
         console.log(`${error}`);
         if (util.isFileExist(ZIP_FILE_PATH)) {
@@ -195,5 +201,15 @@ function getFileSize(filePath) {
         }
     } catch (error) {
         console.error(`Failed to getFileSize ${error}`);
+    }
+}
+
+function givePermission() {
+    try {
+        if (util.isFileExist(util.TOOLS_SDB_PATH)) {
+            fs.chmodSync(util.TOOLS_SDB_PATH, '0777');
+        }
+    } catch (error) {
+        console.error(`Failed to givePermission ${error}`);
     }
 }
