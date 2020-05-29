@@ -1,8 +1,16 @@
-const userInfoHelper = require('./lib/userInfoHelper');
+const util = require('./lib/util.js');
+const userInfoHelper = require('./lib/userInfoHelper.js');
 
 const setWitsconfigInfo = async data => {
     const initCommand = require('./command/init.js');
     console.log('WITs::setWitsconfigInfo');
+
+    if (data.hasOwnProperty('baseAppPath')) {
+        util.CURRENT_PROJECT_PATH = userInfoHelper.getBaseAppPath(
+            data.baseAppPath
+        );
+    }
+
     await initCommand.prepareRun();
     await userInfoHelper.updateLatestUserAnswer(data);
     return;
