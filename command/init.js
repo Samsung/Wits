@@ -53,6 +53,8 @@ function makeWitsignoreFile() {
         WITS_IGNORE_FILE_NAME
     );
 
+    fs.chmodSync(WITSIGNORE_PATH, '0775');
+
     try {
         if (util.isFileExist(WITSIGNORE_PATH)) {
             console.log('.witsignore is already exist.');
@@ -71,6 +73,8 @@ function makeWitsconfigFile() {
         util.CURRENT_PROJECT_PATH,
         WITS_CONFIG_FILE_NAME
     );
+
+    fs.chmodSync(WITSCONFIG_PATH, '0775');
 
     try {
         if (util.isFileExist(WITSCONFIG_PATH) && isExistCustomFile()) {
