@@ -82,13 +82,13 @@ function checkConfiguration() {
         return false;
     }
 
-    if (util.isFileExist(util.TOOLS_CRYPT_PATH)) {
-        fs.chmodSync(util.TOOLS_CRYPT_PATH, '0775');
-    }
+    // if (util.isFileExist(util.TOOLS_CRYPT_PATH)) {
+    //     fs.chmodSync(util.TOOLS_CRYPT_PATH, '0775');
+    // }
 
-    if (util.isFileExist(util.TOOLS_SDB_PATH)) {
-        fs.chmodSync(util.TOOLS_SDB_PATH, '0775');
-    }
+    // if (util.isFileExist(util.TOOLS_SDB_PATH)) {
+    //     fs.chmodSync(util.TOOLS_SDB_PATH, '0775');
+    // }
 
     return true;
 }
