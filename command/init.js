@@ -53,10 +53,9 @@ function makeWitsignoreFile() {
         WITS_IGNORE_FILE_NAME
     );
 
-    fs.chmodSync(WITSIGNORE_PATH, '0775');
-
     try {
         if (util.isFileExist(WITSIGNORE_PATH)) {
+            fs.chmodSync(WITSIGNORE_PATH, '0775');
             console.log('.witsignore is already exist.');
             return;
         }
@@ -74,10 +73,9 @@ function makeWitsconfigFile() {
         WITS_CONFIG_FILE_NAME
     );
 
-    fs.chmodSync(WITSCONFIG_PATH, '0775');
-
     try {
         if (util.isFileExist(WITSCONFIG_PATH) && isExistCustomFile()) {
+            fs.chmodSync(WITSCONFIG_PATH, '0775');
             console.log('.witsconfig.json is already exist.');
             return;
         }
