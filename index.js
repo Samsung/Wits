@@ -41,8 +41,14 @@ const watch = async () => {
     return;
 };
 
+const disconnect = () => {
+    const watchHelper = require('./lib/watchHelper.js');
+    watchHelper.closeSocketServer();
+};
+
 module.exports = {
     setWitsconfigInfo,
     start,
-    watch
+    watch,
+    disconnect
 };
