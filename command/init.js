@@ -122,12 +122,12 @@ async function prepareTool(name, downloadUrl) {
 async function download(name, downloadUrl) {
     const ZIP_FILE_PATH = path.join(util.WITS_BASE_PATH, '../', `${name}.zip`);
 
-    if (util.isFileExist(ZIP_FILE_PATH) && getFileSize(ZIP_FILE_PATH) !== 0) {
-        return;
-    }
-
-    if (getFileSize(ZIP_FILE_PATH) === 0) {
-        util.removeFile(ZIP_FILE_PATH);
+    if (util.isFileExist(ZIP_FILE_PATH)) {
+        if (getFileSize(ZIP_FILE_PATH) !== 0) {
+            return;
+        } else {
+            util.removeFile(ZIP_FILE_PATH);
+        }
     }
 
     const optionalInfo = await userInfoHelper.getOptionalInfo();
@@ -143,7 +143,6 @@ async function download(name, downloadUrl) {
             };
         }
         progress(request(requestOptions))
-            .on('response', data => {})
             .on('progress', state => {
                 overwrite(
                     `Downloading ${name}.zip ............. ${parseInt(
@@ -169,6 +168,7 @@ async function download(name, downloadUrl) {
         console.warn(
             `Failed to download, please check if you're behind proxy : ${error}`
         );
+        throw error;
     });
 }
 
@@ -189,16 +189,14 @@ async function extract(name) {
                 `Invalid zip file was successfully removed. Retry please.`
             );
         }
-        util.close();
+        util.exit();
     }
 }
 
 function getFileSize(filePath) {
     try {
-        if (util.isFileExist(filePath)) {
-            const stats = fs.statSync(filePath);
-            return stats['size'];
-        }
+        const stats = fs.statSync(filePath);
+        return stats['size'];
     } catch (error) {
         console.error(`Failed to getFileSize ${error}`);
     }

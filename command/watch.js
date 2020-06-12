@@ -30,7 +30,7 @@ module.exports = {
                 : appLaunchHelper.launchApp(deviceName, hostAppId);
         } catch (e) {
             console.log(e);
-            util.close();
+            util.exit();
         }
     }
 };

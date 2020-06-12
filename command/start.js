@@ -63,12 +63,12 @@ module.exports = {
                         : appLaunchHelper.launchApp(deviceName, hostAppId);
                 } catch (e) {
                     console.log(e);
-                    util.close();
+                    util.exit();
                 }
             })
             .catch(e => {
                 console.error(`Failed to buildPackage: ${e}`);
-                util.close();
+                util.exit();
             });
     }
 };
