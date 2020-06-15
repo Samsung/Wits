@@ -93,7 +93,7 @@ For details, [Sample data for .witsconfig.json](https://github.com/Samsung/Wits/
 on `Windows` and `MacOS` both, **WITs** recognises path segment only one separator(**`/`**).
 
 -   **connectionInfo** (mandatory)
-    -   deviceIp [string] : Device(TV) Ip address
+    -   deviceIp [string] : Device(TV) Ip address (In case of Emulator, Please input 0.0.0.0)
     -   hostIp [string] : Host(PC) Ip address
     -   socketPort [integer] : TV port. It is generated randomly in WITs.
     -   width [string] : Resolution
