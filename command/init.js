@@ -125,8 +125,6 @@ async function prepareTool(name, downloadUrl) {
 }
 
 async function download(name, downloadUrl) {
-    console.log('download:::PROXY:::', util.PROXY);
-
     const ZIP_FILE_PATH = path.join(util.WITS_BASE_PATH, '../', `${name}.zip`);
 
     if (util.isFileExist(ZIP_FILE_PATH)) {

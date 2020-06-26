@@ -15,7 +15,6 @@ const setWitsconfigInfo = async data => {
         util.PROXY = data.proxyServer;
     }
 
-    console.log('setWitsconfigInfo:::PROXY:::', util.PROXY);
     await initCommand.prepareRun();
     await userInfoHelper.updateLatestUserAnswer(data);
     return;
