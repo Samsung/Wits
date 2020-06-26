@@ -36,6 +36,11 @@ module.exports = {
         makeWitsignoreFile();
         makeWitsconfigFile();
 
+        const optionalInfo = await userInfoHelper.getOptionalInfo();
+        if (optionalInfo && util.isPropertyExist(optionalInfo, 'proxyServer')) {
+            util.PROXY = optionalInfo.proxyServer;
+        }
+
         console.log(`\nStart downloading files for configuration...`);
 
         await Promise.all([
@@ -120,6 +125,8 @@ async function prepareTool(name, downloadUrl) {
 }
 
 async function download(name, downloadUrl) {
+    console.log('download:::PROXY:::', util.PROXY);
+
     const ZIP_FILE_PATH = path.join(util.WITS_BASE_PATH, '../', `${name}.zip`);
 
     if (util.isFileExist(ZIP_FILE_PATH)) {
@@ -130,16 +137,15 @@ async function download(name, downloadUrl) {
         }
     }
 
-    const optionalInfo = await userInfoHelper.getOptionalInfo();
     const zip = fs.createWriteStream(ZIP_FILE_PATH);
 
     await new Promise((resolve, reject) => {
         let requestOptions = { uri: downloadUrl };
-        if (optionalInfo && util.isPropertyExist(optionalInfo, 'proxyServer')) {
+        if (util.PROXY !== '') {
             requestOptions = {
                 uri: downloadUrl,
                 strictSSL: false,
-                proxy: optionalInfo.proxyServer
+                proxy: util.PROXY
             };
         }
         progress(request(requestOptions))
