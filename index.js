@@ -11,6 +11,10 @@ const setWitsconfigInfo = async data => {
         );
     }
 
+    if (data.hasOwnProperty('proxyServer')) {
+        util.PROXY = data.proxyServer;
+    }
+
     await initCommand.prepareRun();
     await userInfoHelper.updateLatestUserAnswer(data);
     return;
