@@ -24,15 +24,15 @@ const RESOURCE_ZIP_URL =
     'https://github.com/Samsung/Wits/raw/master/archive/resource.zip';
 
 module.exports = {
-    run: async () => {
+    run: async option => {
         console.log(`Start configuration for Wits............`);
 
-        await module.exports.prepareRun();
+        await module.exports.prepareRun(option);
 
         const wInfo = userInfoHelper.getRefinedData();
         await userInfoHelper.askQuestion(wInfo.connectionInfo);
     },
-    prepareRun: async () => {
+    prepareRun: async option => {
         makeWitsignoreFile();
         makeWitsconfigFile();
 
@@ -41,7 +41,9 @@ module.exports = {
             util.PROXY = optionalInfo.proxyServer;
         }
 
-        console.log(`\nStart downloading files for configuration...`);
+        if (option && util.isProxy(option)) {
+            util.PROXY = option;
+        }
 
         await Promise.all([
             prepareTool(CONTAINER_NAME, CONTAINER_ZIP_URL),
@@ -66,7 +68,7 @@ function makeWitsignoreFile() {
             return;
         }
 
-        util.createEmptyFile(WITSIGNORE_PATH);
+        util.createEmptyFile(WITSIGNORE_PATH, 'node_modules');
         console.log('.witsignore is prepared.');
     } catch (error) {
         console.error(`Failed to makeWitsignoreFile ${error}`);
