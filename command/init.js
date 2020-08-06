@@ -27,31 +27,42 @@ module.exports = {
     run: async option => {
         console.log(`Start configuration for Wits............`);
 
-        await module.exports.prepareRun(option);
+        try {
+            await module.exports.prepareRun(option);
 
-        const wInfo = userInfoHelper.getRefinedData();
-        await userInfoHelper.askQuestion(wInfo.connectionInfo);
+            const wInfo = userInfoHelper.getRefinedData();
+            await userInfoHelper.askQuestion(wInfo.connectionInfo);
+        } catch (e) {
+            console.error(`Failed to run: ${e}`);
+        }
     },
     prepareRun: async option => {
-        makeWitsignoreFile();
-        makeWitsconfigFile();
+        try {
+            makeWitsignoreFile();
+            makeWitsconfigFile();
 
-        const optionalInfo = await userInfoHelper.getOptionalInfo();
-        if (optionalInfo && util.isPropertyExist(optionalInfo, 'proxyServer')) {
-            util.PROXY = optionalInfo.proxyServer;
+            const optionalInfo = await userInfoHelper.getOptionalInfo();
+            if (
+                optionalInfo &&
+                util.isPropertyExist(optionalInfo, 'proxyServer')
+            ) {
+                util.PROXY = optionalInfo.proxyServer;
+            }
+
+            if (option && util.isProxy(option)) {
+                util.PROXY = option;
+            }
+
+            await Promise.all([
+                prepareTool(CONTAINER_NAME, CONTAINER_ZIP_URL),
+                prepareTool(TOOLS_NAME, TOOLS_ZIP_URL),
+                prepareTool(RESOURCE_NAME, RESOURCE_ZIP_URL)
+            ]);
+            givePermission();
+            return;
+        } catch (error) {
+            throw error;
         }
-
-        if (option && util.isProxy(option)) {
-            util.PROXY = option;
-        }
-
-        await Promise.all([
-            prepareTool(CONTAINER_NAME, CONTAINER_ZIP_URL),
-            prepareTool(TOOLS_NAME, TOOLS_ZIP_URL),
-            prepareTool(RESOURCE_NAME, RESOURCE_ZIP_URL)
-        ]);
-        givePermission();
-        return;
     }
 };
 
@@ -122,8 +133,12 @@ function isValidWitsconfigFile(data) {
 }
 
 async function prepareTool(name, downloadUrl) {
-    await download(name, downloadUrl);
-    await extract(name);
+    try {
+        await download(name, downloadUrl);
+        await extract(name);
+    } catch (error) {
+        throw error;
+    }
 }
 
 async function download(name, downloadUrl) {
