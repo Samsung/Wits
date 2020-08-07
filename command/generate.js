@@ -9,8 +9,7 @@ module.exports = {
         console.log(`Generate a certification............`);
 
         try {
-            const answer = await certificationHelper.askQuestion();
-            console.log(answer);
+            await certificationHelper.askQuestion();
         } catch (e) {
             console.error(`Failed to run: ${e}`);
         }
