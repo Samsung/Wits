@@ -1,6 +1,6 @@
 {
-    "name": "testwits-200810",
-    "version": "0.0.1",
+    "name": "@tizentv/wits",
+    "version": "2.2.0",
     "description": "Instant live reload tool for Tizen Web Application development",
     "main": "index.js",
     "author": "Samsung Electronics Co., Ltd.",
@@ -13,7 +13,6 @@
     },
     "homepage": "https://github.com/Samsung/Wits/issues",
     "dependencies": {
-        "adm-zip": "^0.4.14",
         "archiver": "^1.3.0",
         "chrome-launcher": "^0.13.2",
         "commander": "^4.1.1",
@@ -27,10 +26,7 @@
         "node-forge": "^0.6.48",
         "node-watch": "^0.6.2",
         "recursive-readdir": "^2.2.2",
-        "request": "^2.88.2",
-        "request-progress": "^3.0.0",
         "socket.io": "^1.7.3",
-        "terminal-overwrite": "^2.0.1",
         "xml2js": "^0.4.19",
         "xmldom": "^0.1.31"
     },

@@ -29,7 +29,7 @@
     var CONTENT_PATH = '/home/owner/share/tmp/sdk_tools/BasicTestWITs';
     var CONTENT_SRC = '/home/owner/share/tmp/sdk_tools/BasicTestWITs/index.html';
     var IP = 'http://10.88.106.190';
-    var PORT = '5375';
+    var PORT = '5125';
     var CONNECTED = 'Connected';
     var DISCONNECTED = 'Disconnected';
     var HOST_BASE_CONTENT_PATH = 'E:/dev/workspace/BasicTest';

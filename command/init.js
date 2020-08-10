@@ -1,9 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const request = require('request');
-const progress = require('request-progress');
-const overwrite = require('terminal-overwrite');
-const admzip = require('adm-zip');
 
 const util = require('../lib/util.js');
 const userInfoHelper = require('../lib/userInfoHelper.js');
@@ -11,24 +7,12 @@ const userInfoHelper = require('../lib/userInfoHelper.js');
 const WITS_CONFIG_FILE_NAME = '.witsconfig.json';
 const WITS_IGNORE_FILE_NAME = '.witsignore';
 
-const CONTAINER_NAME = 'container';
-const CONTAINER_ZIP_URL =
-    'https://github.com/Samsung/Wits/raw/master/archive/container.zip';
-
-const TOOLS_NAME = 'tools';
-const TOOLS_ZIP_URL =
-    'https://github.com/Samsung/Wits/raw/master/archive/tools.zip';
-
-const RESOURCE_NAME = 'resource';
-const RESOURCE_ZIP_URL =
-    'https://github.com/Samsung/Wits/raw/master/archive/resource.zip';
-
 module.exports = {
-    run: async option => {
+    run: async () => {
         console.log(`Start configuration for Wits............`);
 
         try {
-            await module.exports.prepareRun(option);
+            await module.exports.prepareRun();
 
             const wInfo = userInfoHelper.getRefinedData();
             await userInfoHelper.askQuestion(wInfo.connectionInfo);
@@ -36,29 +20,12 @@ module.exports = {
             console.error(`Failed to run: ${e}`);
         }
     },
-    prepareRun: async option => {
+    prepareRun: () => {
         try {
             makeWitsignoreFile();
             makeWitsconfigFile();
 
-            // const optionalInfo = await userInfoHelper.getOptionalInfo();
-            // if (
-            //     optionalInfo &&
-            //     util.isPropertyExist(optionalInfo, 'proxyServer')
-            // ) {
-            //     util.PROXY = optionalInfo.proxyServer;
-            // }
-
-            // if (option && util.isProxy(option)) {
-            //     util.PROXY = option;
-            // }
-
-            // await Promise.all([
-            //     prepareTool(CONTAINER_NAME, CONTAINER_ZIP_URL),
-            //     prepareTool(TOOLS_NAME, TOOLS_ZIP_URL),
-            //     prepareTool(RESOURCE_NAME, RESOURCE_ZIP_URL)
-            // ]);
-            // givePermission();
+            givePermission();
             return;
         } catch (error) {
             throw error;
@@ -130,97 +97,6 @@ function isValidWitsconfigFile(data) {
         return true;
     }
     return false;
-}
-
-async function prepareTool(name, downloadUrl) {
-    try {
-        await download(name, downloadUrl);
-        await extract(name);
-    } catch (error) {
-        throw error;
-    }
-}
-
-async function download(name, downloadUrl) {
-    const ZIP_FILE_PATH = path.join(util.WITS_BASE_PATH, '../', `${name}.zip`);
-
-    if (util.isFileExist(ZIP_FILE_PATH)) {
-        if (getFileSize(ZIP_FILE_PATH) !== 0) {
-            return;
-        } else {
-            util.removeFile(ZIP_FILE_PATH);
-        }
-    }
-
-    const zip = fs.createWriteStream(ZIP_FILE_PATH);
-
-    await new Promise((resolve, reject) => {
-        let requestOptions = { uri: downloadUrl };
-        if (util.PROXY !== '') {
-            requestOptions = {
-                uri: downloadUrl,
-                strictSSL: false,
-                proxy: util.PROXY
-            };
-        }
-        progress(request(requestOptions))
-            .on('progress', state => {
-                overwrite(
-                    `Downloading ${name}.zip ............. ${parseInt(
-                        state.percent * 100
-                    )} %`
-                );
-            })
-            .pipe(zip)
-            .on('finish', () => {
-                overwrite(`Downloading ${name}.zip ............. 100 %`);
-                console.log(`Download has been completed.`);
-                console.log(``);
-                overwrite.done();
-                resolve();
-            })
-            .on('error', error => {
-                console.warn(
-                    `Failed to download, please check if you're behind proxy : ${error}`
-                );
-                reject(error);
-            });
-    }).catch(error => {
-        console.warn(
-            `Failed to download, please check if you're behind proxy : ${error}`
-        );
-        throw error;
-    });
-}
-
-async function extract(name) {
-    const ZIP_FILE_PATH = path.join(util.WITS_BASE_PATH, '../', `${name}.zip`);
-    const DIRECTORY_PATH = path.join(util.WITS_BASE_PATH, '../', name);
-    try {
-        const zip = new admzip(ZIP_FILE_PATH);
-        zip.extractAllTo(DIRECTORY_PATH);
-        fs.chmod(DIRECTORY_PATH, '0775', () => {
-            return;
-        });
-    } catch (error) {
-        console.log(`${error}`);
-        if (util.isFileExist(ZIP_FILE_PATH)) {
-            await fs.unlink(ZIP_FILE_PATH);
-            console.log(
-                `Invalid zip file was successfully removed. Retry please.`
-            );
-        }
-        util.exit();
-    }
-}
-
-function getFileSize(filePath) {
-    try {
-        const stats = fs.statSync(filePath);
-        return stats['size'];
-    } catch (error) {
-        console.error(`Failed to getFileSize ${error}`);
-    }
 }
 
 function givePermission() {
