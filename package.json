@@ -1,5 +1,5 @@
 {
-    "name": "testwits-200807",
+    "name": "testwits-200810",
     "version": "0.0.1",
     "description": "Instant live reload tool for Tizen Web Application development",
     "main": "index.js",
