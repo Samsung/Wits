@@ -15,9 +15,9 @@ const CONTAINER_NAME = 'container';
 const CONTAINER_ZIP_URL =
     'https://github.com/Samsung/Wits/raw/master/archive/container.zip';
 
-// const TOOLS_NAME = 'tools';
-// const TOOLS_ZIP_URL =
-//     'https://github.com/Samsung/Wits/raw/master/archive/tools.zip';
+const TOOLS_NAME = 'tools';
+const TOOLS_ZIP_URL =
+    'https://github.com/Samsung/Wits/raw/master/archive/tools.zip';
 
 const RESOURCE_NAME = 'resource';
 const RESOURCE_ZIP_URL =
@@ -41,24 +41,24 @@ module.exports = {
             makeWitsignoreFile();
             makeWitsconfigFile();
 
-            const optionalInfo = await userInfoHelper.getOptionalInfo();
-            if (
-                optionalInfo &&
-                util.isPropertyExist(optionalInfo, 'proxyServer')
-            ) {
-                util.PROXY = optionalInfo.proxyServer;
-            }
+            // const optionalInfo = await userInfoHelper.getOptionalInfo();
+            // if (
+            //     optionalInfo &&
+            //     util.isPropertyExist(optionalInfo, 'proxyServer')
+            // ) {
+            //     util.PROXY = optionalInfo.proxyServer;
+            // }
 
-            if (option && util.isProxy(option)) {
-                util.PROXY = option;
-            }
+            // if (option && util.isProxy(option)) {
+            //     util.PROXY = option;
+            // }
 
-            await Promise.all([
-                prepareTool(CONTAINER_NAME, CONTAINER_ZIP_URL),
-                // prepareTool(TOOLS_NAME, TOOLS_ZIP_URL),
-                prepareTool(RESOURCE_NAME, RESOURCE_ZIP_URL)
-            ]);
-            givePermission();
+            // await Promise.all([
+            //     prepareTool(CONTAINER_NAME, CONTAINER_ZIP_URL),
+            //     prepareTool(TOOLS_NAME, TOOLS_ZIP_URL),
+            //     prepareTool(RESOURCE_NAME, RESOURCE_ZIP_URL)
+            // ]);
+            // givePermission();
             return;
         } catch (error) {
             throw error;
