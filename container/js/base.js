@@ -210,6 +210,8 @@
         socket.on('disconnect', function () {
             console.log(' disconnect, id =  ' + socket.id);
             toggleConnectInfo(DISCONNECTED);
+            socket.disconnect(true);
+            socket.close();
             if (isLoadingContents) {
                 alert('Failed to load Content Application');
                 tizen.application.getCurrentApplication().exit();
