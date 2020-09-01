@@ -26,13 +26,14 @@
     var socket = null;
     var iconDimTimer = null;
     var isLoadingContents = false;
-    var CONTENT_PATH = '/home/owner/share/tmp/sdk_tools/BasicTestWITs';
-    var CONTENT_SRC = '/home/owner/share/tmp/sdk_tools/BasicTestWITs/index.html';
-    var IP = 'http://10.88.106.190';
-    var PORT = '5125';
+    var CONTENT_PATH = '/home/owner/share/tmp/sdk_tools/Wit1sTestWITs';
+    var CONTENT_SRC =
+        '/home/owner/share/tmp/sdk_tools/Wit1sTestWITs/index.html';
+    var IP = 'http://0.0.0.0';
+    var PORT = '6276';
     var CONNECTED = 'Connected';
     var DISCONNECTED = 'Disconnected';
-    var HOST_BASE_CONTENT_PATH = 'E:/dev/workspace/BasicTest';
+    var HOST_BASE_CONTENT_PATH = 'E:/dev/workspace/WitsTest';
 
     window.onload = function () {
         console.log('onload!!!');
@@ -210,6 +211,8 @@
         socket.on('disconnect', function () {
             console.log(' disconnect, id =  ' + socket.id);
             toggleConnectInfo(DISCONNECTED);
+            socket.disconnect(true);
+            socket.close();
             if (isLoadingContents) {
                 alert('Failed to load Content Application');
                 tizen.application.getCurrentApplication().exit();
