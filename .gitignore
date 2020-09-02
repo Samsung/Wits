@@ -5,5 +5,5 @@ www/
 container.zip
 tools.zip
 resource.zip
-container/js/main.json
+container/js/main.js
 container/config.xml
