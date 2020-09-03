@@ -24,15 +24,15 @@ module.exports = {
     run: async () => {
         console.log(`Start running Wits............`);
 
-        if (!checkConfiguration()) {
-            console.error(
-                'Wits configuration is failed. "wits -i" is required before running "wits -s"'
-            );
-            console.error(
-                'Please check the required tools are available. (ex. sdb)'
-            );
-            return;
-        }
+        // if (!checkConfiguration()) {
+        //     console.error(
+        //         'Wits configuration is failed. "wits -i" is required before running "wits -s"'
+        //     );
+        //     console.error(
+        //         'Please check the required tools are available. (ex. sdb)'
+        //     );
+        //     return;
+        // }
 
         const data = userInfoHelper.getRefinedData();
         const deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);

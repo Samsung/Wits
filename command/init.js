@@ -102,13 +102,24 @@ function isValidWitsconfigFile(data) {
 function givePermission() {
     try {
         if (util.isFileExist(util.TOOLS_SDB_PATH)) {
-            fs.chmodSync(util.TOOLS_SDB_PATH, '0777');
+            chmodAll(util.TOOLS_SDB_PATH);
         }
 
         if (util.isFileExist(util.TOOLS_CRYPT_PATH)) {
-            fs.chmodSync(util.TOOLS_CRYPT_PATH, '0777');
+            chmodAll(util.TOOLS_CRYPT_PATH);
         }
     } catch (error) {
         console.error(`Failed to givePermission ${error}`);
+    }
+}
+
+function chmodAll(toolPath) {
+    switch (util.PLATFORM) {
+        case 'linux':
+            fs.chmodSync(toolPath, fs.constants.S_IXUSR);
+            break;
+        default:
+            fs.chmodSync(toolPath, '0777');
+            break;
     }
 }
