@@ -6,7 +6,7 @@ const path = require('path');
 
 module.exports = {
     run: async () => {
-        console.log(`Generate a certification............`);
+        console.log(chalk.cyanBright('Generate a certification............'));
 
         const resourceDir = path.resolve(__dirname, '../', 'resource');
 
@@ -30,7 +30,7 @@ module.exports = {
             };
             tizenCM.createCert(authorInfo);
             console.log(
-                chalk.blueBright(
+                chalk.cyanBright(
                     '[Certification] Completed to generate a Tizen certification'
                 )
             );
@@ -56,7 +56,7 @@ module.exports = {
                 distributorProfile
             );
             console.log(
-                chalk.blueBright(
+                chalk.cyanBright(
                     '[Certification] Completed to register a profile'
                 )
             );
