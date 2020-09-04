@@ -11,7 +11,7 @@ module.exports = {
         const resourceDir = path.resolve(__dirname, '../', 'resource');
 
         try {
-            const certInfo = await certificationHelper.askQuestion();
+            const certInfo = await certificationHelper.getAnswers();
             util.createEmptyDirectory(resourceDir);
             util.RESOURCE_PATH = resourceDir;
 
