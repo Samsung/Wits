@@ -11,6 +11,7 @@ module.exports = {
 
         try {
             const certInfo = await certificationHelper.askQuestion();
+            console.log('####1', certInfo);
             util.createEmptyDirectory(resourceDir);
             util.RESOURCE_PATH = resourceDir;
 
