@@ -1,5 +1,6 @@
 const certificationHelper = require('../lib/certificationHelper.js');
 const common = require('@tizentv/webide-common-tizentv');
+const chalk = require('chalk');
 const util = require('../lib/util');
 const path = require('path');
 
@@ -11,7 +12,6 @@ module.exports = {
 
         try {
             const certInfo = await certificationHelper.askQuestion();
-            console.log('####1', certInfo);
             util.createEmptyDirectory(resourceDir);
             util.RESOURCE_PATH = resourceDir;
 
@@ -29,7 +29,11 @@ module.exports = {
                 emailInfo: ''
             };
             tizenCM.createCert(authorInfo);
-            console.log('Completed to generate a Tizen certification');
+            console.log(
+                chalk.blueBright(
+                    '[Certification] Completed to generate a Tizen certification'
+                )
+            );
 
             const profileManager = new common.ProfileManager(resourceDir);
             const profileName = certInfo.authorName;
@@ -51,11 +55,15 @@ module.exports = {
                 authorProfile,
                 distributorProfile
             );
-            console.log('Completed to register a Profile');
+            console.log(
+                chalk.blueBright(
+                    '[Certification] Completed to register a profile'
+                )
+            );
 
             profileManager.setActivateProfile(profileName);
         } catch (e) {
-            console.error(`Failed to run: ${e}`);
+            console.error(chalk.red(`[Certification] Failed to run: ${e}`));
         }
     }
 };
