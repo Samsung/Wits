@@ -11,7 +11,7 @@ module.exports = {
         const resourceDir = path.resolve(__dirname, '../', 'resource');
 
         try {
-            const certInfo = await certificationHelper.askQuestion();
+            const certInfo = await certificationHelper.getAnswers();
             util.createEmptyDirectory(resourceDir);
             util.RESOURCE_PATH = resourceDir;
 
@@ -36,7 +36,7 @@ module.exports = {
             );
 
             const profileManager = new common.ProfileManager(resourceDir);
-            const profileName = certInfo.authorName;
+            const profileName = certInfo.profileName;
             const authorProfile = {
                 authorCA: tizenCM.getTizenDeveloperCA(),
                 authorCertPath: path.resolve(
