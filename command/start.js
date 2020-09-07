@@ -1,38 +1,14 @@
-const path = require('path');
-const fs = require('fs');
-
 const util = require('../lib/util.js');
 const userInfoHelper = require('../lib/userInfoHelper.js');
 const hostAppHelper = require('../lib/hostAppHelper.js');
 const appLaunchHelper = require('../lib/appLaunchHelper.js');
 const watchHelper = require('../lib/watchHelper.js');
 
-const CONTAINER_DIRECTORY_NAME = 'container';
-const RESOURCE_DIRECTORY_NAME = 'resource';
-const CONTAINER_DIRECTORY_PATH = path.join(
-    util.WITS_BASE_PATH,
-    '../',
-    CONTAINER_DIRECTORY_NAME
-);
-const RESOURCE_DIRECTORY_PATH = path.join(
-    util.WITS_BASE_PATH,
-    '../',
-    RESOURCE_DIRECTORY_NAME
-);
-
 module.exports = {
     run: async () => {
         console.log(`Start running Wits............`);
 
-        // if (!checkConfiguration()) {
-        //     console.error(
-        //         'Wits configuration is failed. "wits -i" is required before running "wits -s"'
-        //     );
-        //     console.error(
-        //         'Please check the required tools are available. (ex. sdb)'
-        //     );
-        //     return;
-        // }
+        await module.exports.prepareRun();
 
         const data = userInfoHelper.getRefinedData();
         const deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
@@ -70,25 +46,13 @@ module.exports = {
                 console.error(`Failed to buildPackage: ${e}`);
                 util.exit();
             });
+    },
+    prepareRun: async () => {
+        try {
+            await util.initTools();
+            return;
+        } catch (e) {
+            console.log(`Failed to prepareRun : ${e}`);
+        }
     }
 };
-
-function checkConfiguration() {
-    if (
-        !util.isFileExist(CONTAINER_DIRECTORY_PATH) ||
-        !util.isFileExist(RESOURCE_DIRECTORY_PATH) ||
-        !util.isFileExist(util.TOOLS_SDB_PATH)
-    ) {
-        return false;
-    }
-
-    // if (util.isFileExist(util.TOOLS_CRYPT_PATH)) {
-    //     fs.chmodSync(util.TOOLS_CRYPT_PATH, '0775');
-    // }
-
-    // if (util.isFileExist(util.TOOLS_SDB_PATH)) {
-    //     fs.chmodSync(util.TOOLS_SDB_PATH, '0775');
-    // }
-
-    return true;
-}

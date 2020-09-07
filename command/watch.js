@@ -7,6 +7,8 @@ const util = require('../lib/util.js');
 module.exports = {
     run: async () => {
         console.log(`Start running Wits watch mode............`);
+
+        await module.exports.prepareRun();
         const data = await userInfoHelper.getLatestWitsconfigInfo()
             .connectionInfo;
         const baseAppPath = userInfoHelper.getBaseAppPath(data.baseAppPath);
@@ -31,6 +33,14 @@ module.exports = {
         } catch (e) {
             console.log(e);
             util.exit();
+        }
+    },
+    prepareRun: async () => {
+        try {
+            await util.initTools();
+            return;
+        } catch (e) {
+            console.log(`Failed to prepareRun : ${e}`);
         }
     }
 };

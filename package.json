@@ -13,7 +13,8 @@
     },
     "homepage": "https://github.com/Samsung/Wits/issues",
     "dependencies": {
-        "@tizentv/webide-common-tizentv": "1.0.0",
+        "@tizentv/tools": "^0.0.2",
+        "@tizentv/webide-common-tizentv": "^1.0.1",
         "chalk": "^4.1.0",
         "chrome-launcher": "^0.13.2",
         "commander": "^4.1.1",
@@ -35,7 +36,12 @@
         "live reload",
         "debugging tool",
         "samsung",
-        "tizen web app"
+        "tizen web app",
+        "samsung live reload",
+        "samsung tizen tv",
+        "tizen web application",
+        "tizen web application developer",
+        "tool"
     ],
     "bin": {
         "wits": "./lib/cli.js"

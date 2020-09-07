@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-
 const util = require('../lib/util.js');
 const userInfoHelper = require('../lib/userInfoHelper.js');
 
@@ -20,12 +19,11 @@ module.exports = {
             console.error(`Failed to run: ${e}`);
         }
     },
-    prepareRun: () => {
+    prepareRun: async () => {
         try {
             makeWitsignoreFile();
             makeWitsconfigFile();
-
-            givePermission();
+            await util.initTools();
             return;
         } catch (error) {
             throw error;
@@ -61,7 +59,7 @@ function makeWitsconfigFile() {
 
     try {
         if (util.isFileExist(WITSCONFIG_PATH) && isExistCustomFile()) {
-            fs.chmodSync(WITSCONFIG_PATH, '0775');
+            chmodAll(WITSCONFIG_PATH);
             console.log('.witsconfig.json is already exist.');
             return;
         }
@@ -97,20 +95,6 @@ function isValidWitsconfigFile(data) {
         return true;
     }
     return false;
-}
-
-function givePermission() {
-    try {
-        if (util.isFileExist(util.TOOLS_SDB_PATH)) {
-            chmodAll(util.TOOLS_SDB_PATH);
-        }
-
-        if (util.isFileExist(util.TOOLS_CRYPT_PATH)) {
-            chmodAll(util.TOOLS_CRYPT_PATH);
-        }
-    } catch (error) {
-        console.error(`Failed to givePermission ${error}`);
-    }
 }
 
 function chmodAll(toolPath) {

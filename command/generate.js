@@ -54,7 +54,7 @@ module.exports = {
                 certInfo.privilegeLevel
             );
 
-            profileManager.registerProfile(
+            await profileManager.registerProfile(
                 profileName,
                 authorProfile,
                 distributorProfile
