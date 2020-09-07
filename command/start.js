@@ -1,3 +1,4 @@
+const chalk = require('chalk');
 const util = require('../lib/util.js');
 const userInfoHelper = require('../lib/userInfoHelper.js');
 const hostAppHelper = require('../lib/hostAppHelper.js');
@@ -6,7 +7,7 @@ const watchHelper = require('../lib/watchHelper.js');
 
 module.exports = {
     run: async () => {
-        console.log(`Start running Wits............`);
+        console.log(chalk.cyanBright(`Start running Wits............\n`));
 
         await module.exports.prepareRun();
 
@@ -19,7 +20,9 @@ module.exports = {
             .buildPackage()
             .then(() => {
                 console.log(
-                    '============================== Start to install the package'
+                    chalk.cyanBright(
+                        '============================== Start to install the package'
+                    )
                 );
 
                 const hostAppId = hostAppHelper.getHostAppId(data.baseAppPath);
@@ -43,7 +46,7 @@ module.exports = {
                 }
             })
             .catch(e => {
-                console.error(`Failed to buildPackage: ${e}`);
+                console.error(chalk.red(`Failed to buildPackage: ${e}`));
                 util.exit();
             });
     },

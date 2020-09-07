@@ -6,7 +6,7 @@ const path = require('path');
 
 module.exports = {
     run: async () => {
-        console.log(chalk.cyanBright('Generate a certification............'));
+        console.log(chalk.cyanBright('Generate a certification............\n'));
 
         const resourceDir = path.resolve(__dirname, '../', 'resource');
 

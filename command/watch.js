@@ -3,10 +3,13 @@ const hostAppHelper = require('../lib/hostAppHelper.js');
 const appLaunchHelper = require('../lib/appLaunchHelper.js');
 const watchHelper = require('../lib/watchHelper.js');
 const util = require('../lib/util.js');
+const chalk = require('chalk');
 
 module.exports = {
     run: async () => {
-        console.log(`Start running Wits watch mode............`);
+        console.log(
+            chalk.cyanBright(`Start running Wits watch mode............\n`)
+        );
 
         await module.exports.prepareRun();
         const data = await userInfoHelper.getLatestWitsconfigInfo()

@@ -1,5 +1,6 @@
 const fs = require('fs');
 const path = require('path');
+const chalk = require('chalk');
 const util = require('../lib/util.js');
 const userInfoHelper = require('../lib/userInfoHelper.js');
 
@@ -8,7 +9,9 @@ const WITS_IGNORE_FILE_NAME = '.witsignore';
 
 module.exports = {
     run: async () => {
-        console.log(`Start configuration for Wits............`);
+        console.log(
+            chalk.cyanBright(`Start configuration for Wits............\n`)
+        );
 
         try {
             await module.exports.prepareRun();
@@ -16,7 +19,7 @@ module.exports = {
             const wInfo = userInfoHelper.getRefinedData();
             await userInfoHelper.askQuestion(wInfo.connectionInfo);
         } catch (e) {
-            console.error(`Failed to run: ${e}`);
+            console.error(chalk.red(`Failed to run: ${e}`));
         }
     },
     prepareRun: async () => {
@@ -45,9 +48,9 @@ function makeWitsignoreFile() {
         }
 
         util.createEmptyFile(WITSIGNORE_PATH, 'node_modules');
-        console.log('.witsignore is prepared.');
+        console.log('witsignore is prepared.');
     } catch (error) {
-        console.error(`Failed to makeWitsignoreFile ${error}`);
+        console.error(chalk.red(`Failed to makeWitsignoreFile ${error}`));
     }
 }
 
@@ -66,7 +69,7 @@ function makeWitsconfigFile() {
         util.createEmptyFile(WITSCONFIG_PATH, '{}');
         console.log('.witsconfig.json is prepared.');
     } catch (error) {
-        console.error(`Failed to makeWitsconfigFile ${error}`);
+        console.error(chalk.red(`Failed to makeWitsconfigFile ${error}`));
     }
 }
 
