@@ -7,7 +7,7 @@ WITs 是一个非常有效的开发工具，很容易帮助开发属于你的 Ti
 <img src="https://user-images.githubusercontent.com/11974693/73414912-a2267f80-4353-11ea-9685-fefb09d8e6b5.jpg" width="100%" title="Wits">
 
 ## 介绍
- - [ENGLISH](README.md)
+ - [ENGLISH](/README.md)
  - [繁体中文](doc/README_zh_HANT.md)
 
 ## 安装与配置WITs
