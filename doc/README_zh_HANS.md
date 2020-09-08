@@ -57,13 +57,9 @@ WITs 需要进一步地在你本地开发机器上配置对应的的步骤。
 
 
 #### 4. 打开你的Samsung电视上的开发者模式：
--   1 With your Samsung Remote, press the `Home` button.
 -   1 使用你的三星遥控器，按 `Home` 的按键。
--   2 Navigate to the `Apps` button and press `Enter/OK`.
 -   2 移动所选到  `Apps` 的按键并按 `Enter/OK`。
--   3 When on the `Apps` screen, press `1` `2` `3` `4` `5` in order on the remote to open the `Developer Mode Dialog`. If this doesn't work, try it again.
 -   3 如当前显示`Apps` 屏幕，依次在遥控器上按`1` `2` `3` `4` `5`并同时弹出`开发模式对话框`，如果不成功或不出现，再一次尝试。
--   4 When the Developer Mode Dialog appears, toggle the switch to `On` and enter the IP address of your development machine.
 -   4 当开发者对话框出现， 切换并点击按钮 `On` 和 输入你的开发机器所对应的IP地址。
 
 ## WITs 细节
