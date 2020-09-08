@@ -1,6 +1,6 @@
 # WITs
 WITs 是一個非常有效的開發工具，很容易幫助開發屬於你的 Tizen web 項目，並支援**2017+ Samsung tv**的機型。
-它可以非常快地將你開發期間的實時代碼推送到電視機上。從而節省了每次你的打包及重新項目的當你運行在設備上。我們稱為 `實時開發`。
+它可以非常快地將你開發期間的實時代碼推送到電視機上。每次您想檢視項目如何在設備上運行時，都無需經曆再次構建，打包和重新安裝應用程式。我們稱為 `實時開發`。
 **WITs 對於你的開發內容有持續性幫助。**
 
 <img src="https://user-images.githubusercontent.com/11974693/73414912-a2267f80-4353-11ea-9685-fefb09d8e6b5.jpg" width="100%" title="Wits">
@@ -27,19 +27,17 @@ WITs 是一個非常有效的開發工具，很容易幫助開發屬於你的 Ti
     $ git clone https://github.com/Samsung/Wits.git
 ```
 
-#### 2.  安裝WITs依賴
+#### 2. 安裝WITs依賴
 
 ```sh
     $ cd ~/{path-to}/Wits
     $ npm install -g
 ```
 
-#### 3. 更改 `.witsconfig.json` 在 `Wits` 的目錄內.
+#### 3. 在 Wits 的目錄下更改 .witsconfig.json。
 
-The default `path` is `tizen-studio-data/profile/profiles.xml` on Mac and Windows both.
-配置對應的 Tizen Studio 證書 Profile  `path` profiles.xml所對應的路徑到 
-**.witsconfig.json**
-預設 `path`是 `tizen-studio-data/profile/profiles.xml` 都在mac與Windows係統上。
+Tizen Studio的證書路徑（profiles.xml）是在 **.witsconfig.json** 的 `path` 上配置,
+在mac與Windows係統上預設路徑 `path` 都是 `tizen-studio-data/profile/profiles.xml` 。
 
 
 ## **係統要求**
@@ -146,7 +144,7 @@ stglib
 ## FAQ
 
 -   [WITs FAQ](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions)
--   [怎樣使用Chrome inspector的調度模式](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#answer-1)
+-   [怎樣使用Chrome inspector的開發模式](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#answer-1)
 -   [使用proxy之後](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#question-6)
 -   [怎麼去獲取你的電視或設備IP](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#question-7)
 
