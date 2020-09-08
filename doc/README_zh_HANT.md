@@ -96,12 +96,11 @@ WITs 需要進一步地在你在地開發機器上配置對應的的步驟。
 ### .witsconfig.json of WITs
 
 細節： [關於.witsconfig.json的範例](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment#data-structure-of-witsconfigjson)
-on `Windows` and `MacOS` both, **WITs** recognises path segment only one separator(**`/`**).
+
 無論在`Windows` 和 `MacOS`上，都必須認識到路徑的唯一符號是分隔符 (**`/`**)。
 
 
 -   **connectionInfo** (必選)
-    -   deviceIp [string] : Device(TV) Ip address (In case of Emulator, Please input 0.0.0.0)
     -   deviceIp [string] : 設備(TV) Ip 地址 (如是調試器，請填寫 0.0.0.0)
 
     -   hostIp [string] : Host(PC) Ip 地址
