@@ -73,7 +73,6 @@ WITs 需要进一步地在你本地开发机器上配置对应的的步骤。
 
 .witsconfig.json, .witsignore 只需这两个文件增加到你的tizen web项目。
 
-### WITs command options
 ### WITs 命令选项
 
 
