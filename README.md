@@ -12,6 +12,7 @@ It is the fastest way to get your local code running on the TV device during dev
 -   [正體中文](doc/README_zh_HANT.md)
 
 Always welcome, if you contribute WITs guide in your language!
+Guides should be placed in "doc" directory.
 Please pull-request and join it!
 
 ## Installing and Configuring WITs
