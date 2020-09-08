@@ -6,9 +6,13 @@ It is the fastest way to get your local code running on the TV device during dev
 
 <img src="https://user-images.githubusercontent.com/11974693/73414912-a2267f80-4353-11ea-9685-fefb09d8e6b5.jpg" width="100%" title="Wits">
 
-## Introduction
- - [简体中文](doc/README_zh_HANS.md)
- - [正體中文](doc/README_zh_HANT.md)
+## Supported WITs guide in other languages
+
+-   [简体中文](doc/README_zh_HANS.md)
+-   [正體中文](doc/README_zh_HANT.md)
+
+Always welcome, if you contribute WITs guide in your language!
+Please pull-request and join it!
 
 ## Installing and Configuring WITs
 
