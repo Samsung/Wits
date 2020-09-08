@@ -35,10 +35,15 @@ module.exports = {
         }
 
         const data = userInfoHelper.getRefinedData();
-        const deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
+        let deviceInfo = '';
+
+        try {
+            deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
+        } catch (error) {
+            console.log(`Failed to getDeviceInfo: ${error}`);
+        }
 
         await hostAppHelper.setHostAppEnv(data, deviceInfo);
-
         hostAppHelper
             .buildPackage()
             .then(() => {
