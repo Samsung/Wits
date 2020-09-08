@@ -1,20 +1,17 @@
-
 # WITs
-WITs 是一个非常有效的开发工具，很容易帮助开发属于你的 Tizen web 项目，并支持**2017+ Samsung tv**.的机型。
-它可以非常快地将你开发期间的实时代码推送到电视机上。从而节省了每次你的打包及重新项目的当你运行在设备上。我们称为 `实时开发`.
+WITs 是一个非常有效的开发工具，很容易帮助开发属于你的 Tizen web 项目，并支持**2017+ Samsung tv**的机型。
+它可以非常快地将你开发期间的实时代码推送到电视机上。从而节省了每次你的打包及重新项目的当你运行在设备上。我们称为 `实时开发`。
 **WITs 对于你的开发内容有持续性帮助。**
 
 <img src="https://user-images.githubusercontent.com/11974693/73414912-a2267f80-4353-11ea-9685-fefb09d8e6b5.jpg" width="100%" title="Wits">
 
 ## 介绍
  - [ENGLISH](/README.md)
- - [繁体中文](doc/README_zh_HANT.md)
+ - [正體中文](doc/README_zh_HANT.md)
 
 ## 安装与配置WITs
-## Installing and Configuring WITs
 
 ### 开发者请使用npm
-### For developers using npm
 
 
 #### 1. 全局安装 WITs
@@ -164,6 +161,5 @@ stglib
 -   2017 Samsung Smart TV (Tizen 3.0)
 -   2018 Samsung Smart TV (Tizen 4.0)
 -   2019 Samsung Smart TV (Tizen 5.0)
-
 
 
