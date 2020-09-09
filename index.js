@@ -11,7 +11,7 @@ const setWitsconfigInfo = async data => {
         );
     }
 
-    await initCommand.prepareRun();
+    await module.exports.prepareConfigure();
     await userInfoHelper.updateLatestUserAnswer(data);
     return;
     /**

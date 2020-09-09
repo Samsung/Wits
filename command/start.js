@@ -9,7 +9,7 @@ module.exports = {
     run: async () => {
         console.log(chalk.cyanBright(`Start running Wits............\n`));
 
-        await module.exports.prepareRun();
+        await util.initTools();
 
         const data = userInfoHelper.getRefinedData();
         let deviceInfo = '';
@@ -54,13 +54,5 @@ module.exports = {
                 console.error(chalk.red(`Failed to buildPackage: ${e}`));
                 util.exit();
             });
-    },
-    prepareRun: async () => {
-        try {
-            await util.initTools();
-            return;
-        } catch (e) {
-            console.log(`Failed to prepareRun : ${e}`);
-        }
     }
 };

@@ -14,7 +14,7 @@ module.exports = {
         );
 
         try {
-            await module.exports.prepareRun();
+            await module.exports.prepareConfigure();
 
             const wInfo = userInfoHelper.getRefinedData();
             await userInfoHelper.askQuestion(wInfo.connectionInfo);
@@ -22,7 +22,7 @@ module.exports = {
             console.error(chalk.red(`Failed to run: ${e}`));
         }
     },
-    prepareRun: async () => {
+    prepareConfigure: async () => {
         try {
             makeWitsignoreFile();
             makeWitsconfigFile();

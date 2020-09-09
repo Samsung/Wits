@@ -11,7 +11,8 @@ module.exports = {
             chalk.cyanBright(`Start running Wits watch mode............\n`)
         );
 
-        await module.exports.prepareRun();
+        await util.initTools();
+
         const data = await userInfoHelper.getLatestWitsconfigInfo()
             .connectionInfo;
         const baseAppPath = userInfoHelper.getBaseAppPath(data.baseAppPath);
@@ -36,14 +37,6 @@ module.exports = {
         } catch (e) {
             console.log(e);
             util.exit();
-        }
-    },
-    prepareRun: async () => {
-        try {
-            await util.initTools();
-            return;
-        } catch (e) {
-            console.log(`Failed to prepareRun : ${e}`);
         }
     }
 };
