@@ -103,7 +103,7 @@ After then, you can modify your information to them.
 
 #### 3. `wits -g` / `wits --generate`
 
-For creating a certification. (Supported Tizen certification only)
+For creating a certification(Supported Tizen certification only).
 As following steps, you can create a certification on `~/{path-to}/wits/resource/profiles.xml`.
 
 #### 4. `wits -s` / `wits --start`
@@ -147,9 +147,6 @@ stglib
 ```
 
 ## Running Your App
-
-If you want to follow Step by Step.
-Please refer [Running Your App using WITs](https://github.com/Samsung/Wits/wiki/Running-Your-App-using-Wits)
 
 ### wits -i
 
