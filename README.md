@@ -64,21 +64,22 @@ We will not describe how to do these installations as there are many ways to do 
 
     Certification(Tizen / Samsung) is required for packaging your tizen web application.
 
--   Using Editor
+`Using Editor`
 
-1. Tizen Studio
-   Install the latest version of [Tizen Studio](http://developer.samsung.com/tv).
+-   Tizen Studio
+    Install the latest version of [Tizen Studio](http://developer.samsung.com/tv).
 
-2. VSCode
-   Install the latest version of [VSCode](https://code.visualstudio.com/).
-   And download the extension "tizensdk.tizentv".
+-   VSCode
+    Install the latest version of [VSCode](https://code.visualstudio.com/).
+    And download the extension "tizensdk.tizentv".
 
-3. Atom
-   Install the latest version of [Atom](https://atom.io/).
-   And download the package "atom-tizentv"
+-   Atom
+    Install the latest version of [Atom](https://atom.io/).
+    And download the package "atom-tizentv"
 
--   Using WITs
-    WITs (v2.4.0 ~) supports creating a Tizen certification.
+`Using WITs`
+
+-   WITs (v2.4.0 ~) supports creating a Tizen certification.
     Please do "wits -g" for making a new Tizen certification.
 
 ## WITs details
