@@ -15,8 +15,8 @@ module.exports = {
             util.createEmptyDirectory(resourceDir);
             util.RESOURCE_PATH = resourceDir;
 
-            const tizenCM = new common.TizenCM(resourceDir);
-            await tizenCM.init();
+            const tizenCertManager = new common.TizenCertManager(resourceDir);
+            await tizenCertManager.init();
             const authorInfo = {
                 keyFileName: certInfo.keyFileName,
                 authorName: certInfo.authorName,
@@ -32,7 +32,7 @@ module.exports = {
                     : '',
                 emailInfo: certInfo.emailInfo ? certInfo.emailInfo : ''
             };
-            tizenCM.createCert(authorInfo);
+            tizenCertManager.createCert(authorInfo);
             console.log(
                 chalk.cyanBright(
                     '[Certification] Completed to generate a Tizen certification'
@@ -42,7 +42,7 @@ module.exports = {
             const profileManager = new common.ProfileManager(resourceDir);
             const profileName = certInfo.profileName;
             const authorProfile = {
-                authorCA: tizenCM.getTizenDeveloperCA(),
+                authorCA: tizenCertManager.getTizenDeveloperCA(),
                 authorCertPath: path.resolve(
                     resourceDir,
                     'Author',
@@ -50,7 +50,7 @@ module.exports = {
                 ),
                 authorPassword: certInfo.authorPassword
             };
-            const distributorProfile = tizenCM.getTizenDistributorProfile(
+            const distributorProfile = tizenCertManager.getTizenDistributorProfile(
                 certInfo.privilegeLevel
             );
 
