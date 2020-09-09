@@ -40,11 +40,6 @@ Please pull-request and join it!
     $ npm install -g
 ```
 
-#### 3. Modify `.witsconfig.json` within `Wits` directory.
-
-Configure Tizen Studio Certificate Profile `path` of your profiles.xml to **.witsconfig.json**
-The default `path` is `tizen-studio-data/profile/profiles.xml` on Mac and Windows both.
-
 ## **System Requirements**
 
 WITs needs the following prerequisites on your local development machine.
@@ -55,9 +50,7 @@ WITs needs the following prerequisites on your local development machine.
 
 We will not describe how to do these installations as there are many ways to do it and its developer preference. We recommend using something like `nvm` or `asdf` to manage different versions of Node.js across your code projects.
 
-#### 3. Install the Latest Version of [Samsung Tizen Studio](http://developer.samsung.com/tv).
-
-#### 4. Developer Mode is enabled on your Samsung TV.
+#### 3. Developer Mode is enabled on your Samsung TV.
 
 -   1 With your Samsung Remote, press the `Home` button.
 
@@ -66,6 +59,27 @@ We will not describe how to do these installations as there are many ways to do 
 -   3 When on the `Apps` screen, press `1` `2` `3` `4` `5` in order on the remote to open the `Developer Mode Dialog`. If this doesn't work, try it again.
 
 -   4 When the Developer Mode Dialog appears, toggle the switch to `On` and enter the IP address of your development machine.
+
+#### 4. Certification for packaging application (Tizen / Samsung)
+
+    Certification(Tizen / Samsung) is required for packaging your tizen web application.
+
+-   Using Editor
+
+1. Tizen Studio
+   Install the latest version of [Tizen Studio](http://developer.samsung.com/tv).
+
+2. VSCode
+   Install the latest version of [VSCode](https://code.visualstudio.com/).
+   And download the extension "tizensdk.tizentv".
+
+3. Atom
+   Install the latest version of [Atom](https://atom.io/).
+   And download the package "atom-tizentv"
+
+-   Using WITs
+    WITs (v2.4.0 ~) supports creating a Tizen certification.
+    Please do "wits -g" for making a new Tizen certification.
 
 ## WITs details
 
@@ -86,12 +100,17 @@ Please note that, It should be run when you use first time on your tizen applica
 .witsconfig.json and .witsignore files are generated on your tizen app project.
 After then, you can modify your information to them.
 
-#### 3. `wits -s` / `wits --start`
+#### 3. `wits -g` / `wits --generate`
+
+For creating a certification. (Supported Tizen certification only)
+As following steps, you can create a certification on `~/{path-to}/wits/resource/profiles.xml`.
+
+#### 4. `wits -s` / `wits --start`
 
 All in one. For connecting to TV, installing and launching your app and using Live Reload
 If `wits -i` hasn't run before, It is not allowed to run.
 
-#### 4. `wits -w` / `wits --watch`
+#### 5. `wits -w` / `wits --watch`
 
 For conneting to TV, using Live Reload
 After connecting, every time you make changes on `your tizen app project`, It is reflected to TV device instantly.
@@ -109,8 +128,6 @@ on `Windows` and `MacOS` both, **WITs** recognises path segment only one separat
     -   isDebugMode [boolean] : Setting true, chrome inspector is launched automatically. / Setting false, nothing happened.
 -   **profileInfo** (mandatory)
     -   path [string] : Tizen Studio Certificate Profile path
--   **optionalInfo** (optional)
-    -   proxyServer [string] : In case you are behind proxy ex) http://255.255.255.255:8080
 
 ### .witsignore of WITs
 
@@ -136,6 +153,10 @@ Please refer [Running Your App using WITs](https://github.com/Samsung/Wits/wiki/
 ### wits -i
 
 ![witsi](https://user-images.githubusercontent.com/1733182/77503919-3ddef280-6ea2-11ea-9bb4-06f3cb9ebbc6.gif)
+
+### wits -g
+
+![witsg](https://user-images.githubusercontent.com/1733182/92564253-d4b63480-f2b3-11ea-8ba0-933b9fbdd2ad.gif)
 
 ### wits -s
 
