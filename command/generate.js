@@ -8,7 +8,7 @@ module.exports = {
     run: async () => {
         console.log(chalk.cyanBright('Generate a certification............\n'));
 
-        const resourceDir = path.resolve(__dirname, '../', 'resource');
+        const resourceDir = util.RESOURCE_PATH;
 
         try {
             const certInfo = await certificationHelper.getAnswers();
