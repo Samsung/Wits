@@ -101,7 +101,7 @@ Please note that, It should be run when you use first time on your tizen applica
 .witsconfig.json and .witsignore files are generated on your tizen app project.
 After then, you can modify your information to them.
 
-#### 3. `wits -g` / `wits --generate`
+#### 3. `wits -c` / `wits --certificate`
 
 For creating a certification(Supported Tizen certification only).
 As following steps, you can create a certification on `~/{path-to}/wits/resource/profiles.xml`.
@@ -124,7 +124,6 @@ on `Windows` and `MacOS` both, **WITs** recognises path segment only one separat
 -   **connectionInfo** (mandatory)
     -   deviceIp [string] : Device(TV) Ip address (In case of Emulator, Please input 0.0.0.0)
     -   hostIp [string] : Host(PC) Ip address
-    -   socketPort [integer] : TV port. It is generated randomly in WITs.
     -   width [string] : Resolution
     -   isDebugMode [boolean] : Setting true, chrome inspector is launched automatically. / Setting false, nothing happened.
 -   **profileInfo** (mandatory)
@@ -152,9 +151,9 @@ stglib
 
 ![witsi](https://user-images.githubusercontent.com/1733182/77503919-3ddef280-6ea2-11ea-9bb4-06f3cb9ebbc6.gif)
 
-### wits -g
+### wits -c
 
-![witsg](https://user-images.githubusercontent.com/1733182/92564253-d4b63480-f2b3-11ea-8ba0-933b9fbdd2ad.gif)
+![witsc](https://user-images.githubusercontent.com/1733182/92706471-7fe7ec00-f38f-11ea-8d47-47b13f956906.gif)
 
 ### wits -s
 

@@ -66,6 +66,14 @@ module.exports = {
             );
 
             profileManager.setActivateProfile(profileName);
+
+            console.log(
+                chalk.cyanBright(
+                    `[Certification] Completed to genarate a certification. ${path.resolve(
+                        path.join(resourceDir, 'profiles.xml')
+                    )}. Please "wits -i" to config your profile path.`
+                )
+            );
         } catch (e) {
             console.error(chalk.red(`[Certification] Failed to run: ${e}`));
         }
