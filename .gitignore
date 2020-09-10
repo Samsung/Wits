@@ -5,5 +5,9 @@ www/
 container.zip
 tools.zip
 resource.zip
+container/.resource
+container/build
+.DS_Store
+resource
 container/js/main.js
 container/config.xml

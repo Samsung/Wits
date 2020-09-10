@@ -1,6 +1,6 @@
 {
     "name": "@tizentv/wits",
-    "version": "2.3.4",
+    "version": "2.4.0",
     "description": "Instant live reload tool for Tizen Web Application development",
     "main": "index.js",
     "author": "Samsung Electronics Co., Ltd.",
@@ -13,22 +13,20 @@
     },
     "homepage": "https://github.com/Samsung/Wits/issues",
     "dependencies": {
-        "archiver": "^1.3.0",
+        "@tizentv/tools": "^1.0.0",
+        "@tizentv/webide-common-tizentv": "^1.0.7",
+        "chalk": "^4.1.0",
         "chrome-launcher": "^0.13.2",
         "commander": "^4.1.1",
-        "crypto": "^1.0.1",
         "express": "^4.16.3",
-        "fs-extra": "^9.0.0",
         "inquirer": "=5.2.0",
         "ip": "^1.1.5",
         "lodash": "^4.17.15",
         "mkdirp": "^1.0.3",
-        "node-forge": "^0.6.48",
         "node-watch": "^0.6.2",
         "recursive-readdir": "^2.2.2",
         "socket.io": "^1.7.3",
-        "xml2js": "^0.4.19",
-        "xmldom": "^0.1.31"
+        "xml2js": "^0.4.19"
     },
     "license": "ISC",
     "keywords": [
@@ -38,7 +36,12 @@
         "live reload",
         "debugging tool",
         "samsung",
-        "tizen web app"
+        "tizen web app",
+        "samsung live reload",
+        "samsung tizen tv",
+        "tizen web application",
+        "tizen web application developer",
+        "tool"
     ],
     "bin": {
         "wits": "./lib/cli.js"

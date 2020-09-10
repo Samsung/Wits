@@ -11,9 +11,14 @@ const setWitsconfigInfo = async data => {
         );
     }
 
-    await initCommand.prepareRun();
-    await userInfoHelper.updateLatestUserAnswer(data);
-    return;
+    try {
+        await initCommand.prepareConfigure();
+        await userInfoHelper.updateLatestUserAnswer(data);
+        return;
+    } catch (error) {
+        console.log(error);
+        util.exit();
+    }
     /**
      {
          width: '1920',
@@ -29,20 +34,38 @@ const setWitsconfigInfo = async data => {
 const start = async () => {
     const startCommand = require('./command/start.js');
     console.log('WITs::start');
-    await startCommand.run();
-    return;
+
+    try {
+        await startCommand.run();
+        return;
+    } catch (error) {
+        console.log(error);
+        util.exit();
+    }
 };
 
 const watch = async () => {
     const watchCommand = require('./command/watch.js');
     console.log('WITs::watch');
-    await watchCommand.run();
-    return;
+
+    try {
+        await watchCommand.run();
+        return;
+    } catch (error) {
+        console.log(error);
+        util.exit();
+    }
 };
 
 const disconnect = () => {
     const watchHelper = require('./lib/watchHelper.js');
-    watchHelper.closeSocketServer();
+
+    try {
+        watchHelper.closeSocketServer();
+    } catch (error) {
+        console.log(error);
+        util.exit();
+    }
 };
 
 module.exports = {

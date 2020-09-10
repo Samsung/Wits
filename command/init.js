@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-
+const chalk = require('chalk');
 const util = require('../lib/util.js');
 const userInfoHelper = require('../lib/userInfoHelper.js');
 
@@ -9,23 +9,24 @@ const WITS_IGNORE_FILE_NAME = '.witsignore';
 
 module.exports = {
     run: async () => {
-        console.log(`Start configuration for Wits............`);
+        console.log(
+            chalk.cyanBright(`Start configuration for Wits............\n`)
+        );
 
         try {
-            await module.exports.prepareRun();
+            await module.exports.prepareConfigure();
 
             const wInfo = userInfoHelper.getRefinedData();
             await userInfoHelper.askQuestion(wInfo.connectionInfo);
         } catch (e) {
-            console.error(`Failed to run: ${e}`);
+            console.error(chalk.red(`Failed to run: ${e}`));
         }
     },
-    prepareRun: () => {
+    prepareConfigure: async () => {
         try {
             makeWitsignoreFile();
             makeWitsconfigFile();
-
-            givePermission();
+            await util.initTools();
             return;
         } catch (error) {
             throw error;
@@ -47,9 +48,9 @@ function makeWitsignoreFile() {
         }
 
         util.createEmptyFile(WITSIGNORE_PATH, 'node_modules');
-        console.log('.witsignore is prepared.');
+        console.log('witsignore is prepared.');
     } catch (error) {
-        console.error(`Failed to makeWitsignoreFile ${error}`);
+        console.error(chalk.red(`Failed to makeWitsignoreFile ${error}`));
     }
 }
 
@@ -61,14 +62,14 @@ function makeWitsconfigFile() {
 
     try {
         if (util.isFileExist(WITSCONFIG_PATH) && isExistCustomFile()) {
-            fs.chmodSync(WITSCONFIG_PATH, '0775');
+            chmodAll(WITSCONFIG_PATH);
             console.log('.witsconfig.json is already exist.');
             return;
         }
         util.createEmptyFile(WITSCONFIG_PATH, '{}');
         console.log('.witsconfig.json is prepared.');
     } catch (error) {
-        console.error(`Failed to makeWitsconfigFile ${error}`);
+        console.error(chalk.red(`Failed to makeWitsconfigFile ${error}`));
     }
 }
 
@@ -99,16 +100,13 @@ function isValidWitsconfigFile(data) {
     return false;
 }
 
-function givePermission() {
-    try {
-        if (util.isFileExist(util.TOOLS_SDB_PATH)) {
-            fs.chmodSync(util.TOOLS_SDB_PATH, '0777');
-        }
-
-        if (util.isFileExist(util.TOOLS_CRYPT_PATH)) {
-            fs.chmodSync(util.TOOLS_CRYPT_PATH, '0777');
-        }
-    } catch (error) {
-        console.error(`Failed to givePermission ${error}`);
+function chmodAll(toolPath) {
+    switch (util.PLATFORM) {
+        case 'linux':
+            fs.chmodSync(toolPath, fs.constants.S_IXUSR);
+            break;
+        default:
+            fs.chmodSync(toolPath, '0777');
+            break;
     }
 }
