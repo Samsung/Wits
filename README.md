@@ -167,7 +167,6 @@ stglib
 
 -   [WITs FAQ](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions)
 -   [How to use debug mode on WITs with Chrome inspector](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#answer-1)
--   [What if being behind a proxy](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#question-6)
 -   [How to get your TV IP Address](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#question-7)
 
 ## Supported Platforms
@@ -175,3 +174,4 @@ stglib
 -   2017 Samsung Smart TV (Tizen 3.0)
 -   2018 Samsung Smart TV (Tizen 4.0)
 -   2019 Samsung Smart TV (Tizen 5.0)
+-   2020 Samsung Smart TV (Tizen 5.5)
