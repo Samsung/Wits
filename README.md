@@ -80,7 +80,7 @@ We will not describe how to do these installations as there are many ways to do 
 `Using WITs`
 
 -   WITs (v2.4.0 ~) supports creating a Tizen certification.
-    Please do "wits -g" for making a new Tizen certification.
+    Please do "wits -c" for making a new Tizen certification.
 
 ## WITs details
 
