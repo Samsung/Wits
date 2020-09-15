@@ -4,8 +4,8 @@ const chalk = require('chalk');
 const util = require('../lib/util.js');
 const userInfoHelper = require('../lib/userInfoHelper.js');
 
-const WITS_CONFIG_FILE_NAME = '.witsconfig.json';
-const WITS_IGNORE_FILE_NAME = '.witsignore';
+let WITSCONFIG_PATH = '';
+let WITSIGNORE_PATH = '';
 
 module.exports = {
     run: async () => {
@@ -24,8 +24,21 @@ module.exports = {
     },
     prepareConfigure: async () => {
         try {
-            makeWitsignoreFile();
+            WITSCONFIG_PATH = path.join(
+                util.CURRENT_PROJECT_PATH,
+                '.witsconfig.json'
+            );
+            WITSIGNORE_PATH = path.join(
+                util.CURRENT_PROJECT_PATH,
+                '.witsignore'
+            );
+
             makeWitsconfigFile();
+            util.chmodAll(WITSCONFIG_PATH);
+
+            makeWitsignoreFile();
+            util.chmodAll(WITSIGNORE_PATH);
+
             await util.initTools();
             return;
         } catch (error) {
@@ -35,14 +48,8 @@ module.exports = {
 };
 
 function makeWitsignoreFile() {
-    const WITSIGNORE_PATH = path.join(
-        util.CURRENT_PROJECT_PATH,
-        WITS_IGNORE_FILE_NAME
-    );
-
     try {
         if (util.isFileExist(WITSIGNORE_PATH)) {
-            fs.chmodSync(WITSIGNORE_PATH, '0775');
             console.log('.witsignore is already exist.');
             return;
         }
@@ -55,14 +62,8 @@ function makeWitsignoreFile() {
 }
 
 function makeWitsconfigFile() {
-    const WITSCONFIG_PATH = path.join(
-        util.CURRENT_PROJECT_PATH,
-        WITS_CONFIG_FILE_NAME
-    );
-
     try {
         if (util.isFileExist(WITSCONFIG_PATH) && isExistCustomFile()) {
-            chmodAll(WITSCONFIG_PATH);
             console.log('.witsconfig.json is already exist.');
             return;
         }
@@ -74,10 +75,7 @@ function makeWitsconfigFile() {
 }
 
 function isExistCustomFile() {
-    const customData = fs.readFileSync(
-        path.join(util.CURRENT_PROJECT_PATH, WITS_CONFIG_FILE_NAME),
-        'utf8'
-    );
+    const customData = fs.readFileSync(WITSCONFIG_PATH, 'utf8');
     if (isValidWitsconfigFile(customData)) {
         return true;
     }
@@ -98,15 +96,4 @@ function isValidWitsconfigFile(data) {
         return true;
     }
     return false;
-}
-
-function chmodAll(toolPath) {
-    switch (util.PLATFORM) {
-        case 'linux':
-            fs.chmodSync(toolPath, fs.constants.S_IXUSR);
-            break;
-        default:
-            fs.chmodSync(toolPath, '0777');
-            break;
-    }
 }
