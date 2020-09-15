@@ -4,11 +4,8 @@ const chalk = require('chalk');
 const util = require('../lib/util.js');
 const userInfoHelper = require('../lib/userInfoHelper.js');
 
-const WITSCONFIG_PATH = path.join(
-    util.CURRENT_PROJECT_PATH,
-    '.witsconfig.json'
-);
-const WITSIGNORE_PATH = path.join(util.CURRENT_PROJECT_PATH, '.witsignore');
+let WITSCONFIG_PATH = '';
+let WITSIGNORE_PATH = '';
 
 module.exports = {
     run: async () => {
@@ -27,6 +24,15 @@ module.exports = {
     },
     prepareConfigure: async () => {
         try {
+            WITSCONFIG_PATH = path.join(
+                util.CURRENT_PROJECT_PATH,
+                '.witsconfig.json'
+            );
+            WITSIGNORE_PATH = path.join(
+                util.CURRENT_PROJECT_PATH,
+                '.witsignore'
+            );
+
             makeWitsconfigFile();
             util.chmodAll(WITSCONFIG_PATH);
 
