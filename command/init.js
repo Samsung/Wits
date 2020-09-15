@@ -69,10 +69,7 @@ function makeWitsconfigFile() {
 }
 
 function isExistCustomFile() {
-    const customData = fs.readFileSync(
-        path.join(util.CURRENT_PROJECT_PATH, WITS_CONFIG_FILE_NAME),
-        'utf8'
-    );
+    const customData = fs.readFileSync(WITSCONFIG_PATH, 'utf8');
     if (isValidWitsconfigFile(customData)) {
         return true;
     }
