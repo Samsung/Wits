@@ -1,6 +1,6 @@
 {
     "name": "@tizentv/wits",
-    "version": "2.4.3",
+    "version": "2.4.4",
     "description": "Instant live reload tool for Tizen Web Application development",
     "main": "index.js",
     "author": "Samsung Electronics Co., Ltd.",
@@ -13,8 +13,8 @@
     },
     "homepage": "https://github.com/Samsung/Wits/issues",
     "dependencies": {
-        "@tizentv/tools": "^1.0.0",
-        "@tizentv/webide-common-tizentv": "^1.0.8",
+        "@tizentv/tools": "^1.0.2",
+        "@tizentv/webide-common-tizentv": "^1.0.9",
         "chalk": "^4.1.0",
         "chrome-launcher": "^0.13.2",
         "commander": "^4.1.1",
