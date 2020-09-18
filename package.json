@@ -14,7 +14,7 @@
     "homepage": "https://github.com/Samsung/Wits/issues",
     "dependencies": {
         "@tizentv/tools": "^1.0.2",
-        "@tizentv/webide-common-tizentv": "^1.0.8",
+        "@tizentv/webide-common-tizentv": "^1.0.9",
         "chalk": "^4.1.0",
         "chrome-launcher": "^0.13.2",
         "commander": "^4.1.1",
