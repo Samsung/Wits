@@ -13,7 +13,11 @@ const setWitsconfigInfo = async data => {
         }
 
         if (data.hasOwnProperty('profilePath')) {
-            await initCommand.isVaildProfile(data.profilePath);
+            if (!(await initCommand.isVaildProfile(data.profilePath))) {
+                throw new Error(
+                    'There is invalid profile. Please create a profile or active the profile.'
+                );
+            }
         }
 
         await initCommand.prepareConfigure();
