@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
+const xml2js = require('xml2js');
 const util = require('../lib/util.js');
 const userInfoHelper = require('../lib/userInfoHelper.js');
 
@@ -44,6 +45,21 @@ module.exports = {
         } catch (error) {
             throw error;
         }
+    },
+    isVaildProfile: async profilePath => {
+        if (!util.isFileExist(profilePath)) {
+            return false;
+        }
+
+        const profileFile = fs.readFileSync(profilePath, 'utf8');
+        const xmlParser = new xml2js.Parser();
+        const parsedProfiles = await xmlParser.parseStringPromise(profileFile);
+        const activeProfile = parsedProfiles.profiles.$.active;
+
+        if (typeof activeProfile === 'string' && activeProfile.length > 0) {
+            return true;
+        }
+        return false;
     }
 };
 
