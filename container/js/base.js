@@ -33,6 +33,7 @@
     var CONNECTED = 'Connected';
     var DISCONNECTED = 'Disconnected';
     var HOST_BASE_CONTENT_PATH = '{{HOST_BASE_CONTENT_PATH}}';
+    var FS_WRAPPER_FILE = 'js/wrapper/filesystemWrapper.js';
 
     window.onload = function () {
         console.log('onload!!!');
@@ -104,6 +105,7 @@
                 iframeElem.onload = function () {
                     iframeElem.focus();
                     hideWitsContainer();
+                    appendFsWrapperFile();
                 };
             }, CONTENT_LOAD_WAIT_TIME);
         } catch (e) {
@@ -289,5 +291,12 @@
             );
         });
         socket.open();
+    }
+
+    function appendFsWrapperFile() {
+        var elem = document.createElement('script');
+        elem.type = 'text/javascript';
+        elem.src = tizen.filesystem.toURI('wgt-package/' + FS_WRAPPER_FILE);
+        iframeElem.contentDocument.head.appendChild(elem);
     }
 })();
