@@ -1,10 +1,11 @@
 const util = require('./lib/util.js');
 const userInfoHelper = require('./lib/userInfoHelper.js');
+const { setOutputChannel } = require('./lib/logger');
 
 const setWitsconfigInfo = async data => {
     try {
         const initCommand = require('./command/init.js');
-        console.log('WITs::setWitsconfigInfo');
+        logger.log('WITs::setWitsconfigInfo');
 
         if (data.hasOwnProperty('baseAppPath')) {
             util.CURRENT_PROJECT_PATH = userInfoHelper.getBaseAppPath(
@@ -34,7 +35,7 @@ const setWitsconfigInfo = async data => {
             }
             */
     } catch (error) {
-        console.log(`setWitsconfigInfo:::${error}`);
+        logger.log(`setWitsconfigInfo:::${error}`);
     }
 };
 
@@ -44,12 +45,12 @@ const start = async () => {
             throw new Error('There is invalid WITS_USER_DATA');
         }
         const startCommand = require('./command/start.js');
-        console.log('WITs::start');
+        logger.log('WITs::start');
 
         await startCommand.run();
         return;
     } catch (error) {
-        console.log(`start:::${error}`);
+        logger.log(`start:::${error}`);
     }
 };
 
@@ -59,12 +60,12 @@ const watch = async () => {
             throw new Error('There is invalid WITS_USER_DATA');
         }
         const watchCommand = require('./command/watch.js');
-        console.log('WITs::watch');
+        logger.log('WITs::watch');
 
         await watchCommand.run();
         return;
     } catch (error) {
-        console.log(`watch:::${error}`);
+        logger.log(`watch:::${error}`);
     }
 };
 
@@ -74,7 +75,7 @@ const disconnect = () => {
     try {
         watchHelper.closeSocketServer();
     } catch (error) {
-        console.log(`disconnect:::${error}`);
+        logger.log(`disconnect:::${error}`);
     }
 };
 
@@ -82,5 +83,6 @@ module.exports = {
     setWitsconfigInfo,
     start,
     watch,
-    disconnect
+    disconnect,
+    setOutputChannel
 };

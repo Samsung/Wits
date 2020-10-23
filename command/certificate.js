@@ -6,7 +6,7 @@ const path = require('path');
 
 module.exports = {
     run: async () => {
-        console.log(chalk.cyanBright('Generate a certification............\n'));
+        logger.log(chalk.cyanBright('Generate a certification............\n'));
 
         const resourceDir = util.RESOURCE_PATH;
 
@@ -33,7 +33,7 @@ module.exports = {
                 emailInfo: certInfo.emailInfo ? certInfo.emailInfo : ''
             };
             tizenCertManager.createCert(authorInfo);
-            console.log(
+            logger.log(
                 chalk.cyanBright(
                     '[Certification] Completed to generate a Tizen certification'
                 )
@@ -59,7 +59,7 @@ module.exports = {
                 authorProfile,
                 distributorProfile
             );
-            console.log(
+            logger.log(
                 chalk.cyanBright(
                     '[Certification] Completed to register a profile'
                 )
@@ -67,7 +67,7 @@ module.exports = {
 
             profileManager.setActivateProfile(profileName);
 
-            console.log(
+            logger.log(
                 chalk.cyanBright(
                     `[Certification] Completed to genarate a certification. ${path.resolve(
                         path.join(resourceDir, 'profiles.xml')
@@ -75,7 +75,7 @@ module.exports = {
                 )
             );
         } catch (e) {
-            console.error(chalk.red(`[Certification] Failed to run: ${e}`));
+            logger.error(chalk.red(`[Certification] Failed to run: ${e}`));
         }
     }
 };

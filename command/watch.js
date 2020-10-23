@@ -7,7 +7,7 @@ const chalk = require('chalk');
 
 module.exports = {
     run: async () => {
-        console.log(
+        logger.log(
             chalk.cyanBright(`Start running Wits watch mode............\n`)
         );
 
@@ -35,7 +35,7 @@ module.exports = {
                   )
                 : appLaunchHelper.launchApp(deviceName, hostAppId);
         } catch (e) {
-            console.log(e);
+            logger.log(e);
             util.exit();
         }
     }
