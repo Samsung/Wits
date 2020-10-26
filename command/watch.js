@@ -4,6 +4,7 @@ const appLaunchHelper = require('../lib/appLaunchHelper.js');
 const watchHelper = require('../lib/watchHelper.js');
 const util = require('../lib/util.js');
 const chalk = require('chalk');
+const { logger } = require('../lib/logger');
 
 module.exports = {
     run: async () => {

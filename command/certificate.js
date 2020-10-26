@@ -3,6 +3,7 @@ const common = require('@tizentv/webide-common-tizentv');
 const chalk = require('chalk');
 const util = require('../lib/util');
 const path = require('path');
+const { logger } = require('../lib/logger');
 
 module.exports = {
     run: async () => {

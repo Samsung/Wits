@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const xml2js = require('xml2js');
 const util = require('../lib/util.js');
 const userInfoHelper = require('../lib/userInfoHelper.js');
+const { logger } = require('../lib/logger');
 
 let WITSCONFIG_PATH = '';
 let WITSIGNORE_PATH = '';

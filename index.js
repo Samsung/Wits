@@ -1,6 +1,6 @@
 const util = require('./lib/util.js');
 const userInfoHelper = require('./lib/userInfoHelper.js');
-const { setOutputChannel } = require('./lib/logger');
+const { setOutputChannel, logger } = require('./lib/logger');
 
 const setWitsconfigInfo = async data => {
     try {

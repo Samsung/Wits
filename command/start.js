@@ -4,6 +4,7 @@ const userInfoHelper = require('../lib/userInfoHelper.js');
 const hostAppHelper = require('../lib/hostAppHelper.js');
 const appLaunchHelper = require('../lib/appLaunchHelper.js');
 const watchHelper = require('../lib/watchHelper.js');
+const { logger } = require('../lib/logger');
 
 module.exports = {
     run: async () => {
