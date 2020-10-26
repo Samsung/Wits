@@ -105,7 +105,6 @@
                 iframeElem.onload = function () {
                     iframeElem.focus();
                     hideWitsContainer();
-                    appendFsWrapperFile();
                 };
             }, CONTENT_LOAD_WAIT_TIME);
         } catch (e) {
@@ -291,12 +290,5 @@
             );
         });
         socket.open();
-    }
-
-    function appendFsWrapperFile() {
-        var elem = document.createElement('script');
-        elem.type = 'text/javascript';
-        elem.src = tizen.filesystem.toURI('wgt-package/' + FS_WRAPPER_FILE);
-        iframeElem.contentDocument.head.appendChild(elem);
     }
 })();
