@@ -12,4 +12,5 @@ resource
 container/js/main.js
 container/config.xml
 container/WITs.wgt
-container/js/wrapper/filesystemWrapper.js
+lib/wrapper/filesystemWrapper.js
+lib/wrapper/*.html
