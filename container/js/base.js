@@ -33,7 +33,6 @@
     var CONNECTED = 'Connected';
     var DISCONNECTED = 'Disconnected';
     var HOST_BASE_CONTENT_PATH = '{{HOST_BASE_CONTENT_PATH}}';
-    var FS_WRAPPER_FILE = 'js/wrapper/filesystemWrapper.js';
 
     window.onload = function () {
         console.log('onload!!!');
