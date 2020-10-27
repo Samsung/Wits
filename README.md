@@ -124,10 +124,14 @@ After connecting, every time you make changes on `your tizen app project`, It is
 
 WITs support followed APIs
 
--   `setWitsconfigInfo(WitsInfoData data)` : This API is for setting WITs environment, It should be called before start function or watch function.
--
--
--   For detail, check the [How to use WITs as APIs](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs).
+-   [setWitsconfigInfo(WitsInfoData data)](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#setwitsconfiginfo) : This API is for setting WITs environment, It should be called before start function or watch function.
+-   [start()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#start) : This API is a sequence for building and installing your application, connecting PC and Target TV, pushing files, supporting live-reload feature.
+-   [watch()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#watch) : This API is a sequence for connecting PC and Target TV, pushing files, supporting live-reload feature. (Except for re-building and re-installing your application.)
+-   [disconnect()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#disconnect) : This API is for disconnecting communications between PC and Target TV.
+-   [setOutputChannel(OutputCallback callback)](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#setoutputchannel) : This is for getting WITs' log information. The return value is integer value between 1000 and 9999, and this value will be used to unsetOutputChannel().
+-   [unsetOutputChannel()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#unsetoutputchannel) : This is for unregistering the output callback. Call the unsetOutputChannel() with the return value of the setOutputChannel().
+
+For detail, check whole APIs in [How to use WITs as APIs](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs).
 
 ### .witsconfig.json of WITs
 
