@@ -4,13 +4,14 @@ const chalk = require('chalk');
 const xml2js = require('xml2js');
 const util = require('../lib/util.js');
 const userInfoHelper = require('../lib/userInfoHelper.js');
+const { logger } = require('../lib/logger');
 
 let WITSCONFIG_PATH = '';
 let WITSIGNORE_PATH = '';
 
 module.exports = {
     run: async () => {
-        console.log(
+        logger.log(
             chalk.cyanBright(`Start configuration for Wits............\n`)
         );
 
@@ -20,7 +21,7 @@ module.exports = {
             const wInfo = userInfoHelper.getRefinedData();
             await userInfoHelper.askQuestion(wInfo.connectionInfo);
         } catch (e) {
-            console.error(chalk.red(`Failed to run: ${e}`));
+            logger.error(chalk.red(`Failed to run: ${e}`));
         }
     },
     prepareConfigure: async () => {
@@ -66,27 +67,27 @@ module.exports = {
 function makeWitsignoreFile() {
     try {
         if (util.isFileExist(WITSIGNORE_PATH)) {
-            console.log('.witsignore is already exist.');
+            logger.log('.witsignore is already exist.');
             return;
         }
 
         util.createEmptyFile(WITSIGNORE_PATH, 'node_modules');
-        console.log('witsignore is prepared.');
+        logger.log('witsignore is prepared.');
     } catch (error) {
-        console.error(chalk.red(`Failed to makeWitsignoreFile ${error}`));
+        logger.error(chalk.red(`Failed to makeWitsignoreFile ${error}`));
     }
 }
 
 function makeWitsconfigFile() {
     try {
         if (util.isFileExist(WITSCONFIG_PATH) && isExistCustomFile()) {
-            console.log('.witsconfig.json is already exist.');
+            logger.log('.witsconfig.json is already exist.');
             return;
         }
         util.createEmptyFile(WITSCONFIG_PATH, '{}');
-        console.log('.witsconfig.json is prepared.');
+        logger.log('.witsconfig.json is prepared.');
     } catch (error) {
-        console.error(chalk.red(`Failed to makeWitsconfigFile ${error}`));
+        logger.error(chalk.red(`Failed to makeWitsconfigFile ${error}`));
     }
 }
 

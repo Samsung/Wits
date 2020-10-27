@@ -88,33 +88,54 @@ We will not describe how to do these installations as there are many ways to do 
 
 .witsconfig.json, .witsignore files are only added at the your tizen web application.
 
-### WITs command options
+### WITs CLI
 
-#### 1. `wits`
+#### `wits`
 
 For showing which options you can use
 
-#### 2. `wits -i` / `wits --init`
+#### `wits -i` / `wits --init`
 
 For configuring WITs
 Please note that, It should be run when you use first time on your tizen application project.
 .witsconfig.json and .witsignore files are generated on your tizen app project.
 After then, you can modify your information to them.
 
-#### 3. `wits -c` / `wits --certificate`
+![witsi](https://user-images.githubusercontent.com/1733182/77503919-3ddef280-6ea2-11ea-9bb4-06f3cb9ebbc6.gif)
+
+#### `wits -c` / `wits --certificate`
 
 For creating a certification(Supported Tizen certification only).
 As following steps, you can create a certification on `~/{path-to}/wits/resource/profiles.xml`.
 
-#### 4. `wits -s` / `wits --start`
+![witsc](https://user-images.githubusercontent.com/1733182/92706471-7fe7ec00-f38f-11ea-8d47-47b13f956906.gif)
+
+#### `wits -s` / `wits --start`
 
 All in one. For connecting to TV, installing and launching your app and using Live Reload
 If `wits -i` hasn't run before, It is not allowed to run.
 
-#### 5. `wits -w` / `wits --watch`
+![witss](https://user-images.githubusercontent.com/1733182/77503927-420b1000-6ea2-11ea-88f5-49ab0c5fc227.gif)
+
+#### `wits -w` / `wits --watch`
 
 For conneting to TV, using Live Reload
 After connecting, every time you make changes on `your tizen app project`, It is reflected to TV device instantly.
+
+![witsw](https://user-images.githubusercontent.com/1733182/77503928-43d4d380-6ea2-11ea-8ece-4f5182cb7d6d.gif)
+
+### WITs API
+
+WITs supports the following APIs
+
+-   [setWitsconfigInfo(WitsInfoData data)](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#setwitsconfiginfo) : This API is for setting WITs environment, It should be called before start function or watch function.
+-   [start()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#start) : This API is a sequence for building and installing your application, connecting PC and Target TV, pushing files, supporting live-reload feature.
+-   [watch()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#watch) : This API is a sequence for connecting PC and Target TV, pushing files, supporting live-reload feature. (Except for re-building and re-installing your application.)
+-   [disconnect()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#disconnect) : This API is for disconnecting communications between PC and Target TV.
+-   [setOutputChannel(OutputCallback callback)](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#setoutputchannel) : This is for getting WITs' log information. The return value is integer value between 1000 and 9999, and this value will be used to unsetOutputChannel().
+-   [unsetOutputChannel()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#unsetoutputchannel) : This is for unregistering the output callback. Call the unsetOutputChannel() with the return value of the setOutputChannel().
+
+For detail, check whole APIs in [How to use WITs as APIs](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs).
 
 ### .witsconfig.json of WITs
 
@@ -144,24 +165,6 @@ node_modules
 deprecated
 stglib
 ```
-
-## Running Your App
-
-### wits -i
-
-![witsi](https://user-images.githubusercontent.com/1733182/77503919-3ddef280-6ea2-11ea-9bb4-06f3cb9ebbc6.gif)
-
-### wits -c
-
-![witsc](https://user-images.githubusercontent.com/1733182/92706471-7fe7ec00-f38f-11ea-8d47-47b13f956906.gif)
-
-### wits -s
-
-![witss](https://user-images.githubusercontent.com/1733182/77503927-420b1000-6ea2-11ea-88f5-49ab0c5fc227.gif)
-
-### wits -w
-
-![witsw](https://user-images.githubusercontent.com/1733182/77503928-43d4d380-6ea2-11ea-8ece-4f5182cb7d6d.gif)
 
 ## FAQ
 

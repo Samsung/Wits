@@ -4,10 +4,11 @@ const userInfoHelper = require('../lib/userInfoHelper.js');
 const hostAppHelper = require('../lib/hostAppHelper.js');
 const appLaunchHelper = require('../lib/appLaunchHelper.js');
 const watchHelper = require('../lib/watchHelper.js');
+const { logger } = require('../lib/logger');
 
 module.exports = {
     run: async () => {
-        console.log(chalk.cyanBright(`Start running Wits............\n`));
+        logger.log(chalk.cyanBright(`Start running Wits............\n`));
 
         await util.initTools();
 
@@ -17,14 +18,14 @@ module.exports = {
         try {
             deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
         } catch (error) {
-            console.log(`Failed to getDeviceInfo: ${error}`);
+            logger.log(`Failed to getDeviceInfo: ${error}`);
         }
 
         await hostAppHelper.setHostAppEnv(data, deviceInfo);
         hostAppHelper
             .buildPackage()
             .then(() => {
-                console.log(
+                logger.log(
                     chalk.cyanBright(
                         '============================== Start to install the package'
                     )
@@ -46,12 +47,12 @@ module.exports = {
                           )
                         : appLaunchHelper.launchApp(deviceName, hostAppId);
                 } catch (e) {
-                    console.log(e);
+                    logger.log(e);
                     util.exit();
                 }
             })
             .catch(e => {
-                console.error(chalk.red(`Failed to buildPackage: ${e}`));
+                logger.error(chalk.red(`Failed to buildPackage: ${e}`));
                 util.exit();
             });
     }

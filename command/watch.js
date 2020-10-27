@@ -4,10 +4,11 @@ const appLaunchHelper = require('../lib/appLaunchHelper.js');
 const watchHelper = require('../lib/watchHelper.js');
 const util = require('../lib/util.js');
 const chalk = require('chalk');
+const { logger } = require('../lib/logger');
 
 module.exports = {
     run: async () => {
-        console.log(
+        logger.log(
             chalk.cyanBright(`Start running Wits watch mode............\n`)
         );
 
@@ -35,7 +36,7 @@ module.exports = {
                   )
                 : appLaunchHelper.launchApp(deviceName, hostAppId);
         } catch (e) {
-            console.log(e);
+            logger.log(e);
             util.exit();
         }
     }
