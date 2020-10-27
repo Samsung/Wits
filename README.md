@@ -88,33 +88,46 @@ We will not describe how to do these installations as there are many ways to do 
 
 .witsconfig.json, .witsignore files are only added at the your tizen web application.
 
-### WITs command options
+### WITs CLI
 
-#### 1. `wits`
+#### `wits`
 
 For showing which options you can use
 
-#### 2. `wits -i` / `wits --init`
+#### `wits -i` / `wits --init`
 
 For configuring WITs
 Please note that, It should be run when you use first time on your tizen application project.
 .witsconfig.json and .witsignore files are generated on your tizen app project.
 After then, you can modify your information to them.
+![witsi](https://user-images.githubusercontent.com/1733182/77503919-3ddef280-6ea2-11ea-9bb4-06f3cb9ebbc6.gif)
 
-#### 3. `wits -c` / `wits --certificate`
+#### `wits -c` / `wits --certificate`
 
 For creating a certification(Supported Tizen certification only).
 As following steps, you can create a certification on `~/{path-to}/wits/resource/profiles.xml`.
+![witsc](https://user-images.githubusercontent.com/1733182/92706471-7fe7ec00-f38f-11ea-8d47-47b13f956906.gif)
 
-#### 4. `wits -s` / `wits --start`
+#### `wits -s` / `wits --start`
 
 All in one. For connecting to TV, installing and launching your app and using Live Reload
 If `wits -i` hasn't run before, It is not allowed to run.
+![witss](https://user-images.githubusercontent.com/1733182/77503927-420b1000-6ea2-11ea-88f5-49ab0c5fc227.gif)
 
-#### 5. `wits -w` / `wits --watch`
+#### `wits -w` / `wits --watch`
 
 For conneting to TV, using Live Reload
 After connecting, every time you make changes on `your tizen app project`, It is reflected to TV device instantly.
+![witsw](https://user-images.githubusercontent.com/1733182/77503928-43d4d380-6ea2-11ea-8ece-4f5182cb7d6d.gif)
+
+### WITs API
+
+WITs support followed APIs
+
+-   `setWitsconfigInfo(WitsInfoData data)` : This API is for setting WITs environment, It should be called before start function or watch function.
+-
+-
+-   For detail, check the [How to use WITs as APIs](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs).
 
 ### .witsconfig.json of WITs
 
@@ -144,24 +157,6 @@ node_modules
 deprecated
 stglib
 ```
-
-## Running Your App
-
-### wits -i
-
-![witsi](https://user-images.githubusercontent.com/1733182/77503919-3ddef280-6ea2-11ea-9bb4-06f3cb9ebbc6.gif)
-
-### wits -c
-
-![witsc](https://user-images.githubusercontent.com/1733182/92706471-7fe7ec00-f38f-11ea-8d47-47b13f956906.gif)
-
-### wits -s
-
-![witss](https://user-images.githubusercontent.com/1733182/77503927-420b1000-6ea2-11ea-88f5-49ab0c5fc227.gif)
-
-### wits -w
-
-![witsw](https://user-images.githubusercontent.com/1733182/77503928-43d4d380-6ea2-11ea-8ece-4f5182cb7d6d.gif)
 
 ## FAQ
 
