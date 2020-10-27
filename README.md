@@ -126,7 +126,7 @@ After connecting, every time you make changes on `your tizen app project`, It is
 
 ### WITs API
 
-WITs supports the followed APIs
+WITs supports the following APIs
 
 -   [setWitsconfigInfo(WitsInfoData data)](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#setwitsconfiginfo) : This API is for setting WITs environment, It should be called before start function or watch function.
 -   [start()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#start) : This API is a sequence for building and installing your application, connecting PC and Target TV, pushing files, supporting live-reload feature.
