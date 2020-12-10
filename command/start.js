@@ -13,12 +13,18 @@ module.exports = {
         await util.initTools();
 
         const data = userInfoHelper.getRefinedData();
+
         const optionDeviceIp = util.parseDeviceIp(option);
-        let deviceIp = optionDeviceIp ? optionDeviceIp : data.deviceIp;
+        if (optionDeviceIp) {
+            data.deviceIp = optionDeviceIp;
+            await userInfoHelper.updateLatestUserAnswer({
+                deviceIp: optionDeviceIp
+            });
+        }
         let deviceInfo = '';
 
         try {
-            deviceInfo = await userInfoHelper.getDeviceInfo(deviceIp);
+            deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
         } catch (error) {
             logger.log(`Failed to getDeviceInfo: ${error}`);
         }
@@ -45,7 +51,7 @@ module.exports = {
                         ? appLaunchHelper.launchDebugMode(
                               deviceName,
                               hostAppId,
-                              deviceIp
+                              data.deviceIp
                           )
                         : appLaunchHelper.launchApp(deviceName, hostAppId);
                 } catch (e) {

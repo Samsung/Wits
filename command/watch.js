@@ -18,10 +18,15 @@ module.exports = {
             .connectionInfo;
 
         const optionDeviceIp = util.parseDeviceIp(option);
-        let deviceIp = optionDeviceIp ? optionDeviceIp : data.deviceIp;
+        if (optionDeviceIp) {
+            data.deviceIp = optionDeviceIp;
+            await userInfoHelper.updateLatestUserAnswer({
+                deviceIp: optionDeviceIp
+            });
+        }
 
         const baseAppPath = userInfoHelper.getBaseAppPath(data.baseAppPath);
-        const deviceInfo = await userInfoHelper.getDeviceInfo(deviceIp);
+        const deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
 
         const hostAppId = hostAppHelper.getHostAppId(baseAppPath);
         const deviceName = deviceInfo.deviceName;
@@ -35,7 +40,7 @@ module.exports = {
                 ? appLaunchHelper.launchDebugMode(
                       deviceName,
                       hostAppId,
-                      deviceIp
+                      data.deviceIp
                   )
                 : appLaunchHelper.launchApp(deviceName, hostAppId);
         } catch (e) {
