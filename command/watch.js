@@ -17,21 +17,8 @@ module.exports = {
         const data = await userInfoHelper.getLatestWitsconfigInfo()
             .connectionInfo;
 
-        const optionDeviceIp = util.parseDeviceIp(option);
-        if (optionDeviceIp === null && typeof option !== 'boolean') {
-            logger.error(
-                chalk.red(
-                    `Invalid Type of cli option. Please retry with correct type. ex) deviceIp=0.0.0.0`
-                )
-            );
-            util.exit();
-        }
-
-        if (optionDeviceIp) {
-            data.deviceIp = optionDeviceIp;
-            await userInfoHelper.updateLatestUserAnswer({
-                deviceIp: optionDeviceIp
-            });
+        if (option !== undefined) {
+            await supportDeviceIpOption(data, option);
         }
 
         const baseAppPath = userInfoHelper.getBaseAppPath(data.baseAppPath);
@@ -58,3 +45,22 @@ module.exports = {
         }
     }
 };
+
+async function supportDeviceIpOption(data, option) {
+    const optionDeviceIp = util.parseDeviceIp(option);
+    if (optionDeviceIp === null && typeof option !== 'boolean') {
+        logger.error(
+            chalk.red(
+                `Invalid Type of cli option. Please retry with correct type. ex) deviceIp=0.0.0.0`
+            )
+        );
+        util.exit();
+    }
+
+    if (optionDeviceIp) {
+        data.deviceIp = optionDeviceIp;
+        await userInfoHelper.updateLatestUserAnswer({
+            deviceIp: optionDeviceIp
+        });
+    }
+}
