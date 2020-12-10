@@ -7,7 +7,7 @@ const chalk = require('chalk');
 const { logger } = require('../lib/logger');
 
 module.exports = {
-    run: async () => {
+    run: async option => {
         logger.log(
             chalk.cyanBright(`Start running Wits watch mode............\n`)
         );
@@ -16,9 +16,12 @@ module.exports = {
 
         const data = await userInfoHelper.getLatestWitsconfigInfo()
             .connectionInfo;
-        const baseAppPath = userInfoHelper.getBaseAppPath(data.baseAppPath);
 
-        const deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
+        const optionDeviceIp = util.parseDeviceIp(option);
+        let deviceIp = optionDeviceIp ? optionDeviceIp : data.deviceIp;
+
+        const baseAppPath = userInfoHelper.getBaseAppPath(data.baseAppPath);
+        const deviceInfo = await userInfoHelper.getDeviceInfo(deviceIp);
 
         const hostAppId = hostAppHelper.getHostAppId(baseAppPath);
         const deviceName = deviceInfo.deviceName;
@@ -32,7 +35,7 @@ module.exports = {
                 ? appLaunchHelper.launchDebugMode(
                       deviceName,
                       hostAppId,
-                      data.deviceIp
+                      deviceIp
                   )
                 : appLaunchHelper.launchApp(deviceName, hostAppId);
         } catch (e) {

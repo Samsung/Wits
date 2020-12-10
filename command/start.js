@@ -7,16 +7,18 @@ const watchHelper = require('../lib/watchHelper.js');
 const { logger } = require('../lib/logger');
 
 module.exports = {
-    run: async () => {
+    run: async option => {
         logger.log(chalk.cyanBright(`Start running Wits............\n`));
 
         await util.initTools();
 
         const data = userInfoHelper.getRefinedData();
+        const optionDeviceIp = util.parseDeviceIp(option);
+        let deviceIp = optionDeviceIp ? optionDeviceIp : data.deviceIp;
         let deviceInfo = '';
 
         try {
-            deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
+            deviceInfo = await userInfoHelper.getDeviceInfo(deviceIp);
         } catch (error) {
             logger.log(`Failed to getDeviceInfo: ${error}`);
         }
@@ -43,7 +45,7 @@ module.exports = {
                         ? appLaunchHelper.launchDebugMode(
                               deviceName,
                               hostAppId,
-                              data.deviceIp
+                              deviceIp
                           )
                         : appLaunchHelper.launchApp(deviceName, hostAppId);
                 } catch (e) {
