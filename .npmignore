@@ -13,3 +13,4 @@ container/config.xml
 container/WITs.wgt
 lib/wrapper/filesystemWrapper.js
 lib/wrapper/*.html
+test
