@@ -15,12 +15,22 @@ module.exports = {
         const data = userInfoHelper.getRefinedData();
 
         const optionDeviceIp = util.parseDeviceIp(option);
+        if (optionDeviceIp === null && typeof option !== 'boolean') {
+            logger.error(
+                chalk.red(
+                    `Invalid Type of cli option. Please retry with correct type. ex) deviceIp=0.0.0.0`
+                )
+            );
+            util.exit();
+        }
+
         if (optionDeviceIp) {
             data.deviceIp = optionDeviceIp;
             await userInfoHelper.updateLatestUserAnswer({
                 deviceIp: optionDeviceIp
             });
         }
+
         let deviceInfo = '';
 
         try {
