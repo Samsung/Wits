@@ -7,7 +7,7 @@ const chalk = require('chalk');
 const { logger } = require('../lib/logger');
 
 module.exports = {
-    run: async () => {
+    run: async option => {
         logger.log(
             chalk.cyanBright(`Start running Wits watch mode............\n`)
         );
@@ -16,8 +16,12 @@ module.exports = {
 
         const data = await userInfoHelper.getLatestWitsconfigInfo()
             .connectionInfo;
-        const baseAppPath = userInfoHelper.getBaseAppPath(data.baseAppPath);
 
+        if (option !== undefined) {
+            await supportDeviceIpOption(data, option);
+        }
+
+        const baseAppPath = userInfoHelper.getBaseAppPath(data.baseAppPath);
         const deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
 
         const hostAppId = hostAppHelper.getHostAppId(baseAppPath);
@@ -41,3 +45,22 @@ module.exports = {
         }
     }
 };
+
+async function supportDeviceIpOption(data, option) {
+    const optionDeviceIp = util.parseDeviceIp(option);
+    if (optionDeviceIp === null && typeof option !== 'boolean') {
+        logger.error(
+            chalk.red(
+                `Invalid Type of cli option. Please retry with correct type. ex) deviceIp=0.0.0.0`
+            )
+        );
+        util.exit();
+    }
+
+    if (optionDeviceIp) {
+        data.deviceIp = optionDeviceIp;
+        await userInfoHelper.updateLatestUserAnswer({
+            deviceIp: optionDeviceIp
+        });
+    }
+}

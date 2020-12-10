@@ -7,12 +7,17 @@ const watchHelper = require('../lib/watchHelper.js');
 const { logger } = require('../lib/logger');
 
 module.exports = {
-    run: async () => {
+    run: async option => {
         logger.log(chalk.cyanBright(`Start running Wits............\n`));
 
         await util.initTools();
 
         const data = userInfoHelper.getRefinedData();
+
+        if (option !== undefined) {
+            await supportDeviceIpOption(data, option);
+        }
+
         let deviceInfo = '';
 
         try {
@@ -57,3 +62,22 @@ module.exports = {
             });
     }
 };
+
+async function supportDeviceIpOption(data, option) {
+    const optionDeviceIp = util.parseDeviceIp(option);
+    if (optionDeviceIp === null && typeof option !== 'boolean') {
+        logger.error(
+            chalk.red(
+                `Invalid Type of cli option. Please retry with correct type. ex) deviceIp=0.0.0.0`
+            )
+        );
+        util.exit();
+    }
+
+    if (optionDeviceIp) {
+        data.deviceIp = optionDeviceIp;
+        await userInfoHelper.updateLatestUserAnswer({
+            deviceIp: optionDeviceIp
+        });
+    }
+}
