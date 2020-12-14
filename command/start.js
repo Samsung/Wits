@@ -21,7 +21,7 @@ module.exports = {
         let deviceInfo = '';
 
         try {
-            deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
+            deviceInfo = await userInfoHelper.getDeviceInfo();
         } catch (error) {
             logger.log(`Failed to getDeviceInfo: ${error}`);
         }
@@ -45,11 +45,7 @@ module.exports = {
                 watchHelper.openSocketServer(data, deviceInfo);
                 try {
                     data.isDebugMode
-                        ? appLaunchHelper.launchDebugMode(
-                              deviceName,
-                              hostAppId,
-                              data.deviceIp
-                          )
+                        ? appLaunchHelper.launchDebugMode(deviceName, hostAppId)
                         : appLaunchHelper.launchApp(deviceName, hostAppId);
                 } catch (e) {
                     logger.log(e);

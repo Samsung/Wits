@@ -14,30 +14,23 @@ module.exports = {
 
         await util.initTools();
 
-        const data = await userInfoHelper.getLatestWitsconfigInfo()
-            .connectionInfo;
+        const data = userInfoHelper.getRefinedData();
 
         if (option !== undefined) {
             await supportDeviceIpOption(data, option);
         }
 
-        const baseAppPath = userInfoHelper.getBaseAppPath(data.baseAppPath);
-        const deviceInfo = await userInfoHelper.getDeviceInfo(data.deviceIp);
+        const deviceInfo = await userInfoHelper.getDeviceInfo();
 
-        const hostAppId = hostAppHelper.getHostAppId(baseAppPath);
+        const hostAppId = hostAppHelper.getHostAppId(data.baseAppPath);
         const deviceName = deviceInfo.deviceName;
-        data.baseAppPath = baseAppPath;
 
         watchHelper.openSocketServer(data, deviceInfo);
         // appLaunchHelper.terminateApp(deviceName, hostAppId);
 
         try {
             data.isDebugMode
-                ? appLaunchHelper.launchDebugMode(
-                      deviceName,
-                      hostAppId,
-                      data.deviceIp
-                  )
+                ? appLaunchHelper.launchDebugMode(deviceName, hostAppId)
                 : appLaunchHelper.launchApp(deviceName, hostAppId);
         } catch (e) {
             logger.log(e);
