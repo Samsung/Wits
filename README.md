@@ -75,7 +75,7 @@ We will not describe how to do these installations as there are many ways to do 
 
 -   Atom
     Install the latest version of [Atom](https://atom.io/).
-    And download the package "atom-tizentv"
+    And download the package "atom-tizentv-2"
 
 `Using WITs`
 
