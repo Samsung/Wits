@@ -115,12 +115,28 @@ As following steps, you can create a certification on `~/{path-to}/wits/resource
 All in one. For connecting to TV, installing and launching your app and using Live Reload
 If `wits -i` hasn't run before, It is not allowed to run.
 
+```sh
+# Run wits --start
+$ wits -s
+
+# Run wits --start with deviceIp. Available to switch the device Ip easily.
+$ wits -s deviceIp=192.168.250.250
+```
+
 ![witss](https://user-images.githubusercontent.com/1733182/77503927-420b1000-6ea2-11ea-88f5-49ab0c5fc227.gif)
 
 #### `wits -w` / `wits --watch`
 
 For conneting to TV, using Live Reload
 After connecting, every time you make changes on `your tizen app project`, It is reflected to TV device instantly.
+
+```sh
+# Run wits --watch
+$ wits -w
+
+# Run wits --watch with deviceIp. Available to switch the device Ip easily.
+$ wits -w deviceIp=192.168.250.250
+```
 
 ![witsw](https://user-images.githubusercontent.com/1733182/77503928-43d4d380-6ea2-11ea-8ece-4f5182cb7d6d.gif)
 
