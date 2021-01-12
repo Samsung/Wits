@@ -74,7 +74,7 @@ function makeWitsignoreFile() {
         util.createEmptyFile(WITSIGNORE_PATH, 'node_modules');
         logger.log('witsignore is prepared.');
     } catch (error) {
-        logger.error(chalk.red(`Failed to makeWitsignoreFile ${error}`));
+        logger.log(`[Warning] Failed to makeWitsignoreFile ${error}`);
     }
 }
 
@@ -87,7 +87,7 @@ function makeWitsconfigFile() {
         util.createEmptyFile(WITSCONFIG_PATH, '{}');
         logger.log('.witsconfig.json is prepared.');
     } catch (error) {
-        logger.error(chalk.red(`Failed to makeWitsconfigFile ${error}`));
+        logger.log(`[Warning] Failed to makeWitsconfigFile ${error}`);
     }
 }
 
