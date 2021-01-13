@@ -121,6 +121,9 @@ $ wits -s
 
 # Run wits --start with deviceIp. Available to switch the device Ip easily.
 $ wits -s deviceIp=192.168.250.250
+
+# Run wits --start with deviceIp. Available to switch the device Ip easily. For debugging, add --verbose option. It should be at the end of command.
+$ wits -s deviceIp=192.168.250.250 --verbose
 ```
 
 ![witss](https://user-images.githubusercontent.com/1733182/77503927-420b1000-6ea2-11ea-88f5-49ab0c5fc227.gif)
@@ -136,6 +139,9 @@ $ wits -w
 
 # Run wits --watch with deviceIp. Available to switch the device Ip easily.
 $ wits -w deviceIp=192.168.250.250
+
+# Run wits --watch with deviceIp. Available to switch the device Ip easily. For debugging, add --verbose option. It should be at the end of command.
+$ wits -w deviceIp=192.168.250.250 --verbose
 ```
 
 ![witsw](https://user-images.githubusercontent.com/1733182/77503928-43d4d380-6ea2-11ea-8ece-4f5182cb7d6d.gif)
