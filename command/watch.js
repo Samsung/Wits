@@ -59,6 +59,9 @@ async function supportDeviceIpOption(data, option) {
 
     if (optionDeviceIp) {
         data.deviceIp = optionDeviceIp;
+        logger.log(
+            chalk.cyanBright(`WITs tries connecting with ${optionDeviceIp}\n`)
+        );
         await userInfoHelper.updateLatestUserAnswer({
             deviceIp: optionDeviceIp
         });
