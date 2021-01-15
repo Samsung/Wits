@@ -1,6 +1,6 @@
 {
     "name": "@tizentv/wits",
-    "version": "2.5.0",
+    "version": "2.5.1",
     "description": "Instant live reload tool for Tizen Web Application development",
     "main": "index.js",
     "author": "Samsung Electronics Co., Ltd.",
@@ -26,7 +26,7 @@
         "node-html-parser": "^1.3.1",
         "node-watch": "^0.6.2",
         "recursive-readdir": "^2.2.2",
-        "socket.io": "^1.7.3",
+        "socket.io": "^3.1.0",
         "xml2js": "^0.4.19"
     },
     "license": "ISC",
