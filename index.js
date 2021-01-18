@@ -45,9 +45,9 @@ const setWitsconfigInfo = async data => {
 
 const start = async () => {
     try {
-        if (!userInfoHelper.WITS_USER_DATA) {
-            throw new Error('There is invalid WITS_USER_DATA');
-        }
+        // if (!userInfoHelper.WITS_USER_DATA) {
+        //     throw new Error('There is invalid WITS_USER_DATA');
+        // }
         const startCommand = require('./command/start.js');
         logger.log('WITs::start');
 
@@ -60,9 +60,9 @@ const start = async () => {
 
 const watch = async () => {
     try {
-        if (!userInfoHelper.WITS_USER_DATA) {
-            throw new Error('There is invalid WITS_USER_DATA');
-        }
+        // if (!userInfoHelper.WITS_USER_DATA) {
+        //     throw new Error('There is invalid WITS_USER_DATA');
+        // }
         const watchCommand = require('./command/watch.js');
         logger.log('WITs::watch');
 
@@ -72,6 +72,12 @@ const watch = async () => {
         logger.log(`watch:::${error}`);
     }
 };
+
+const setWitsPath = (path) => {
+    if(typeof path === 'string') {
+        util.WITS_BASE_PATH = path;
+    }
+}
 
 const disconnect = () => {
     const watchHelper = require('./lib/watchHelper.js');
@@ -89,5 +95,6 @@ module.exports = {
     watch,
     disconnect,
     setOutputChannel,
-    unsetOutputChannel
+    unsetOutputChannel,
+    setWitsPath
 };
