@@ -1,4 +1,4 @@
-# WITs
+# WITs Hello
 
 WITs is a useful development tool for helping to run and develop your Tizen web application easily on your **2017+ Samsung TV**.
 It is the fastest way to get your local code running on the TV device during development. Saving you from having to build, package, and reinstall your application every time you want to see how it will run on device. We call it a `LIVE RELOAD`.
