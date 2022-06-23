@@ -130,7 +130,7 @@ $ wits -s deviceIp=192.168.250.250 --verbose
 
 #### `wits -w` / `wits --watch`
 
-For conneting to TV, using Live Reload
+For connecting to TV, using Live Reload
 After connecting, every time you make changes on `your tizen app project`, It is reflected to TV device instantly.
 
 ```sh
