@@ -8,8 +8,8 @@ It is the fastest way to get your local code running on the TV device during dev
 
 ## Supported WITs guide in other languages
 
--   [简体中文](doc/README_zh_HANS.md)
--   [正體中文](doc/README_zh_HANT.md)
+- [简体中文](doc/README_zh_HANS.md)
+- [正體中文](doc/README_zh_HANT.md)
 
 Always welcome, if you contribute WITs guide in your language!
 Guides should be placed in "doc" directory.
@@ -52,13 +52,13 @@ We will not describe how to do these installations as there are many ways to do 
 
 #### 3. Developer Mode is enabled on your Samsung TV.
 
--   1 With your Samsung Remote, press the `Home` button.
+- 1 With your Samsung Remote, press the `Home` button.
 
--   2 Navigate to the `Apps` button and press `Enter/OK`.
+- 2 Navigate to the `Apps` button and press `Enter/OK`.
 
--   3 When on the `Apps` screen, press `1` `2` `3` `4` `5` in order on the remote to open the `Developer Mode Dialog`. If this doesn't work, try it again.
+- 3 When on the `Apps` screen, press `1` `2` `3` `4` `5` in order on the remote to open the `Developer Mode Dialog`. If this doesn't work, try it again.
 
--   4 When the Developer Mode Dialog appears, toggle the switch to `On` and enter the IP address of your development machine.
+- 4 When the Developer Mode Dialog appears, toggle the switch to `On` and enter the IP address of your development machine.
 
 #### 4. Certification for packaging application (Tizen / Samsung)
 
@@ -66,21 +66,21 @@ We will not describe how to do these installations as there are many ways to do 
 
 `Using Editor`
 
--   Tizen Studio
-    Install the latest version of [Tizen Studio](http://developer.samsung.com/tv).
+- Tizen Studio
+  Install the latest version of [Tizen Studio](http://developer.samsung.com/tv).
 
--   VSCode
-    Install the latest version of [VSCode](https://code.visualstudio.com/).
-    And download the extension "tizensdk.tizentv".
+- VSCode
+  Install the latest version of [VSCode](https://code.visualstudio.com/).
+  And download the extension "tizensdk.tizentv".
 
--   Atom
-    Install the latest version of [Atom](https://atom.io/).
-    And download the package "atom-tizentv-2"
+- Atom
+  Install the latest version of [Atom](https://atom.io/).
+  And download the package "atom-tizentv-2"
 
 `Using WITs`
 
--   WITs (v2.4.0 ~) supports creating a Tizen certification.
-    Please do "wits -c" for making a new Tizen certification.
+- WITs (v2.4.0 ~) supports creating a Tizen certification.
+  Please do "wits -c" for making a new Tizen certification.
 
 ## WITs details
 
@@ -150,12 +150,12 @@ $ wits -w deviceIp=192.168.250.250 --verbose
 
 WITs supports the following APIs
 
--   [setWitsconfigInfo(WitsInfoData data)](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#setwitsconfiginfo) : This API is for setting WITs environment, It should be called before start function or watch function.
--   [start()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#start) : This API is a sequence for building and installing your application, connecting PC and Target TV, pushing files, supporting live-reload feature.
--   [watch()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#watch) : This API is a sequence for connecting PC and Target TV, pushing files, supporting live-reload feature. (Except for re-building and re-installing your application.)
--   [disconnect()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#disconnect) : This API is for disconnecting communications between PC and Target TV.
--   [setOutputChannel(OutputCallback callback)](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#setoutputchannel) : This is for getting WITs' log information. The return value is integer value between 1000 and 9999, and this value will be used to unsetOutputChannel().
--   [unsetOutputChannel()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#unsetoutputchannel) : This is for unregistering the output callback. Call the unsetOutputChannel() with the return value of the setOutputChannel().
+- [setWitsconfigInfo(WitsInfoData data)](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#setwitsconfiginfo) : This API is for setting WITs environment, It should be called before start function or watch function.
+- [start()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#start) : This API is a sequence for building and installing your application, connecting PC and Target TV, pushing files, supporting live-reload feature.
+- [watch()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#watch) : This API is a sequence for connecting PC and Target TV, pushing files, supporting live-reload feature. (Except for re-building and re-installing your application.)
+- [disconnect()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#disconnect) : This API is for disconnecting communications between PC and Target TV.
+- [setOutputChannel(OutputCallback callback)](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#setoutputchannel) : This is for getting WITs' log information. The return value is integer value between 1000 and 9999, and this value will be used to unsetOutputChannel().
+- [unsetOutputChannel()](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs#unsetoutputchannel) : This is for unregistering the output callback. Call the unsetOutputChannel() with the return value of the setOutputChannel().
 
 For detail, check whole APIs in [How to use WITs as APIs](https://github.com/Samsung/Wits/wiki/How-to-use-WITs-as-APIs).
 
@@ -164,13 +164,13 @@ For detail, check whole APIs in [How to use WITs as APIs](https://github.com/Sam
 For details, [Sample data for .witsconfig.json](https://github.com/Samsung/Wits/wiki/Set-Wits-Environment#data-structure-of-witsconfigjson)
 on `Windows` and `MacOS` both, **WITs** recognises path segment only one separator(**`/`**).
 
--   **connectionInfo** (mandatory)
-    -   deviceIp [string] : Device(TV) Ip address (In case of Emulator, Please input 0.0.0.0)
-    -   hostIp [string] : Host(PC) Ip address
-    -   width [string] : Resolution
-    -   isDebugMode [boolean] : Setting true, chrome inspector is launched automatically. / Setting false, nothing happened.
--   **profileInfo** (mandatory)
-    -   path [string] : Tizen Studio Certificate Profile path
+- **connectionInfo** (mandatory)
+  - deviceIp [string] : Device(TV) Ip address (In case of Emulator, Please input 0.0.0.0)
+  - hostIp [string] : Host(PC) Ip address
+  - width [string] : Resolution
+  - isDebugMode [boolean] : Setting true, chrome inspector is launched automatically. / Setting false, nothing happened.
+- **profileInfo** (mandatory)
+  - path [string] : Tizen Studio Certificate Profile path
 
 ### .witsignore of WITs
 
@@ -188,15 +188,22 @@ deprecated
 stglib
 ```
 
+## Known Issues
+
+### failed to live reload on react application
+
+- Check the router what you uses, and change to MemoryRouter.
+  Please refer the closed [Issue #114](https://github.com/Samsung/Wits/issues/114)
+
 ## FAQ
 
--   [WITs FAQ](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions)
--   [How to use debug mode on WITs with Chrome inspector](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#answer-1)
--   [How to get your TV IP Address](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#question-7)
+- [WITs FAQ](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions)
+- [How to use debug mode on WITs with Chrome inspector](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#answer-1)
+- [How to get your TV IP Address](https://github.com/Samsung/Wits/wiki/Frequently-Asked-Questions#question-7)
 
 ## Supported Platforms
 
--   2017 Samsung Smart TV (Tizen 3.0)
--   2018 Samsung Smart TV (Tizen 4.0)
--   2019 Samsung Smart TV (Tizen 5.0)
--   2020 Samsung Smart TV (Tizen 5.5)
+- 2017 Samsung Smart TV (Tizen 3.0)
+- 2018 Samsung Smart TV (Tizen 4.0)
+- 2019 Samsung Smart TV (Tizen 5.0)
+- 2020 Samsung Smart TV (Tizen 5.5)
