@@ -1,0 +1,9 @@
+#!/bin/sh
+# Wits pre-push hook: run the test suite before any push.
+# Enable once per clone:
+#   git config core.hooksPath .githooks
+
+set -e
+
+echo "[pre-push] running npm test..."
+npm test

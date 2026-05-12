@@ -3,6 +3,9 @@
   "version": "2.5.9",
   "description": "Instant live reload tool for Tizen Web Application development",
   "main": "index.js",
+  "scripts": {
+    "test": "node --test \"tests/**/*.test.js\""
+  },
   "author": "Samsung Electronics Co., Ltd.",
   "repository": {
     "type": "git",
