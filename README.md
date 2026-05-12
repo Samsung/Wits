@@ -188,6 +188,23 @@ deprecated
 stglib
 ```
 
+## Security
+
+`.witsconfig.json` describes paths and addresses that are specific to the
+machine that ran `wits -i` (your application directory, your Tizen profile,
+your local IPs). **Do not commit it.** Add the following line to your
+project's `.gitignore`:
+
+```
+.witsconfig.json
+```
+
+When the file is loaded, Wits validates every field. Path traversal
+segments (`..`), references to system directories (`/etc`, `/usr`,
+`C:\Windows`, ...), and ill-typed values are rejected before any file
+read or shell command happens, so a stored-config payload cannot redirect
+the tool's file operations against the developer's machine.
+
 ## Known Issues
 
 ### failed to live reload on react application

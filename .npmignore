@@ -1,6 +1,7 @@
 package-lock.json
 .git
 archive/
+.witsconfig.json
 container.zip
 tools.zip
 resource.zip

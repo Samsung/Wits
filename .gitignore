@@ -1,6 +1,7 @@
 node_modules
 package-lock.json
 Wits.wgt
+.witsconfig.json
 www/
 container.zip
 tools.zip
